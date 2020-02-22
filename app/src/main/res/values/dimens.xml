@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--  Margin  -->
+    <dimen name="margin1">20dp</dimen>
+    <dimen name="margin2">10dp</dimen>
+
+    <!--  Padding  -->
+    <dimen name="padding1">10dp</dimen>
+    <dimen name="padding2">5dp</dimen>
+    <dimen name="padding3">3dp</dimen>
+
+    <!--  Text  -->
+    <dimen name="header1">36sp</dimen>
+    <dimen name="header2">27sp</dimen>
+    <dimen name="header3">18sp</dimen>
+    <dimen name="paragraph">15sp</dimen>
+</resources>

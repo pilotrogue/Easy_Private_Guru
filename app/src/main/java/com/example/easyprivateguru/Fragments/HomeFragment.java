@@ -1,0 +1,76 @@
+package com.example.easyprivateguru.Fragments;
+
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
+import androidx.fragment.app.Fragment;
+
+import com.example.easyprivateguru.Activities.JadwalActivity;
+import com.example.easyprivateguru.Activities.MuridSayaActivity;
+import com.example.easyprivateguru.Activities.PembayaranActivity;
+import com.example.easyprivateguru.Models.Pembayaran;
+import com.example.easyprivateguru.R;
+
+public class HomeFragment extends Fragment {
+
+    private CardView cardJadwal, cardMuridSaya, cardPembayaran;
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.fragment_home, container, false);
+        Context mContext = v.getContext();
+
+        init(v);
+
+        cardPembayaran.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(mContext, "Pembayaran", Toast.LENGTH_LONG).show();
+                Intent i = new Intent(mContext, PembayaranActivity.class);
+                startActivity(i);
+            }
+        });
+
+        cardJadwal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(mContext, "Jadwal", Toast.LENGTH_LONG).show();
+                Intent i = new Intent(mContext, JadwalActivity.class);
+                startActivity(i);
+            }
+        });
+
+        cardMuridSaya.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(mContext, "Murid Saya", Toast.LENGTH_LONG).show();
+                Intent i = new Intent(mContext, MuridSayaActivity.class);
+                startActivity(i);
+            }
+        });
+
+        return v;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+    private void init(View v){
+        cardJadwal = v.findViewById(R.id.cardJadwal);
+        cardMuridSaya = v.findViewById(R.id.cardMuridSaya);
+        cardPembayaran = v.findViewById(R.id.cardPembayaran);
+    }
+}

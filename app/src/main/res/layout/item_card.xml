@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardItem"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/margin2"
+    app:cardCornerRadius="@dimen/padding1">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin2">
+
+        <ImageView
+            android:id="@+id/ivPic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_account_circle_black_48dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerInParent="true"
+            android:layout_margin="@dimen/margin2"
+            />
+
+        <TextView
+            android:id="@+id/tvSubtitle1"
+            android:text="Subtitle 1"
+            android:layout_toRightOf="@id/ivPic"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/paragraph"/>
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:text="Title"
+            android:layout_below="@id/tvSubtitle1"
+            android:layout_toRightOf="@id/ivPic"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/header2"/>
+
+        <TextView
+            android:id="@+id/tvSubtitle2"
+            android:text="Subtitle 2"
+            android:layout_below="@id/tvTitle"
+            android:layout_toRightOf="@id/ivPic"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/paragraph"/>
+
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

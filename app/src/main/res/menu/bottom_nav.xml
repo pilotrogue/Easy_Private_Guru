@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/nav_home"
+        android:icon="@drawable/ic_home_black_24dp"
+        android:title="Home"/>
+
+    <item
+        android:id="@+id/nav_pemesanan"
+        android:icon="@drawable/ic_assignment_black_24dp"
+        android:title="Pemesanan"/>
+
+    <item
+        android:id="@+id/nav_qr"
+        android:icon="@drawable/ic_camera_black_24dp"
+        android:title="Absen"/>
+
+    <item
+        android:id="@+id/nav_profile"
+        android:icon="@drawable/ic_person_black_24dp"
+        android:title="Profil"/>
+
+</menu>

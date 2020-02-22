@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activities.PembayaranActivity"
+    android:orientation="vertical"
+    android:padding="@dimen/padding1">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Pembayaran"
+        android:textSize="@dimen/header1"
+        android:layout_margin="@dimen/margin2"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvPembayaran"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin2"/>
+
+</LinearLayout>

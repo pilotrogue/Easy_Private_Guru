@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--  Default  -->
+    <color name="colorPrimary">#007DD3</color>
+    <color name="colorPrimaryDark">#004979</color>
+    <color name="colorAccent">#D81B1B</color>
+
+    <!--  Background  -->
+    <color name="backgroundWhite">#FFFFFF</color>
+    <color name="backgroundWhiteDark">#AAD8D8D8</color>
+
+    <!--  Fonts  -->
+    <color name="fontLight">#DDDDDD</color>
+    <color name="fontDark">#2C2C2C</color>
+</resources>
