@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.example.easyprivateguru.R;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -80,17 +81,16 @@ public class LoginActivity extends AppCompatActivity {
 
         if(requestCode == RC_SIGN_IN){
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-            handleSignInResult(task);
+
+            try {
+                account = task.getResult(ApiException.class);
+                homeIntent();
+            }catch (ApiException e){
+                Log.w(TAG, "error code: "+e.getStatusCode());
+                Log.v(TAG, "message: "+e.getMessage());
+                Toast.makeText(this, e.getMessage() + "\n Error code: "+e.getMessage(), Toast.LENGTH_LONG).show();
+            }
         }
 
-    }
-
-    private void handleSignInResult(Task<GoogleSignInAccount> task){
-        try {
-            account = task.getResult(ApiException.class);
-            homeIntent();
-        }catch (ApiException e){
-            Log.w(TAG, "signInResult: "+e.getStatusCode());
-        }
     }
 }
