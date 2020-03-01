@@ -1,4 +1,4 @@
-package com.example.easyprivateguru.Activities;
+package com.example.easyprivateguru.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 
-import com.example.easyprivateguru.Adapters.JadwalRVAdapter;
+import com.example.easyprivateguru.adapters.JadwalRVAdapter;
 import com.example.easyprivateguru.DummyGenerator;
 import com.example.easyprivateguru.R;
 

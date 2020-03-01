@@ -1,4 +1,4 @@
-package com.example.easyprivateguru.Fragments;
+package com.example.easyprivateguru.fragments;
 
 import android.content.Context;
 import android.content.Intent;
@@ -14,7 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.example.easyprivateguru.Activities.LoginActivity;
+import com.example.easyprivateguru.activities.LoginActivity;
 import com.example.easyprivateguru.R;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;

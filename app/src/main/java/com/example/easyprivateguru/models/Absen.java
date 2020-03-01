@@ -1,4 +1,4 @@
-package com.example.easyprivateguru.Models;
+package com.example.easyprivateguru.models;
 
 import java.util.Date;
 

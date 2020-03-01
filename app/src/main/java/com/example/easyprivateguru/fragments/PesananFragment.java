@@ -1,4 +1,4 @@
-package com.example.easyprivateguru.Fragments;
+package com.example.easyprivateguru.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -12,15 +12,9 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.easyprivateguru.Adapters.PesananRVAdapter;
+import com.example.easyprivateguru.adapters.PesananRVAdapter;
 import com.example.easyprivateguru.DummyGenerator;
-import com.example.easyprivateguru.Models.Jenjang;
-import com.example.easyprivateguru.Models.MataPelajaran;
-import com.example.easyprivateguru.Models.Pesanan;
-import com.example.easyprivateguru.Models.User;
 import com.example.easyprivateguru.R;
-
-import java.util.ArrayList;
 
 public class PesananFragment extends Fragment {
     RecyclerView rvPesanan;

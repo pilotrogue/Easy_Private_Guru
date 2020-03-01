@@ -1,4 +1,4 @@
-package com.example.easyprivateguru.Fragments;
+package com.example.easyprivateguru.fragments;
 
 import android.content.Context;
 import android.content.Intent;
@@ -14,8 +14,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.easyprivateguru.Activities.QRScannerActivity;
-import com.example.easyprivateguru.Adapters.JadwalRVAdapter;
+import com.example.easyprivateguru.activities.QRScannerActivity;
+import com.example.easyprivateguru.adapters.JadwalRVAdapter;
 import com.example.easyprivateguru.DummyGenerator;
 import com.example.easyprivateguru.R;
 

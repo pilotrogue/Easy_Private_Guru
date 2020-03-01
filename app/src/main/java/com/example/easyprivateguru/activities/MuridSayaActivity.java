@@ -1,4 +1,4 @@
-package com.example.easyprivateguru.Activities;
+package com.example.easyprivateguru.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -6,11 +6,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 
-import com.example.easyprivateguru.Adapters.MuridSayaRVAdapter;
-import com.example.easyprivateguru.Models.Jenjang;
-import com.example.easyprivateguru.Models.MataPelajaran;
-import com.example.easyprivateguru.Models.Pesanan;
-import com.example.easyprivateguru.Models.User;
+import com.example.easyprivateguru.adapters.MuridSayaRVAdapter;
+import com.example.easyprivateguru.models.Jenjang;
+import com.example.easyprivateguru.models.MataPelajaran;
+import com.example.easyprivateguru.models.Pesanan;
+import com.example.easyprivateguru.models.User;
 import com.example.easyprivateguru.R;
 
 import java.util.ArrayList;

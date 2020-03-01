@@ -1,4 +1,4 @@
-package com.example.easyprivateguru.Adapters;
+package com.example.easyprivateguru.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,16 +10,16 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.easyprivateguru.Models.MataPelajaran;
-import com.example.easyprivateguru.Models.Pesanan;
-import com.example.easyprivateguru.Models.User;
+import com.example.easyprivateguru.models.MataPelajaran;
+import com.example.easyprivateguru.models.Pesanan;
+import com.example.easyprivateguru.models.User;
 import com.example.easyprivateguru.R;
 
 import java.util.ArrayList;
 
-public class MuridSayaRVAdapter extends RecyclerView.Adapter<MuridSayaRVAdapter.ViewHolder>{
+public class PesananRVAdapter extends RecyclerView.Adapter<PesananRVAdapter.ViewHolder>{
     private Context mContext;
-    private ArrayList<Pesanan> pesanans= new ArrayList<>();
+    private ArrayList<Pesanan> pesanans;
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         private TextView subtitle1, title, subtitle2;
@@ -34,7 +34,7 @@ public class MuridSayaRVAdapter extends RecyclerView.Adapter<MuridSayaRVAdapter.
         }
     }
 
-    public MuridSayaRVAdapter(Context mContext, ArrayList<Pesanan> pesanans) {
+    public PesananRVAdapter(Context mContext, ArrayList<Pesanan> pesanans) {
         this.mContext = mContext;
         this.pesanans = pesanans;
     }
@@ -43,7 +43,7 @@ public class MuridSayaRVAdapter extends RecyclerView.Adapter<MuridSayaRVAdapter.
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(mContext).inflate(R.layout.item_card, parent, false);
-        return new ViewHolder(v);
+        return new PesananRVAdapter.ViewHolder(v);
     }
 
     @Override
@@ -54,7 +54,7 @@ public class MuridSayaRVAdapter extends RecyclerView.Adapter<MuridSayaRVAdapter.
 
         holder.subtitle1.setText(murid.getAlamat());
         holder.title.setText(murid.getNamaUser());
-        holder.subtitle2.setText(mataPelajaran.getJenjang().getNamaJenjang());
+        holder.subtitle2.setText(mataPelajaran.getNamaMataPelajaran());
     }
 
     @Override

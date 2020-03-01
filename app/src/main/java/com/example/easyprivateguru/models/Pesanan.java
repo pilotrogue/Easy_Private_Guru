@@ -1,4 +1,4 @@
-package com.example.easyprivateguru.Models;
+package com.example.easyprivateguru.models;
 
 public class Pesanan {
     private User murid, guru;

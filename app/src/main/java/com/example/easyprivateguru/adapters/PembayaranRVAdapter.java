@@ -1,41 +1,41 @@
-package com.example.easyprivateguru.Adapters;
+package com.example.easyprivateguru.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.easyprivateguru.Models.Absen;
-import com.example.easyprivateguru.Models.Pesanan;
-import com.example.easyprivateguru.Models.User;
+import com.example.easyprivateguru.models.Pembayaran;
 import com.example.easyprivateguru.R;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
-public class JadwalRVAdapter extends RecyclerView.Adapter<JadwalRVAdapter.ViewHolder>{
+public class PembayaranRVAdapter extends RecyclerView.Adapter<PembayaranRVAdapter.ViewHolder>{
     private Context mContext;
-    private ArrayList<Absen> absens = new ArrayList<>();
+    private ArrayList<Pembayaran> pembayarans = new ArrayList<>();
 
     public class ViewHolder extends RecyclerView.ViewHolder{
-        TextView subtitle1, title, subtitle2;
+        private TextView subtitle1, title, subtitle2;
+        private ImageView image;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-
             subtitle1 = itemView.findViewById(R.id.tvSubtitle1);
             title = itemView.findViewById(R.id.tvTitle);
             subtitle2 = itemView.findViewById(R.id.tvSubtitle2);
+            image = itemView.findViewById(R.id.ivPic);
         }
     }
 
-    public JadwalRVAdapter(Context mContext, ArrayList<Absen> absens) {
+    public PembayaranRVAdapter(Context mContext, ArrayList<Pembayaran> pembayarans) {
         this.mContext = mContext;
-        this.absens = absens;
+        this.pembayarans = pembayarans;
     }
 
     @NonNull
@@ -47,20 +47,25 @@ public class JadwalRVAdapter extends RecyclerView.Adapter<JadwalRVAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Absen a = absens.get(position);
-        Pesanan p = a.getPesanan();
-        User guru = p.getGuru(), murid = p.getMurid();
+        Pembayaran p = pembayarans.get(position);
 
         SimpleDateFormat sdf = new SimpleDateFormat("MMMM yyyy");
-        String tglPertemuanStr = sdf.format(a.getTanggalPertemuan());
+        String tanggalUpahStr = sdf.format(p.getTanggalUpah());
 
-        holder.subtitle1.setText(tglPertemuanStr);
-        holder.title.setText(murid.getNamaUser());
-        holder.subtitle2.setText(p.getMataPelajaran().getNamaMataPelajaran());
+        holder.subtitle1.setText(tanggalUpahStr);
+
+        if(p.isStatusDone()){
+            holder.title.setText("Lunas");
+        }else{
+            holder.title.setText("Belum lunas");
+        }
+
+        holder.subtitle2.setText("Rp " + String.valueOf(p.getJumlahUpah()));
+        holder.image.setVisibility(View.GONE);
     }
 
     @Override
     public int getItemCount() {
-        return absens.size();
+        return pembayarans.size();
     }
 }

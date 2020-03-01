@@ -1,4 +1,4 @@
-package com.example.easyprivateguru.Activities;
+package com.example.easyprivateguru.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -6,15 +6,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 
-import com.example.easyprivateguru.Adapters.PembayaranRVAdapter;
+import com.example.easyprivateguru.adapters.PembayaranRVAdapter;
 import com.example.easyprivateguru.DummyGenerator;
-import com.example.easyprivateguru.Models.Pembayaran;
 import com.example.easyprivateguru.R;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 
 public class PembayaranActivity extends AppCompatActivity {
     RecyclerView rvPembayaran;

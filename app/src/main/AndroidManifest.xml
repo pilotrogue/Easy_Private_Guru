@@ -12,13 +12,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activities.QRCodeActivity"></activity>
-        <activity android:name=".Activities.QRScannerActivity" />
-        <activity android:name=".Activities.MuridSayaActivity" />
-        <activity android:name=".Activities.PembayaranActivity" />
-        <activity android:name=".Activities.JadwalActivity" />
-        <activity android:name=".Activities.MainActivity" />
-        <activity android:name=".Activities.LoginActivity">
+        <activity android:name=".activities.QRCodeActivity"></activity>
+        <activity android:name=".activities.QRScannerActivity" />
+        <activity android:name=".activities.MuridSayaActivity" />
+        <activity android:name=".activities.PembayaranActivity" />
+        <activity android:name=".activities.JadwalActivity" />
+        <activity android:name=".activities.MainActivity" />
+        <activity android:name=".activities.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

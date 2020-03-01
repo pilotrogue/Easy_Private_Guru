@@ -1,6 +1,4 @@
-package com.example.easyprivateguru.Models;
-
-import java.util.Date;
+package com.example.easyprivateguru.models;
 
 public class User {
     private String namaUser, email, alamat;

@@ -1,4 +1,4 @@
-package com.example.easyprivateguru.API;
+package com.example.easyprivateguru.api;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;

@@ -1,4 +1,4 @@
-package com.example.easyprivateguru.Activities;
+package com.example.easyprivateguru.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -7,10 +7,10 @@ import androidx.fragment.app.Fragment;
 import android.os.Bundle;
 import android.view.MenuItem;
 
-import com.example.easyprivateguru.Fragments.AbsenFragment;
-import com.example.easyprivateguru.Fragments.HomeFragment;
-import com.example.easyprivateguru.Fragments.PesananFragment;
-import com.example.easyprivateguru.Fragments.ProfilFragment;
+import com.example.easyprivateguru.fragments.AbsenFragment;
+import com.example.easyprivateguru.fragments.HomeFragment;
+import com.example.easyprivateguru.fragments.PesananFragment;
+import com.example.easyprivateguru.fragments.ProfilFragment;
 import com.example.easyprivateguru.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 

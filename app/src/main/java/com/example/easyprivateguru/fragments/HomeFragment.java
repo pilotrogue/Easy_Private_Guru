@@ -1,4 +1,4 @@
-package com.example.easyprivateguru.Fragments;
+package com.example.easyprivateguru.fragments;
 
 import android.content.Context;
 import android.content.Intent;
@@ -14,10 +14,10 @@ import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
-import com.example.easyprivateguru.Activities.JadwalActivity;
-import com.example.easyprivateguru.Activities.MuridSayaActivity;
-import com.example.easyprivateguru.Activities.PembayaranActivity;
-import com.example.easyprivateguru.Activities.QRCodeActivity;
+import com.example.easyprivateguru.activities.JadwalActivity;
+import com.example.easyprivateguru.activities.MuridSayaActivity;
+import com.example.easyprivateguru.activities.PembayaranActivity;
+import com.example.easyprivateguru.activities.QRCodeActivity;
 import com.example.easyprivateguru.R;
 
 public class HomeFragment extends Fragment {

@@ -1,11 +1,11 @@
 package com.example.easyprivateguru;
 
-import com.example.easyprivateguru.Models.Absen;
-import com.example.easyprivateguru.Models.Jenjang;
-import com.example.easyprivateguru.Models.MataPelajaran;
-import com.example.easyprivateguru.Models.Pembayaran;
-import com.example.easyprivateguru.Models.Pesanan;
-import com.example.easyprivateguru.Models.User;
+import com.example.easyprivateguru.models.Absen;
+import com.example.easyprivateguru.models.Jenjang;
+import com.example.easyprivateguru.models.MataPelajaran;
+import com.example.easyprivateguru.models.Pembayaran;
+import com.example.easyprivateguru.models.Pesanan;
+import com.example.easyprivateguru.models.User;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
