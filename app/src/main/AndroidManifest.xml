@@ -3,6 +3,7 @@
     package="com.example.easyprivateguru">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:allowBackup="true"
@@ -11,7 +12,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activities.MuridSayaActivity"></activity>
+        <activity android:name=".Activities.QRCodeActivity"></activity>
+        <activity android:name=".Activities.QRScannerActivity" />
+        <activity android:name=".Activities.MuridSayaActivity" />
         <activity android:name=".Activities.PembayaranActivity" />
         <activity android:name=".Activities.JadwalActivity" />
         <activity android:name=".Activities.MainActivity" />

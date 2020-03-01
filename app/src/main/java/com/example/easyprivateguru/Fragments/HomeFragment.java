@@ -1,6 +1,5 @@
 package com.example.easyprivateguru.Fragments;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,12 +17,13 @@ import androidx.fragment.app.Fragment;
 import com.example.easyprivateguru.Activities.JadwalActivity;
 import com.example.easyprivateguru.Activities.MuridSayaActivity;
 import com.example.easyprivateguru.Activities.PembayaranActivity;
-import com.example.easyprivateguru.Models.Pembayaran;
+import com.example.easyprivateguru.Activities.QRCodeActivity;
 import com.example.easyprivateguru.R;
 
 public class HomeFragment extends Fragment {
 
     private CardView cardJadwal, cardMuridSaya, cardPembayaran;
+    private Button btnShowQR;
 
     @Nullable
     @Override
@@ -60,6 +60,14 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        btnShowQR.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(mContext, QRCodeActivity.class);
+                startActivity(i);
+            }
+        });
+
         return v;
     }
 
@@ -72,5 +80,7 @@ public class HomeFragment extends Fragment {
         cardJadwal = v.findViewById(R.id.cardJadwal);
         cardMuridSaya = v.findViewById(R.id.cardMuridSaya);
         cardPembayaran = v.findViewById(R.id.cardPembayaran);
+
+        btnShowQR = v.findViewById(R.id.btnShowQR);
     }
 }
