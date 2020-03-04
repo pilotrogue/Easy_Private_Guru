@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.example.easyprivateguru.adapters.AbsenRVAdapter;
 import com.example.easyprivateguru.DummyGenerator;
 import com.example.easyprivateguru.R;
+import com.example.easyprivateguru.adapters.JadwalRVAdapter;
 import com.example.easyprivateguru.models.Jadwal;
 
 import java.util.ArrayList;
@@ -22,7 +23,6 @@ import java.util.ArrayList;
 public class JadwalActivity extends AppCompatActivity {
     private RecyclerView rvJadwal;
     private Cursor mCursor;
-    private CalendarContract.Calendars calendar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,12 +32,12 @@ public class JadwalActivity extends AppCompatActivity {
         init();
 
         DummyGenerator dg = new DummyGenerator();
-        AbsenRVAdapter adapter = new AbsenRVAdapter(this, dg.getAbsenDummy());
+        JadwalRVAdapter adapter = new JadwalRVAdapter(this, getJadwals());
         rvJadwal.setAdapter(adapter);
         rvJadwal.setLayoutManager(new LinearLayoutManager(this));
     }
 
-    private void showEvents(){
+    private ArrayList<Jadwal> getJadwals(){
         int idIndex = mCursor.getColumnIndex(CalendarContract.Events._ID),
                 titleIndex = mCursor.getColumnIndex(CalendarContract.Events.TITLE),
                 descriptionIndex = mCursor.getColumnIndex(CalendarContract.Events.DESCRIPTION),
@@ -54,8 +54,12 @@ public class JadwalActivity extends AppCompatActivity {
 
                 Jadwal jadwal = new Jadwal(idStr, titleStr, descriptionStr, eventLocationStr);
                 jadwals.add(jadwal);
+            }else {
+                Toast.makeText(this, "Tidak ada jadwal!", Toast.LENGTH_LONG).show();
             }
         }
+
+        return jadwals;
     }
 
     private Cursor getCursor(){
