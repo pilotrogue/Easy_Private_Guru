@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.easyprivateguru.activities.QRScannerActivity;
-import com.example.easyprivateguru.adapters.JadwalRVAdapter;
+import com.example.easyprivateguru.adapters.AbsenRVAdapter;
 import com.example.easyprivateguru.DummyGenerator;
 import com.example.easyprivateguru.R;
 
@@ -40,7 +40,7 @@ public class AbsenFragment extends Fragment {
         });
 
         DummyGenerator dg = new DummyGenerator();
-        JadwalRVAdapter adapter = new JadwalRVAdapter(mContext, dg.getAbsenDummy());
+        AbsenRVAdapter adapter = new AbsenRVAdapter(mContext, dg.getAbsenDummy());
         rvAbsen.setAdapter(adapter);
         rvAbsen.setLayoutManager(new LinearLayoutManager(mContext));
 

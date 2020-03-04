@@ -9,18 +9,17 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.easyprivateguru.R;
 import com.example.easyprivateguru.models.Absen;
-import com.example.easyprivateguru.models.Jadwal;
 import com.example.easyprivateguru.models.Pesanan;
 import com.example.easyprivateguru.models.User;
+import com.example.easyprivateguru.R;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
-public class JadwalRVAdapter extends RecyclerView.Adapter<JadwalRVAdapter.ViewHolder>{
+public class AbsenRVAdapter extends RecyclerView.Adapter<AbsenRVAdapter.ViewHolder>{
     private Context mContext;
-    private ArrayList<Jadwal> jadwals = new ArrayList<>();
+    private ArrayList<Absen> absens = new ArrayList<>();
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         TextView subtitle1, title, subtitle2;
@@ -34,9 +33,9 @@ public class JadwalRVAdapter extends RecyclerView.Adapter<JadwalRVAdapter.ViewHo
         }
     }
 
-    public JadwalRVAdapter(Context mContext, ArrayList<Jadwal> jadwals) {
+    public AbsenRVAdapter(Context mContext, ArrayList<Absen> absens) {
         this.mContext = mContext;
-        this.jadwals = jadwals;
+        this.absens = absens;
     }
 
     @NonNull
@@ -48,15 +47,20 @@ public class JadwalRVAdapter extends RecyclerView.Adapter<JadwalRVAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Jadwal j = jadwals.get(position);
+        Absen a = absens.get(position);
+        Pesanan p = a.getPesanan();
+        User guru = p.getGuru(), murid = p.getMurid();
 
-        holder.subtitle1.setText(j.getEventLocation());
-        holder.title.setText(j.getEventTitle());
-        holder.subtitle2.setText(j.getEventDescription());
+        SimpleDateFormat sdf = new SimpleDateFormat("MMMM yyyy");
+        String tglPertemuanStr = sdf.format(a.getTanggalPertemuan());
+
+        holder.subtitle1.setText(tglPertemuanStr);
+        holder.title.setText(murid.getNamaUser());
+        holder.subtitle2.setText(p.getMataPelajaran().getNamaMataPelajaran());
     }
 
     @Override
     public int getItemCount() {
-        return jadwals.size();
+        return absens.size();
     }
 }
