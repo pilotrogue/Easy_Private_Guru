@@ -9,7 +9,7 @@ import android.view.MenuItem;
 
 import com.example.easyprivateguru.fragments.AbsenFragment;
 import com.example.easyprivateguru.fragments.HomeFragment;
-import com.example.easyprivateguru.fragments.PesananFragment;
+import com.example.easyprivateguru.fragments.PemesananFragment;
 import com.example.easyprivateguru.fragments.ProfilFragment;
 import com.example.easyprivateguru.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     //Pesanan
                     case R.id.nav_pemesanan:
-                        selectedFragment = new PesananFragment();
+                        selectedFragment = new PemesananFragment();
                         break;
                     //QR Scanner
                     case R.id.nav_qr:

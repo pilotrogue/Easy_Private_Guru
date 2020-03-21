@@ -11,7 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.easyprivateguru.models.MataPelajaran;
-import com.example.easyprivateguru.models.Pesanan;
+import com.example.easyprivateguru.models.Pemesanan;
 import com.example.easyprivateguru.models.User;
 import com.example.easyprivateguru.R;
 
@@ -19,7 +19,7 @@ import java.util.ArrayList;
 
 public class MuridSayaRVAdapter extends RecyclerView.Adapter<MuridSayaRVAdapter.ViewHolder>{
     private Context mContext;
-    private ArrayList<Pesanan> pesanans= new ArrayList<>();
+    private ArrayList<Pemesanan> pesanans= new ArrayList<>();
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         private TextView subtitle1, title, subtitle2;
@@ -34,7 +34,7 @@ public class MuridSayaRVAdapter extends RecyclerView.Adapter<MuridSayaRVAdapter.
         }
     }
 
-    public MuridSayaRVAdapter(Context mContext, ArrayList<Pesanan> pesanans) {
+    public MuridSayaRVAdapter(Context mContext, ArrayList<Pemesanan> pesanans) {
         this.mContext = mContext;
         this.pesanans = pesanans;
     }
@@ -48,12 +48,12 @@ public class MuridSayaRVAdapter extends RecyclerView.Adapter<MuridSayaRVAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Pesanan pesanan = pesanans.get(position);
+        Pemesanan pesanan = pesanans.get(position);
         User murid = pesanan.getMurid();
         MataPelajaran mataPelajaran = pesanan.getMataPelajaran();
 
-        holder.subtitle1.setText(murid.getAlamat());
-        holder.title.setText(murid.getNamaUser());
+//        holder.subtitle1.setText(murid.getAlamat());
+        holder.title.setText(murid.getName());
         holder.subtitle2.setText(mataPelajaran.getJenjang().getNamaJenjang());
     }
 

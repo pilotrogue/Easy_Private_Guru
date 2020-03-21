@@ -4,10 +4,10 @@ import java.util.Date;
 
 public class Absen {
     private Date tanggalPertemuan;
-    private Pesanan pesanan;
+    private Pemesanan pesanan;
     private boolean status = false;
 
-    public Absen(Date tanggalPertemuan, Pesanan pesanan) {
+    public Absen(Date tanggalPertemuan, Pemesanan pesanan) {
         this.tanggalPertemuan = tanggalPertemuan;
         this.pesanan = pesanan;
     }
@@ -16,7 +16,7 @@ public class Absen {
         return tanggalPertemuan;
     }
 
-    public Pesanan getPesanan() {
+    public Pemesanan getPesanan() {
         return pesanan;
     }
 

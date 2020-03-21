@@ -1,6 +1,7 @@
 package com.example.easyprivateguru.adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,13 +11,11 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.easyprivateguru.R;
-import com.example.easyprivateguru.models.Absen;
 import com.example.easyprivateguru.models.Jadwal;
-import com.example.easyprivateguru.models.Pesanan;
-import com.example.easyprivateguru.models.User;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+
+import static androidx.constraintlayout.widget.Constraints.TAG;
 
 public class JadwalRVAdapter extends RecyclerView.Adapter<JadwalRVAdapter.ViewHolder>{
     private Context mContext;
@@ -49,6 +48,7 @@ public class JadwalRVAdapter extends RecyclerView.Adapter<JadwalRVAdapter.ViewHo
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Jadwal j = jadwals.get(position);
+        Log.d(TAG, "onBindViewHolder: eventId: "+j.getEventId());
 
         holder.subtitle1.setText(j.getEventLocation());
         holder.title.setText(j.getEventTitle());

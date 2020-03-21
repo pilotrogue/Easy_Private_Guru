@@ -10,7 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.easyprivateguru.models.Absen;
-import com.example.easyprivateguru.models.Pesanan;
+import com.example.easyprivateguru.models.Pemesanan;
 import com.example.easyprivateguru.models.User;
 import com.example.easyprivateguru.R;
 
@@ -48,15 +48,15 @@ public class AbsenRVAdapter extends RecyclerView.Adapter<AbsenRVAdapter.ViewHold
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Absen a = absens.get(position);
-        Pesanan p = a.getPesanan();
+        Pemesanan p = a.getPesanan();
         User guru = p.getGuru(), murid = p.getMurid();
 
         SimpleDateFormat sdf = new SimpleDateFormat("MMMM yyyy");
         String tglPertemuanStr = sdf.format(a.getTanggalPertemuan());
 
         holder.subtitle1.setText(tglPertemuanStr);
-        holder.title.setText(murid.getNamaUser());
-        holder.subtitle2.setText(p.getMataPelajaran().getNamaMataPelajaran());
+        holder.title.setText(murid.getName());
+        holder.subtitle2.setText(p.getMataPelajaran().getNamaMapel());
     }
 
     @Override

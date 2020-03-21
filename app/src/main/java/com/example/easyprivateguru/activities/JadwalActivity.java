@@ -10,9 +10,9 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.CalendarContract;
+import android.util.Log;
 import android.widget.Toast;
 
-import com.example.easyprivateguru.adapters.AbsenRVAdapter;
 import com.example.easyprivateguru.DummyGenerator;
 import com.example.easyprivateguru.R;
 import com.example.easyprivateguru.adapters.JadwalRVAdapter;
@@ -23,6 +23,7 @@ import java.util.ArrayList;
 public class JadwalActivity extends AppCompatActivity {
     private RecyclerView rvJadwal;
     private Cursor mCursor;
+    private static final String TAG = "JadwalActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,13 +32,16 @@ public class JadwalActivity extends AppCompatActivity {
 
         init();
 
-        DummyGenerator dg = new DummyGenerator();
-        JadwalRVAdapter adapter = new JadwalRVAdapter(this, getJadwals());
+        ArrayList<Jadwal> jadwals = new ArrayList<>();
+        jadwals = getJadwals();
+
+        JadwalRVAdapter adapter = new JadwalRVAdapter(this, jadwals);
         rvJadwal.setAdapter(adapter);
         rvJadwal.setLayoutManager(new LinearLayoutManager(this));
     }
 
     private ArrayList<Jadwal> getJadwals(){
+        Log.d(TAG, "getJadwals: called");
         int idIndex = mCursor.getColumnIndex(CalendarContract.Events._ID),
                 titleIndex = mCursor.getColumnIndex(CalendarContract.Events.TITLE),
                 descriptionIndex = mCursor.getColumnIndex(CalendarContract.Events.DESCRIPTION),
@@ -45,17 +49,21 @@ public class JadwalActivity extends AppCompatActivity {
 
         String idStr, titleStr, descriptionStr, eventLocationStr;
         ArrayList<Jadwal> jadwals = new ArrayList<>();
+        mCursor.moveToFirst();
         while (mCursor.moveToNext()){
             if (mCursor != null){
                 idStr = mCursor.getString(idIndex);
                 titleStr = mCursor.getString(titleIndex);
                 descriptionStr = mCursor.getString(descriptionIndex);
                 eventLocationStr = mCursor.getString(eventLocationIndex);
+                Log.d(TAG, "getJadwals: idStr: "+idStr);
 
                 Jadwal jadwal = new Jadwal(idStr, titleStr, descriptionStr, eventLocationStr);
                 jadwals.add(jadwal);
             }else {
-                Toast.makeText(this, "Tidak ada jadwal!", Toast.LENGTH_LONG).show();
+                Log.d(TAG, "getJadwals: No events");
+                Jadwal jadwal = new Jadwal("0", "No event", "No event", "No event");
+                jadwals.add(jadwal);
             }
         }
 
@@ -64,9 +72,11 @@ public class JadwalActivity extends AppCompatActivity {
 
     private Cursor getCursor(){
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_CALENDAR) == PackageManager.PERMISSION_GRANTED) {
+            Log.d(TAG, "getCursor: called");
             Cursor cursor = getContentResolver().query(CalendarContract.Events.CONTENT_URI, null, null, null, null);
             return cursor;
         }else{
+            Log.d(TAG, "getCursor: no permission!");
             Toast.makeText(this, "No permission!", Toast.LENGTH_LONG).show();
             return null;
         }

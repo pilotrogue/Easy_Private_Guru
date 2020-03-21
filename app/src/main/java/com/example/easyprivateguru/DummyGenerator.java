@@ -4,7 +4,7 @@ import com.example.easyprivateguru.models.Absen;
 import com.example.easyprivateguru.models.Jenjang;
 import com.example.easyprivateguru.models.MataPelajaran;
 import com.example.easyprivateguru.models.Pembayaran;
-import com.example.easyprivateguru.models.Pesanan;
+import com.example.easyprivateguru.models.Pemesanan;
 import com.example.easyprivateguru.models.User;
 
 import java.text.ParseException;
@@ -40,7 +40,7 @@ public class DummyGenerator {
     }
 
     public ArrayList<Absen> getAbsenDummy(){
-        ArrayList<Pesanan> pesanans = getPesananDummy();
+        ArrayList<Pemesanan> pesanans = getPesananDummy();
         ArrayList<Absen> absens = new ArrayList<>();
 
         Calendar calendar = Calendar.getInstance();
@@ -53,15 +53,15 @@ public class DummyGenerator {
         return absens;
     }
 
-    public ArrayList<Pesanan> getPesananDummy(){
+    public ArrayList<Pemesanan> getPesananDummy(){
         ArrayList<User> gurus = getUserGuruDummy();
         ArrayList<User> murids = getUserMuridDummy();
         ArrayList<MataPelajaran> mataPelajarans = getMataPelajaranDummy();
 
-        ArrayList<Pesanan> pesanans = new ArrayList<>();
+        ArrayList<Pemesanan> pesanans = new ArrayList<>();
 
         for (int i = 0; i < gurus.size(); i++){
-            Pesanan p = new Pesanan(murids.get(i), gurus.get(i), mataPelajarans.get(i));
+            Pemesanan p = new Pemesanan(murids.get(i), gurus.get(i), mataPelajarans.get(i));
             pesanans.add(p);
         }
 
@@ -69,9 +69,9 @@ public class DummyGenerator {
     }
 
     public ArrayList<User> getUserGuruDummy(){
-        User user1 = new User("Momo", "momo@email.com", "Jakarta Barat", 2);
-        User user2 = new User("Mumu", "mumu@email.com", "Jakarta Utara", 2);
-        User user3 = new User("Mimi", "mimi@email.com", "Jakarta Timur", 2);
+        User user1 = new User("Momo", "momo@email.com", 2);
+        User user2 = new User("Mumu", "mumu@email.com", 2);
+        User user3 = new User("Mimi", "mimi@email.com", 2);
 
         ArrayList<User> users = new ArrayList<>();
         users.add(user1);
@@ -82,9 +82,9 @@ public class DummyGenerator {
     }
     
     public ArrayList<User> getUserMuridDummy(){
-        User user1 = new User("Lala", "lala@email.com", "Jakarta Barat", 1);
-        User user2 = new User("Lulu", "lulu@email.com", "Jakarta Utara", 1);
-        User user3 = new User("Lili", "lili@email.com", "Jakarta Timur", 1);
+        User user1 = new User("Lala", "lala@email.com", 1);
+        User user2 = new User("Lulu", "lulu@email.com", 1);
+        User user3 = new User("Lili", "lili@email.com", 1);
         
         ArrayList<User> users = new ArrayList<>();
         users.add(user1);

@@ -5,9 +5,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitClientInstance {
     private Retrofit retrofit;
-    private static final String BASE_URL = "IP Address masing masing";
+    private static final String BASE_URL = "http://192.168.1.26/easyprivate/public/api/";
 
-    public ApiInterface getRetrofit(){
+    public ApiInterface getApiInterface(){
         if(retrofit == null) {
             retrofit = new Retrofit.Builder()
                     .baseUrl(BASE_URL)

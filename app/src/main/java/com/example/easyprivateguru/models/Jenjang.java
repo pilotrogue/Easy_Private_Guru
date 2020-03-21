@@ -1,24 +1,45 @@
 package com.example.easyprivateguru.models;
 
-public class Jenjang {
-    private String namaJenjang;
-    private int upahGuru, potongan;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
-    public Jenjang(String namaJenjang, int upahGuru, int potongan) {
+public class Jenjang {
+
+    @Expose
+    @SerializedName("upah_guru_per_pertemuan")
+    private int upahGuruPerPertemuan;
+
+    @Expose
+    @SerializedName("harga_per_pertemuan")
+    private int hargaPerPertemuan;
+
+    @Expose
+    @SerializedName("nama_jenjang")
+    private String namaJenjang;
+
+    @Expose
+    @SerializedName("id_jenjang")
+    private int idJenjang;
+
+    public Jenjang(String namaJenjang, int upahGuruPerPertemuan, int hargaPerPertemuan) {
+        this.upahGuruPerPertemuan = upahGuruPerPertemuan;
+        this.hargaPerPertemuan = hargaPerPertemuan;
         this.namaJenjang = namaJenjang;
-        this.upahGuru = upahGuru;
-        this.potongan = potongan;
+    }
+
+    public int getUpahGuruPerPertemuan() {
+        return upahGuruPerPertemuan;
+    }
+
+    public int getHargaPerPertemuan() {
+        return hargaPerPertemuan;
     }
 
     public String getNamaJenjang() {
         return namaJenjang;
     }
 
-    public int getUpahGuru() {
-        return upahGuru;
-    }
-
-    public int getPotongan() {
-        return potongan;
+    public int getIdJenjang() {
+        return idJenjang;
     }
 }
