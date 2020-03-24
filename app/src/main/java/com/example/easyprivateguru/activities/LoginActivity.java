@@ -53,7 +53,7 @@ public class LoginActivity extends AppCompatActivity {
         client = GoogleSignIn.getClient(this, gso);
 
         if(account != null){
-            daftarIntent();
+            guruValidation(account.getEmail());
         }
     }
 
@@ -114,6 +114,11 @@ public class LoginActivity extends AppCompatActivity {
         Log.d(TAG, "loginGuru: called");
         String emailStr = acc.getEmail();
 
+        guruValidation(emailStr);
+    }
+
+    private void guruValidation(String emailStr){
+        Log.d(TAG, "guruValidation: called");
         Call<Integer> call = apiInterface.isGuruValid(emailStr);
         call.enqueue(new Callback<Integer>() {
             @Override
@@ -125,7 +130,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 int guruStatus = response.body();
                 if (guruStatus == 1){
-                    Toast.makeText(LoginActivity.this, "Selamat datang!", Toast.LENGTH_LONG);
+                    Toast.makeText(LoginActivity.this, "Selamat datang!", Toast.LENGTH_LONG).show();
                     homeIntent();
                 }else {
                     daftarIntent();

@@ -36,4 +36,10 @@ public interface ApiInterface {
     //Get semua pemesanan
     @GET("pemesanan")
     Call<ArrayList<Pemesanan>> getAllPemesanan();
+
+    //Get pemesanan berdasarkan id guru
+    @GET("pemesanan/guru/{id}")
+    Call<ArrayList<Pemesanan>> getPemesananByIdGuru(
+            @Path("id") int idGuru
+    );
 }
