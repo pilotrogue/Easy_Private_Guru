@@ -2,6 +2,7 @@ package com.example.easyprivateguru.fragments;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,6 +15,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.easyprivateguru.UserHelper;
+import com.example.easyprivateguru.activities.MainActivity;
 import com.example.easyprivateguru.adapters.PesananRVAdapter;
 import com.example.easyprivateguru.R;
 import com.example.easyprivateguru.api.ApiInterface;
@@ -22,6 +25,7 @@ import com.example.easyprivateguru.models.Pemesanan;
 import com.example.easyprivateguru.models.User;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
@@ -44,14 +48,34 @@ public class PemesananFragment extends Fragment {
     private View v;
     private Context mContext;
 
+    private UserHelper userHelper;
+    private boolean hasBeenRefreshed = true;
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(hasBeenRefreshed == false){
+            pemesanans.clear();
+            rvPesanan.setAdapter(null);
+
+            callPemesanans();
+            hasBeenRefreshed = true;
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        hasBeenRefreshed = false;
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.fragment_pesanan, container, false);
-
         init(v);
-        callGuru();
 
+        callPemesanans();
         return v;
     }
 
@@ -60,39 +84,14 @@ public class PemesananFragment extends Fragment {
         mContext = v.getContext();
 
         account = GoogleSignIn.getLastSignedInAccount(mContext);
+        userHelper = new UserHelper(mContext);
+        currUser = userHelper.retrieveUser();
     }
 
-    private void callGuru(){
-        Call<User> call = apiInterface.getGuru(account.getEmail());
+    private void callPemesanans(){
+        Call<ArrayList<Pemesanan>> call = apiInterface.getPemesananByIdGuru(currUser.getId());
 
-        ProgressDialog p = rci.getProgressDialog(mContext);
-        p.show();
-
-        call.enqueue(new Callback<User>() {
-            @Override
-            public void onResponse(Call<User> call, Response<User> response) {
-                Log.d(TAG, "onResponse: "+response.message());
-                p.dismiss();
-                if (!response.isSuccessful()){
-                    return;
-                }
-                currUser = response.body();
-                callPemesanans(currUser);
-            }
-
-            @Override
-            public void onFailure(Call<User> call, Throwable t) {
-                p.dismiss();
-                Log.d(TAG, "onFailure: "+t.getMessage());
-                return;
-            }
-        });
-    }
-
-    private void callPemesanans(User u){
-        Call<ArrayList<Pemesanan>> call = apiInterface.getPemesananByIdGuru(u.getId());
-
-        ProgressDialog p = rci.getProgressDialog(mContext);
+        ProgressDialog p = rci.getProgressDialog(mContext, "Menampilkan pesanan kamu");
         p.show();
 
         call.enqueue(new Callback<ArrayList<Pemesanan>>() {
@@ -103,7 +102,8 @@ public class PemesananFragment extends Fragment {
                     Log.d(TAG, "onResponse: "+ response.message());
                     return;
                 }
-                retrievePemesanan(response.body());
+                pemesanans = response.body();
+                retrievePemesanan();
             }
 
             @Override
@@ -114,9 +114,7 @@ public class PemesananFragment extends Fragment {
         });
     }
 
-    private void retrievePemesanan(ArrayList<Pemesanan> p){
-        pemesanans = p;
-
+    private void retrievePemesanan(){
         PesananRVAdapter adapter = new PesananRVAdapter(mContext, pemesanans);
         rvPesanan.setAdapter(adapter);
         rvPesanan.setLayoutManager(new LinearLayoutManager(mContext));

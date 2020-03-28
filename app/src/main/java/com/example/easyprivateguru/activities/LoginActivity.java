@@ -3,13 +3,16 @@ package com.example.easyprivateguru.activities;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import com.example.easyprivateguru.R;
+import com.example.easyprivateguru.UserHelper;
 import com.example.easyprivateguru.api.ApiInterface;
 import com.example.easyprivateguru.api.RetrofitClientInstance;
 import com.example.easyprivateguru.models.User;
@@ -20,6 +23,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
+import com.google.gson.Gson;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -45,10 +49,14 @@ public class LoginActivity extends AppCompatActivity {
     //Ini gue gak tahu buat apa wkwk, tapi ini perlu
     private int RC_SIGN_IN = 0;
 
+    private UserHelper userHelper;
+
     //Sebelum mulai activity, sistem ngecek dulu apakah udah ada yang pernah login atau belum
     @Override
     protected void onStart() {
         super.onStart();
+
+        userHelper = new UserHelper(this);
         account = GoogleSignIn.getLastSignedInAccount(this);
         client = GoogleSignIn.getClient(this, gso);
 
@@ -96,7 +104,8 @@ public class LoginActivity extends AppCompatActivity {
 
             try {
                 account = task.getResult(ApiException.class);
-                loginGuru(account);
+                String emailStr = account.getEmail();
+                guruValidation(emailStr);
             }catch (ApiException e){
                 //Jaga jaga kalo ada yang error
                 Log.v(TAG, e.getMessage());
@@ -110,28 +119,23 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     //Memeriksa apakah guru tergolong valid
-    private void loginGuru(GoogleSignInAccount acc){
-        Log.d(TAG, "loginGuru: called");
-        String emailStr = acc.getEmail();
-
-        guruValidation(emailStr);
-    }
-
     private void guruValidation(String emailStr){
         Log.d(TAG, "guruValidation: called");
+        ProgressDialog p = rci.getProgressDialog(this, "Validasi guru");
         Call<Integer> call = apiInterface.isGuruValid(emailStr);
+        p.show();
         call.enqueue(new Callback<Integer>() {
             @Override
             public void onResponse(Call<Integer> call, Response<Integer> response) {
                 Log.d(TAG, "onResponse: "+response.message());
+                p.dismiss();
                 if(!response.isSuccessful()){
                     return;
                 }
 
                 int guruStatus = response.body();
                 if (guruStatus == 1){
-                    Toast.makeText(LoginActivity.this, "Selamat datang!", Toast.LENGTH_LONG).show();
-                    homeIntent();
+                    callGuru(emailStr);
                 }else {
                     daftarIntent();
                 }
@@ -139,6 +143,38 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<Integer> call, Throwable t) {
+                p.dismiss();
+                Log.d(TAG, "onFailure: "+t.getMessage());
+                Toast.makeText(LoginActivity.this, t.getMessage(), Toast.LENGTH_LONG).show();
+                return;
+            }
+        });
+    }
+
+    private void callGuru(String emailStr){
+        Call<User> call = apiInterface.getGuru(emailStr);
+        ProgressDialog p = rci.getProgressDialog(this, "Mengunduh informasi Anda");
+        p.show();
+
+        call.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                Log.d(TAG, "onResponse: "+response.message());
+                p.dismiss();
+                if (!response.isSuccessful()){
+                    return;
+                }
+
+                User u = response.body();
+                userHelper.storeUser(u);
+
+                Toast.makeText(LoginActivity.this, "Selamat datang!", Toast.LENGTH_LONG).show();
+                homeIntent();
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                p.dismiss();
                 Log.d(TAG, "onFailure: "+t.getMessage());
                 Toast.makeText(LoginActivity.this, t.getMessage(), Toast.LENGTH_LONG).show();
                 return;

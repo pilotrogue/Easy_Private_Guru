@@ -1,6 +1,7 @@
 package com.example.easyprivateguru.adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,8 @@ import com.example.easyprivateguru.R;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+
+import static androidx.constraintlayout.widget.Constraints.TAG;
 
 public class AbsenRVAdapter extends RecyclerView.Adapter<AbsenRVAdapter.ViewHolder>{
     private Context mContext;
@@ -36,6 +39,7 @@ public class AbsenRVAdapter extends RecyclerView.Adapter<AbsenRVAdapter.ViewHold
     public AbsenRVAdapter(Context mContext, ArrayList<Absen> absens) {
         this.mContext = mContext;
         this.absens = absens;
+        Log.d(TAG, "AbsenRVAdapter: absens.size: "+absens.size());
     }
 
     @NonNull
@@ -48,13 +52,11 @@ public class AbsenRVAdapter extends RecyclerView.Adapter<AbsenRVAdapter.ViewHold
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Absen a = absens.get(position);
-        Pemesanan p = a.getPesanan();
-        User guru = p.getGuru(), murid = p.getMurid();
+        Pemesanan p = a.getPemesanan();
+        User guru = p.getGuru();
+        User murid = p.getMurid();
 
-        SimpleDateFormat sdf = new SimpleDateFormat("MMMM yyyy");
-        String tglPertemuanStr = sdf.format(a.getTanggalPertemuan());
-
-        holder.subtitle1.setText(tglPertemuanStr);
+        holder.subtitle1.setText(a.getWaktuAbsen());
         holder.title.setText(murid.getName());
         holder.subtitle2.setText(p.getMataPelajaran().getNamaMapel());
     }

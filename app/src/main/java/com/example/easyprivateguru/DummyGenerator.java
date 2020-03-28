@@ -44,7 +44,7 @@ public class DummyGenerator {
         ArrayList<Absen> absens = new ArrayList<>();
 
         Calendar calendar = Calendar.getInstance();
-        Date date = calendar.getTime();
+        String date = calendar.getTime().toString();
 
         for (int i = 0; i < pesanans.size(); i++){
             absens.add(new Absen(date, pesanans.get(i)));

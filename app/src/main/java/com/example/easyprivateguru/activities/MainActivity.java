@@ -4,24 +4,34 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 
+import com.example.easyprivateguru.UserHelper;
 import com.example.easyprivateguru.fragments.AbsenFragment;
 import com.example.easyprivateguru.fragments.HomeFragment;
 import com.example.easyprivateguru.fragments.PemesananFragment;
 import com.example.easyprivateguru.fragments.ProfilFragment;
 import com.example.easyprivateguru.R;
+import com.example.easyprivateguru.models.User;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
 
     private BottomNavigationView bnv;
+    private UserHelper uh;
+    private static final String TAG = "MainActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        uh = new UserHelper(this);
+
+        Log.d(TAG, "onCreate: user.email: "+uh.retrieveUser().getEmail());
 
         bnv = findViewById(R.id.nav_bottom);
 

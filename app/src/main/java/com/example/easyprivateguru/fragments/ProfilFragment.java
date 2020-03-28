@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.easyprivateguru.UserHelper;
 import com.example.easyprivateguru.activities.LoginActivity;
 import com.example.easyprivateguru.R;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -28,6 +29,8 @@ public class ProfilFragment extends Fragment {
     Button btnSignOut;
     GoogleSignInAccount account;
     Context mContext;
+
+    UserHelper userHelper;
 
     @Nullable
     @Override
@@ -57,9 +60,12 @@ public class ProfilFragment extends Fragment {
         tvProfile = v.findViewById(R.id.tvProfile);
         btnSignOut = v.findViewById(R.id.btnSignOut);
         mContext = v.getContext();
+
+        userHelper = new UserHelper(mContext);
     }
 
     private void signOut(){
+        userHelper.removeUser();
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .build();

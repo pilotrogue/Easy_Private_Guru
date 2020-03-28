@@ -13,10 +13,9 @@ import android.provider.CalendarContract;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.example.easyprivateguru.DummyGenerator;
 import com.example.easyprivateguru.R;
 import com.example.easyprivateguru.adapters.JadwalRVAdapter;
-import com.example.easyprivateguru.models.Jadwal;
+import com.example.easyprivateguru.models.JadwalAjar;
 
 import java.util.ArrayList;
 
@@ -32,15 +31,15 @@ public class JadwalActivity extends AppCompatActivity {
 
         init();
 
-        ArrayList<Jadwal> jadwals = new ArrayList<>();
-        jadwals = getJadwals();
+        ArrayList<JadwalAjar> jadwalAjars = new ArrayList<>();
+        jadwalAjars = getJadwals();
 
-        JadwalRVAdapter adapter = new JadwalRVAdapter(this, jadwals);
+        JadwalRVAdapter adapter = new JadwalRVAdapter(this, jadwalAjars);
         rvJadwal.setAdapter(adapter);
         rvJadwal.setLayoutManager(new LinearLayoutManager(this));
     }
 
-    private ArrayList<Jadwal> getJadwals(){
+    private ArrayList<JadwalAjar> getJadwals(){
         Log.d(TAG, "getJadwals: called");
         int idIndex = mCursor.getColumnIndex(CalendarContract.Events._ID),
                 titleIndex = mCursor.getColumnIndex(CalendarContract.Events.TITLE),
@@ -48,7 +47,7 @@ public class JadwalActivity extends AppCompatActivity {
                 eventLocationIndex = mCursor.getColumnIndex(CalendarContract.Events.EVENT_LOCATION);
 
         String idStr, titleStr, descriptionStr, eventLocationStr;
-        ArrayList<Jadwal> jadwals = new ArrayList<>();
+        ArrayList<JadwalAjar> jadwalAjars = new ArrayList<>();
         mCursor.moveToFirst();
         while (mCursor.moveToNext()){
             if (mCursor != null){
@@ -58,16 +57,16 @@ public class JadwalActivity extends AppCompatActivity {
                 eventLocationStr = mCursor.getString(eventLocationIndex);
                 Log.d(TAG, "getJadwals: idStr: "+idStr);
 
-                Jadwal jadwal = new Jadwal(idStr, titleStr, descriptionStr, eventLocationStr);
-                jadwals.add(jadwal);
+                JadwalAjar jadwalAjar = new JadwalAjar(Integer.parseInt(idStr));
+                jadwalAjars.add(jadwalAjar);
             }else {
                 Log.d(TAG, "getJadwals: No events");
-                Jadwal jadwal = new Jadwal("0", "No event", "No event", "No event");
-                jadwals.add(jadwal);
+                JadwalAjar jadwalAjar = new JadwalAjar(0);
+                jadwalAjars.add(jadwalAjar);
             }
         }
 
-        return jadwals;
+        return jadwalAjars;
     }
 
     private Cursor getCursor(){

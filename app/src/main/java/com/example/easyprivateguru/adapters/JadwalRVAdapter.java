@@ -11,7 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.easyprivateguru.R;
-import com.example.easyprivateguru.models.Jadwal;
+import com.example.easyprivateguru.models.JadwalAjar;
 
 import java.util.ArrayList;
 
@@ -19,7 +19,7 @@ import static androidx.constraintlayout.widget.Constraints.TAG;
 
 public class JadwalRVAdapter extends RecyclerView.Adapter<JadwalRVAdapter.ViewHolder>{
     private Context mContext;
-    private ArrayList<Jadwal> jadwals = new ArrayList<>();
+    private ArrayList<JadwalAjar> jadwalAjars = new ArrayList<>();
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         TextView subtitle1, title, subtitle2;
@@ -33,9 +33,9 @@ public class JadwalRVAdapter extends RecyclerView.Adapter<JadwalRVAdapter.ViewHo
         }
     }
 
-    public JadwalRVAdapter(Context mContext, ArrayList<Jadwal> jadwals) {
+    public JadwalRVAdapter(Context mContext, ArrayList<JadwalAjar> jadwalAjars) {
         this.mContext = mContext;
-        this.jadwals = jadwals;
+        this.jadwalAjars = jadwalAjars;
     }
 
     @NonNull
@@ -47,16 +47,14 @@ public class JadwalRVAdapter extends RecyclerView.Adapter<JadwalRVAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Jadwal j = jadwals.get(position);
-        Log.d(TAG, "onBindViewHolder: eventId: "+j.getEventId());
+        JadwalAjar j = jadwalAjars.get(position);
+        Log.d(TAG, "onBindViewHolder: eventId: "+j.getIdJadwalAjar());
 
-        holder.subtitle1.setText(j.getEventLocation());
-        holder.title.setText(j.getEventTitle());
-        holder.subtitle2.setText(j.getEventDescription());
+        holder.title.setText(j.getIdJadwalAjar());
     }
 
     @Override
     public int getItemCount() {
-        return jadwals.size();
+        return jadwalAjars.size();
     }
 }
