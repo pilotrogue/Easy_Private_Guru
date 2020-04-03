@@ -50,7 +50,9 @@ public class JadwalRVAdapter extends RecyclerView.Adapter<JadwalRVAdapter.ViewHo
         JadwalAjar j = jadwalAjars.get(position);
         Log.d(TAG, "onBindViewHolder: eventId: "+j.getIdJadwalAjar());
 
-        holder.title.setText(j.getIdJadwalAjar());
+        holder.subtitle1.setText(j.getWaktuAjar());
+        holder.title.setText(j.getPemesanan().getMurid().getName());
+        holder.subtitle2.setText(j.getPemesanan().getMataPelajaran().getNamaMapel());
     }
 
     @Override

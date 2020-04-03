@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -14,15 +15,49 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.example.easyprivateguru.R;
+import com.example.easyprivateguru.UserHelper;
 import com.example.easyprivateguru.adapters.JadwalRVAdapter;
+import com.example.easyprivateguru.api.ApiInterface;
+import com.example.easyprivateguru.api.RetrofitClientInstance;
 import com.example.easyprivateguru.models.JadwalAjar;
+import com.example.easyprivateguru.models.User;
 
 import java.util.ArrayList;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class JadwalActivity extends AppCompatActivity {
+    private RetrofitClientInstance rci = new RetrofitClientInstance();
+    private ApiInterface apiInterface = rci.getApiInterface();
+    private UserHelper userHelper;
+    private User currUser;
+
     private RecyclerView rvJadwal;
     private Cursor mCursor;
     private static final String TAG = "JadwalActivity";
+    private ArrayList<JadwalAjar> jadwalAjars = new ArrayList<>();
+
+    private boolean hasBeenRefreshed = true;
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(hasBeenRefreshed == false){
+            jadwalAjars.clear();
+            rvJadwal.setAdapter(null);
+
+            callJadwalAjar();
+            hasBeenRefreshed = true;
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        hasBeenRefreshed = false;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,10 +65,36 @@ public class JadwalActivity extends AppCompatActivity {
         setContentView(R.layout.activity_jadwal);
 
         init();
+        callJadwalAjar();
+    }
 
-        ArrayList<JadwalAjar> jadwalAjars = new ArrayList<>();
-        jadwalAjars = getJadwals();
+    private void callJadwalAjar(){
+        ProgressDialog progressDialog = rci.getProgressDialog(this, "Menampilkan jadwal kamu");
+        Call<ArrayList<JadwalAjar>> call = apiInterface.getJadwalAjarByIdGuru(currUser.getId());
+        progressDialog.show();
+        call.enqueue(new Callback<ArrayList<JadwalAjar>>() {
+            @Override
+            public void onResponse(Call<ArrayList<JadwalAjar>> call, Response<ArrayList<JadwalAjar>> response) {
+                progressDialog.dismiss();
+                Log.d(TAG, "onResponse: "+response.message());
+                if(!response.isSuccessful()){
+                    return;
+                }
 
+                jadwalAjars = response.body();
+                retrieveJadwalAjar();
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<JadwalAjar>> call, Throwable t) {
+                progressDialog.dismiss();
+                Log.d(TAG, "onFailure: "+t.getMessage());
+                return;
+            }
+        });
+    }
+
+    private void retrieveJadwalAjar(){
         JadwalRVAdapter adapter = new JadwalRVAdapter(this, jadwalAjars);
         rvJadwal.setAdapter(adapter);
         rvJadwal.setLayoutManager(new LinearLayoutManager(this));
@@ -84,5 +145,7 @@ public class JadwalActivity extends AppCompatActivity {
     private void init() {
         rvJadwal = findViewById(R.id.rvJadwal);
         mCursor = getCursor();
+        userHelper = new UserHelper(this);
+        currUser = userHelper.retrieveUser();
     }
 }

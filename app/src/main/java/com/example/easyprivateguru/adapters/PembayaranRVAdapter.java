@@ -16,20 +16,22 @@ import com.example.easyprivateguru.R;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class PembayaranRVAdapter extends RecyclerView.Adapter<PembayaranRVAdapter.ViewHolder>{
     private Context mContext;
     private ArrayList<Pembayaran> pembayarans = new ArrayList<>();
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         private TextView subtitle1, title, subtitle2;
-        private ImageView image;
+        private CircleImageView image;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             subtitle1 = itemView.findViewById(R.id.tvSubtitle1);
             title = itemView.findViewById(R.id.tvTitle);
             subtitle2 = itemView.findViewById(R.id.tvSubtitle2);
-            image = itemView.findViewById(R.id.ivPic);
+            image = itemView.findViewById(R.id.civPic);
         }
     }
 

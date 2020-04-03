@@ -2,11 +2,15 @@ package com.example.easyprivateguru;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import com.example.easyprivateguru.api.ApiInterface;
 import com.example.easyprivateguru.api.RetrofitClientInstance;
+import com.example.easyprivateguru.models.Absen;
 import com.example.easyprivateguru.models.User;
 import com.google.gson.Gson;
+
+import static androidx.constraintlayout.widget.Constraints.TAG;
 
 public class UserHelper {
     private Context mContext;
@@ -36,8 +40,13 @@ public class UserHelper {
     public User retrieveUser(){
         Gson gson = new Gson();
         String json = preferences.getString(TAG_USER, "");
-        User u = gson.fromJson(json, User.class);
-        return u;
+        try {
+            User u = gson.fromJson(json, User.class);
+            return u;
+        }catch (Throwable t){
+            Log.d(TAG, "retrieveUser: "+t.getMessage());
+            return null;
+        }
     }
 
     public void removeUser(){
@@ -45,6 +54,17 @@ public class UserHelper {
             SharedPreferences.Editor editor = preferences.edit();
             editor.remove(TAG_USER);
             editor.commit();
+        }
+    }
+
+    public Absen jsonToAbsen(String absenJsonStr){
+        Gson gson = new Gson();
+        try {
+            Absen absen = gson.fromJson(absenJsonStr, Absen.class);
+            return absen;
+        }catch (Throwable t){
+            Log.d(TAG, "jsonToAbsen: "+t.getMessage());
+            return null;
         }
     }
 

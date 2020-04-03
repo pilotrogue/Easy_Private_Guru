@@ -1,6 +1,7 @@
 package com.example.easyprivateguru.api;
 
 import com.example.easyprivateguru.models.Absen;
+import com.example.easyprivateguru.models.JadwalAjar;
 import com.example.easyprivateguru.models.Pemesanan;
 import com.example.easyprivateguru.models.User;
 
@@ -61,6 +62,12 @@ public interface ApiInterface {
     //Get absen berdasarkan id guru
     @GET("absen/guru/{id}")
     Call<ArrayList<Absen>> getAbsenByIdGuru(
+            @Path("id") int idGuru
+    );
+
+    //Get jadwal ajar berdasarkan id guru
+    @GET("jadwalAjar/guru/{id}")
+    Call<ArrayList<JadwalAjar>> getJadwalAjarByIdGuru(
             @Path("id") int idGuru
     );
 }

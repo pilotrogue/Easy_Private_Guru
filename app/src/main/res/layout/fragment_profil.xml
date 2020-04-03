@@ -2,29 +2,222 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="@dimen/padding1">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/whiteDark">
 
-    <TextView
-        android:id="@+id/title"
-        android:layout_alignParentTop="true"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Profil"
-        android:textSize="@dimen/header1"
-        android:layout_margin="@dimen/margin2"/>
+        android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/tvProfile"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/margin2"
-        android:layout_below="@id/title"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-    <Button
-        android:id="@+id/btnSignOut"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:text="Sign out"/>
+<!--                <TextView-->
+<!--                    android:id="@+id/title"-->
+<!--                    android:layout_alignParentTop="true"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="Profil"-->
+<!--                    android:textSize="@dimen/header1"-->
+<!--                    android:layout_margin="@dimen/margin2"/>-->
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/padding1"
+                android:background="@color/colorPrimaryDark">
+
+                <ImageView
+                    android:id="@+id/ivEdit"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_settings_black_24dp"
+                    android:tint="@color/white"
+                    android:layout_margin="@dimen/margin2"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"/>
+
+
+<!--                <ImageView-->
+<!--                    android:id="@+id/ivProfilePic"-->
+<!--                    android:layout_margin="@dimen/margin2"-->
+<!--                    android:layout_width="100dp"-->
+<!--                    android:layout_height="100dp"-->
+<!--                    android:layout_centerHorizontal="true"-->
+<!--                    android:layout_below="@id/llTopBar"-->
+<!--                    android:background="@color/colorPrimary"-->
+<!--                    />-->
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/civProfilePic"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:src="@drawable/account_default"
+                    app:civ_border_width="4dp"
+                    app:civ_border_color="@color/white"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/margin2"
+                    android:scaleType="centerCrop"/>
+
+                <TextView
+                    android:id="@+id/tvEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="mrafiapex96@gmail.com"
+                    android:textSize="@dimen/paragraph"
+                    android:gravity="center"
+                    android:textAlignment="center"
+                    android:layout_below="@id/civProfilePic"
+                    android:layout_marginTop="@dimen/margin2"
+                    android:layout_marginLeft="@dimen/margin2"
+                    android:layout_marginRight="@dimen/margin2"
+                    android:textColor="@color/white"
+                    />
+
+                <TextView
+                    android:id="@+id/tvName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin2"
+                    android:layout_marginRight="@dimen/margin2"
+                    android:layout_below="@id/tvEmail"
+                    android:text="Muhammad Rafi Nugroho"
+                    android:textSize="@dimen/header3"
+                    android:textAlignment="center"
+                    android:gravity="center"
+                    android:textColor="@color/white"/>
+
+                <TextView
+                    android:id="@+id/tvRole"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Guru"
+                    android:textSize="@dimen/paragraph"
+                    android:gravity="center"
+                    android:textAlignment="center"
+                    android:layout_below="@id/tvName"
+                    android:layout_marginBottom="@dimen/margin2"
+                    android:layout_marginLeft="@dimen/margin2"
+                    android:layout_marginRight="@dimen/margin2"
+                    android:textColor="@color/white"
+                    />
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@color/colorPrimary"
+                android:padding="@dimen/padding1">
+
+                <RatingBar
+                    android:id="@+id/rbRating"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:rating="4.5"
+                    android:progressTint="@color/colorAccent"
+                    android:layout_below="@id/tvRole"
+                    android:layout_centerHorizontal="true"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="Excellent!"
+                    android:textSize="@dimen/paragraph"
+                    android:textColor="@color/white"/>
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/padding1">
+
+                <ImageView
+                    android:id="@+id/ivLogoPemesananAktif"
+                    android:layout_centerVertical="true"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_assignment_turned_in_black_24dp"
+                    android:tint="@color/colorPrimary"
+                    android:layout_marginLeft="@dimen/margin1"
+                    android:layout_marginRight="@dimen/margin1"
+                    android:layout_alignParentLeft="true"/>
+
+                <TextView
+                    android:id="@+id/tvPemesananAktifTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Pemesanan aktif saat ini"
+                    android:layout_toRightOf="@id/ivLogoPemesananAktif"
+                    android:layout_marginRight="@dimen/margin2"
+                    android:textSize="@dimen/paragraph"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/tvPemesananAktif"
+                    android:layout_below="@id/tvPemesananAktifTitle"
+                    android:layout_toRightOf="@id/ivLogoPemesananAktif"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="3"
+                    android:layout_marginRight="@dimen/margin2"
+                    android:textSize="@dimen/header2"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/padding1">
+
+                <ImageView
+                    android:id="@+id/ivLogoPemesanan"
+                    android:layout_centerVertical="true"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_assignment_black_24dp"
+                    android:tint="@color/colorPrimary"
+                    android:layout_marginLeft="@dimen/margin1"
+                    android:layout_marginRight="@dimen/margin1"
+                    android:layout_alignParentLeft="true"/>
+
+                <TextView
+                    android:id="@+id/tvPemesananTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Pemesanan diterima"
+                    android:layout_toRightOf="@id/ivLogoPemesanan"
+                    android:layout_marginRight="@dimen/margin2"
+                    android:textSize="@dimen/paragraph"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/tvPemesananDiterima"
+                    android:layout_below="@id/tvPemesananTitle"
+                    android:layout_toRightOf="@id/ivLogoPemesanan"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="20"
+                    android:layout_marginRight="@dimen/margin2"
+                    android:textSize="@dimen/header2"/>
+
+            </RelativeLayout>
+
+            <Button
+                android:id="@+id/btnSignOut"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Sign out"
+                style="@style/BtnDanger"/>
+
+        </LinearLayout>
+
+    </ScrollView>
 
 </RelativeLayout>

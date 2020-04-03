@@ -19,8 +19,11 @@ import com.example.easyprivateguru.models.MataPelajaran;
 import com.example.easyprivateguru.models.Pemesanan;
 import com.example.easyprivateguru.models.User;
 import com.example.easyprivateguru.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class PesananRVAdapter extends RecyclerView.Adapter<PesananRVAdapter.ViewHolder>{
     private Context mContext;
@@ -30,7 +33,7 @@ public class PesananRVAdapter extends RecyclerView.Adapter<PesananRVAdapter.View
     public class ViewHolder extends RecyclerView.ViewHolder{
         private CardView cardItem;
         private TextView subtitle1, title, subtitle2;
-        private ImageView image;
+        private CircleImageView image;
         private static final String TAG = "ViewHolder";
 
         public ViewHolder(@NonNull View itemView) {
@@ -40,7 +43,7 @@ public class PesananRVAdapter extends RecyclerView.Adapter<PesananRVAdapter.View
             subtitle1 = itemView.findViewById(R.id.tvSubtitle1);
             title = itemView.findViewById(R.id.tvTitle);
             subtitle2 = itemView.findViewById(R.id.tvSubtitle2);
-            image = itemView.findViewById(R.id.ivPic);
+            image = itemView.findViewById(R.id.civPic);
         }
     }
 
@@ -65,8 +68,15 @@ public class PesananRVAdapter extends RecyclerView.Adapter<PesananRVAdapter.View
         User murid = p.getMurid();
         MataPelajaran mataPelajaran = p.getMataPelajaran();
 
-        holder.subtitle1.setText(murid.getEmail());
+        Picasso.get()
+                .load(murid.getAvatar())
+                .placeholder(R.drawable.account_default)
+                .error(R.drawable.account_default)
+                .noFade()
+                .into(holder.image);
+
         holder.title.setText(murid.getName());
+        holder.subtitle1.setText(murid.getAlamat().get(0).getAlamatLengkap());
         holder.subtitle2.setText(mataPelajaran.getNamaMapel());
 
 //        if(p.getStatus() == 1){

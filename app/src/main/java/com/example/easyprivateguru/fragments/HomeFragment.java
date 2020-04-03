@@ -82,5 +82,6 @@ public class HomeFragment extends Fragment {
         cardPembayaran = v.findViewById(R.id.cardPembayaran);
 
         btnShowQR = v.findViewById(R.id.btnShowQR);
+        btnShowQR.setVisibility(View.GONE);
     }
 }

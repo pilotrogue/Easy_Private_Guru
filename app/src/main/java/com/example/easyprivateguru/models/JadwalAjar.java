@@ -13,6 +13,9 @@ public class JadwalAjar {
     @Expose
     @SerializedName("id_pemesanan")
     private int idPemesanan;
+    @Expose
+    @SerializedName("pemesanan")
+    private Pemesanan pemesanan;
 
     public int getIdJadwalAjar() {
         return idJadwalAjar;
@@ -25,27 +28,12 @@ public class JadwalAjar {
     public int getIdPemesanan() {
         return idPemesanan;
     }
-//    private String eventId, eventTitle, eventDescription, eventLocation;
-//
+
     public JadwalAjar(int eventId) {
         this.idJadwalAjar = eventId;
     }
-//
-//    public String getEventId() {
-//        return eventId;
-//    }
-//
-//    public String getEventTitle() {
-//        return eventTitle;
-//    }
-//
-//    public String getEventDescription() {
-//        return eventDescription;
-//    }
-//
-//    public String getEventLocation() {
-//        return eventLocation;
-//    }
 
-
+    public Pemesanan getPemesanan() {
+        return pemesanan;
+    }
 }

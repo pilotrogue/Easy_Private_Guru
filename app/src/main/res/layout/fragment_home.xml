@@ -35,12 +35,13 @@
 
                 <ImageView
                     android:layout_margin="@dimen/margin2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
                     android:src="@drawable/ic_account_balance_wallet_black_24dp"
                     android:tint="@color/colorPrimary"/>
 
                 <TextView
+                    android:layout_gravity="center_vertical"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Pembayaran"
@@ -63,12 +64,13 @@
 
                 <ImageView
                     android:layout_margin="@dimen/margin2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
                     android:src="@drawable/ic_list_black_24dp"
                     android:tint="@color/colorPrimary"/>
 
                 <TextView
+                    android:layout_gravity="center_vertical"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Jadwal"
@@ -91,12 +93,13 @@
 
                 <ImageView
                     android:layout_margin="@dimen/margin2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
                     android:src="@drawable/ic_school_black_24dp"
                     android:tint="@color/colorPrimary"/>
 
                 <TextView
+                    android:layout_gravity="center_vertical"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Murid Saya"

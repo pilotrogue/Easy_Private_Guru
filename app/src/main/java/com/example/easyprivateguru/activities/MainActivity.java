@@ -29,8 +29,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //get current user
         uh = new UserHelper(this);
-
         Log.d(TAG, "onCreate: user.email: "+uh.retrieveUser().getEmail());
 
         bnv = findViewById(R.id.nav_bottom);

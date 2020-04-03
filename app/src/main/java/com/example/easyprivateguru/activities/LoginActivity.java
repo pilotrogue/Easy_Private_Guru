@@ -6,9 +6,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.easyprivateguru.R;
@@ -33,6 +35,9 @@ public class LoginActivity extends AppCompatActivity {
 
     //Ini button buat sign in
     private SignInButton btnSignIn;
+
+    //Ini button buat register
+    private Button btnDaftar;
 
     //Buat nyimpen akun user yang login
     private GoogleSignInAccount account;
@@ -72,6 +77,13 @@ public class LoginActivity extends AppCompatActivity {
 
         init();
 
+        btnDaftar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                signUp();
+            }
+        });
+
         //Supaya button bisa dipencet
         btnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,6 +98,13 @@ public class LoginActivity extends AppCompatActivity {
         btnSignIn = findViewById(R.id.btn_sign_in);
         btnSignIn.setSize(SignInButton.SIZE_WIDE);
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
+
+        btnDaftar = findViewById(R.id.btnDaftar);
+    }
+
+    private void signUp(){
+        Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(rci.getBaseUrl()+"login/"));
+        startActivity(i);
     }
 
     //Fungsi munculin pop up pilih akun

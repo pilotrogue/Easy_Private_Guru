@@ -8,6 +8,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.easyprivateguru.R;
@@ -33,6 +35,8 @@ public class SplashScreenActivity extends AppCompatActivity {
 
     private UserHelper userHelper;
 
+    private Button btnRetry;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +44,8 @@ public class SplashScreenActivity extends AppCompatActivity {
 
         userHelper = new UserHelper(this);
         account = GoogleSignIn.getLastSignedInAccount(this);
+        btnRetry = findViewById(R.id.btnRetry);
+        btnRetry.setVisibility(View.GONE);
 
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -53,6 +59,20 @@ public class SplashScreenActivity extends AppCompatActivity {
                 }
             }
         }, 1000);
+
+        btnRetry.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                btnRetry.setVisibility(View.GONE);
+                if(account!=null){
+                    guruValidation(account.getEmail());
+                }else{
+                    Intent i = new Intent(SplashScreenActivity.this, LoginActivity.class);
+                    startActivity(i);
+                    finish();
+                }
+            }
+        });
     }
 
     @Override
@@ -96,6 +116,7 @@ public class SplashScreenActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<Integer> call, Throwable t) {
                 p.dismiss();
+                btnRetry.setVisibility(View.VISIBLE);
                 Log.d(TAG, "onFailure: "+t.getMessage());
                 Toast.makeText(SplashScreenActivity.this, t.getMessage(), Toast.LENGTH_LONG).show();
                 return;
@@ -127,6 +148,7 @@ public class SplashScreenActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<User> call, Throwable t) {
                 p.dismiss();
+                btnRetry.setVisibility(View.VISIBLE);
                 Log.d(TAG, "onFailure: "+t.getMessage());
                 Toast.makeText(SplashScreenActivity.this, t.getMessage(), Toast.LENGTH_LONG).show();
                 return;

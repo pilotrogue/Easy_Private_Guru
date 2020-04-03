@@ -8,4 +8,36 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="BtnPrimary" parent="Widget.AppCompat.Button.Colored">
+        <item name="android:textColor">@color/fontLight</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:background">@color/blue</item>
+
+    </style>
+
+    <style name="BtnSecondary" parent="Widget.AppCompat.Button.Colored">
+        <item name="android:textColor">@color/fontDark</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:background">@color/white</item>
+    </style>
+
+    <style name="BtnTertiary" parent="Widget.AppCompat.Button.Colored">
+        <item name="android:textColor">@color/blue</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:background"></item>
+    </style>
+
+    <style name="BtnSubmit" parent="Widget.AppCompat.Button.Colored">
+        <item name="android:textColor">@color/fontLight</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:background">@color/green</item>
+    </style>
+
+    <style name="BtnDanger" parent="Widget.AppCompat.Button.Colored">
+        <item name="android:textColor">@color/redLight</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:background"></item>
+        <item name="android:minWidth">200dp</item>
+    </style>
+
 </resources>

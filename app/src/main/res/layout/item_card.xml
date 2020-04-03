@@ -12,38 +12,43 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/margin2">
 
-        <ImageView
-            android:id="@+id/ivPic"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_account_circle_black_48dp"
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/civPic"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:src="@drawable/account_default"
             android:layout_alignParentLeft="true"
-            android:layout_centerInParent="true"
-            android:layout_margin="@dimen/margin2"
-            />
+            android:layout_centerVertical="true"
+            android:layout_margin="@dimen/margin2"/>
+
+        <!--Icon made by Freepik perfect from www.flaticon.com-->
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:text="Title"
+            android:layout_toRightOf="@id/civPic"
+            android:singleLine="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/header3"
+            android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/tvSubtitle1"
             android:text="Subtitle 1"
-            android:layout_toRightOf="@id/ivPic"
+            android:layout_below="@id/tvTitle"
+            android:singleLine="true"
+            android:layout_toRightOf="@id/civPic"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="@dimen/paragraph"/>
 
         <TextView
-            android:id="@+id/tvTitle"
-            android:text="Title"
-            android:layout_below="@id/tvSubtitle1"
-            android:layout_toRightOf="@id/ivPic"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/header2"/>
-
-        <TextView
             android:id="@+id/tvSubtitle2"
             android:text="Subtitle 2"
-            android:layout_below="@id/tvTitle"
-            android:layout_toRightOf="@id/ivPic"
+            android:layout_below="@id/tvSubtitle1"
+            android:singleLine="true"
+            android:layout_toRightOf="@id/civPic"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="@dimen/paragraph"/>

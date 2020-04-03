@@ -3,11 +3,21 @@
     <!--  Default  -->
     <color name="colorPrimary">#007DD3</color>
     <color name="colorPrimaryDark">#004979</color>
-    <color name="colorAccent">#D81B1B</color>
+    <color name="colorAccent">#FFD700</color>
 
     <!--  Background  -->
-    <color name="backgroundWhite">#FFFFFF</color>
-    <color name="backgroundWhiteDark">#AAD8D8D8</color>
+    <color name="white">#FFFFFF</color>
+    <color name="whiteDark">#AAD8D8D8</color>
+
+    <!--  Button  -->
+    <color name="green">#129609</color>
+    <color name="greenLight">#2ce320</color>
+
+    <color name="blue">#097f96</color>
+    <color name="blueLight">#28cbeb</color>
+
+    <color name="red">#ad1e0e</color>
+    <color name="redLight">#e3402d</color>
 
     <!--  Fonts  -->
     <color name="fontLight">#DDDDDD</color>

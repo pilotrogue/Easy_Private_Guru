@@ -17,20 +17,22 @@ import com.example.easyprivateguru.R;
 
 import java.util.ArrayList;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class MuridSayaRVAdapter extends RecyclerView.Adapter<MuridSayaRVAdapter.ViewHolder>{
     private Context mContext;
     private ArrayList<Pemesanan> pesanans= new ArrayList<>();
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         private TextView subtitle1, title, subtitle2;
-        private ImageView image;
+        private CircleImageView image;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             subtitle1 = itemView.findViewById(R.id.tvSubtitle1);
             title = itemView.findViewById(R.id.tvTitle);
             subtitle2 = itemView.findViewById(R.id.tvSubtitle2);
-            image = itemView.findViewById(R.id.ivPic);
+            image = itemView.findViewById(R.id.civPic);
         }
     }
 

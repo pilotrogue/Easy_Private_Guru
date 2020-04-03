@@ -27,6 +27,12 @@ public class User {
     @Expose
     @SerializedName("name")
     private String name;
+    @Expose
+    @SerializedName("no_handphone")
+    private String noHandphone;
+    @Expose
+    @SerializedName("avatar")
+    private String avatar;
 
     public List<Alamat> getAlamat() {
         return alamat;
@@ -54,6 +60,14 @@ public class User {
 
     public String getName() {
         return name;
+    }
+
+    public String getNoHandphone() {
+        return noHandphone;
+    }
+
+    public String getAvatar() {
+        return avatar;
     }
 
     public User(String name, String email, int role) {

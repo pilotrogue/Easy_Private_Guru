@@ -8,14 +8,15 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitClientInstance {
     private Retrofit retrofit;
-    private static final String BASE_URL = "http://192.168.1.27/easyprivate/public/api/";
+    private static final String BASE_URL = "http://192.168.1.28/easyprivate/public/";
+
     private String defaultTitle = "Tunggu sebentar ya!";
     private String defaultMessage = "Menyambungkan dengan server";
 
     public ApiInterface getApiInterface(){
         if(retrofit == null) {
             retrofit = new Retrofit.Builder()
-                    .baseUrl(BASE_URL)
+                    .baseUrl(BASE_URL+"api/")
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
         }

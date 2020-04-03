@@ -15,6 +15,13 @@
         android:layout_centerVertical="true"
         />
 
-
+    <Button
+        android:id="@+id/btnRetry"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/BtnTertiary"
+        android:text="Tekan untuk coba lagi"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"/>
 
 </RelativeLayout>

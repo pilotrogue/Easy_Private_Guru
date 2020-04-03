@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,20 +18,31 @@ import androidx.fragment.app.Fragment;
 import com.example.easyprivateguru.UserHelper;
 import com.example.easyprivateguru.activities.LoginActivity;
 import com.example.easyprivateguru.R;
+import com.example.easyprivateguru.models.User;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.PicassoProvider;
+import com.squareup.picasso.Target;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ProfilFragment extends Fragment {
-    TextView tvProfile;
-    Button btnSignOut;
-    GoogleSignInAccount account;
-    Context mContext;
+    private CircleImageView civPic;
+    private TextView tvEmail, tvName, tvRole, tvPemesananDiterima, tvPemesananAktif;
+    private RatingBar ratingBar;
 
-    UserHelper userHelper;
+    private Button btnSignOut;
+    private GoogleSignInAccount account;
+    private Context mContext;
+
+    private UserHelper userHelper;
+    private User currUser;
 
     @Nullable
     @Override
@@ -38,13 +50,7 @@ public class ProfilFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_profil, container, false);
 
         init(v);
-        account = GoogleSignIn.getLastSignedInAccount(mContext);
-
-        if(account != null){
-            tvProfile.setText("Email \t: "+account.getEmail()+"\n"+"Name \t: "+account.getDisplayName());
-        }else {
-            tvProfile.setText("No one signed in");
-        }
+        showProfile();
 
         btnSignOut.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,11 +63,42 @@ public class ProfilFragment extends Fragment {
     }
 
     private void init(View v){
-        tvProfile = v.findViewById(R.id.tvProfile);
-        btnSignOut = v.findViewById(R.id.btnSignOut);
         mContext = v.getContext();
-
         userHelper = new UserHelper(mContext);
+        currUser = userHelper.retrieveUser();
+        account = GoogleSignIn.getLastSignedInAccount(mContext);
+
+        civPic = v.findViewById(R.id.civProfilePic);
+
+        tvEmail = v.findViewById(R.id.tvEmail);
+        tvName = v.findViewById(R.id.tvName);
+        tvRole = v.findViewById(R.id.tvRole);
+        tvPemesananDiterima = v.findViewById(R.id.tvPemesananDiterima);
+        tvPemesananAktif = v.findViewById(R.id.tvPemesananAktif);
+
+        ratingBar = v.findViewById(R.id.rbRating);
+
+        btnSignOut = v.findViewById(R.id.btnSignOut);
+    }
+
+    private void showProfile(){
+        Picasso.get()
+                .load(currUser.getAvatar())
+                .placeholder(R.drawable.account_default)
+                .error(R.drawable.account_default)
+                .noFade()
+                .into(civPic);
+
+        tvEmail.setText(currUser.getEmail());
+        tvName.setText(currUser.getName());
+
+        int role = currUser.getRole();
+        if(role == 1){
+            tvRole.setText("Murid");
+        }else{
+            tvRole.setText("Guru");
+        }
+
     }
 
     private void signOut(){

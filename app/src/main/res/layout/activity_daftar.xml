@@ -17,20 +17,24 @@
         android:gravity="center_horizontal"
         android:textSize="@dimen/paragraph"/>
 
-    <Button
-        android:id="@+id/btnDaftar"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Daftar sekarang!"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@id/tvPesan"/>
+        android:layout_alignParentBottom="true">
+        <Button
+            android:id="@+id/btnGantiAkun"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="Ganti akun"
+            style="@style/BtnTertiary"/>
+        <Button
+            android:id="@+id/btnDaftar"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="Daftar sekarang!"
+            style="@style/BtnSubmit"/>
 
-    <Button
-        android:id="@+id/btnGantiAkun"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Gunakan akun lain"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@id/btnDaftar"/>
-
+    </LinearLayout>
 </RelativeLayout>
