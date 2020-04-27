@@ -4,9 +4,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -22,7 +24,7 @@ import com.example.easyprivateguru.R;
 
 public class HomeFragment extends Fragment {
 
-    private CardView cardJadwal, cardMuridSaya, cardPembayaran;
+    private LinearLayout llJadwal, llMuridSaya, llPembayaran;
     private Button btnShowQR;
 
     @Nullable
@@ -33,28 +35,28 @@ public class HomeFragment extends Fragment {
 
         init(v);
 
-        cardPembayaran.setOnClickListener(new View.OnClickListener() {
+        llPembayaran.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(mContext, "Pembayaran", Toast.LENGTH_LONG).show();
+//                Toast.makeText(mContext, "Pembayaran", Toast.LENGTH_LONG).show();
                 Intent i = new Intent(mContext, PembayaranActivity.class);
                 startActivity(i);
             }
         });
 
-        cardJadwal.setOnClickListener(new View.OnClickListener() {
+        llJadwal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(mContext, "Jadwal", Toast.LENGTH_LONG).show();
+//                Toast.makeText(mContext, "Jadwal", Toast.LENGTH_LONG).show();
                 Intent i = new Intent(mContext, JadwalActivity.class);
                 startActivity(i);
             }
         });
 
-        cardMuridSaya.setOnClickListener(new View.OnClickListener() {
+        llMuridSaya.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(mContext, "Murid Saya", Toast.LENGTH_LONG).show();
+//                Toast.makeText(mContext, "Murid Saya", Toast.LENGTH_LONG).show();
                 Intent i = new Intent(mContext, MuridSayaActivity.class);
                 startActivity(i);
             }
@@ -77,9 +79,9 @@ public class HomeFragment extends Fragment {
     }
 
     private void init(View v){
-        cardJadwal = v.findViewById(R.id.cardJadwal);
-        cardMuridSaya = v.findViewById(R.id.cardMuridSaya);
-        cardPembayaran = v.findViewById(R.id.cardPembayaran);
+        llPembayaran = v.findViewById(R.id.llPembayaran);
+        llJadwal = v.findViewById(R.id.llJadwal);
+        llMuridSaya = v.findViewById(R.id.llMuridSaya);
 
         btnShowQR = v.findViewById(R.id.btnShowQR);
         btnShowQR.setVisibility(View.GONE);

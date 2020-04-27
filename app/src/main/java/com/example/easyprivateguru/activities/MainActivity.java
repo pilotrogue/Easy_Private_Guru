@@ -6,8 +6,10 @@ import androidx.fragment.app.Fragment;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.example.easyprivateguru.UserHelper;
 import com.example.easyprivateguru.fragments.AbsenFragment;
@@ -23,6 +25,23 @@ public class MainActivity extends AppCompatActivity {
     private BottomNavigationView bnv;
     private UserHelper uh;
     private static final String TAG = "MainActivity";
+    private boolean backHasBeenPressed = false;
+
+    @Override
+    public void onBackPressed() {
+        if(backHasBeenPressed) {
+            super.onBackPressed();
+        }else{
+            Toast.makeText(this, "Tekan kembali untuk keluar", Toast.LENGTH_LONG).show();
+            backHasBeenPressed = true;
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    backHasBeenPressed = false;
+                }
+            }, 1500);
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

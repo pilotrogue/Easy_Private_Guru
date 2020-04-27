@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.DetailMuridActivity"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <fragment
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:id="@+id/fragMap"
+            android:name="com.google.android.gms.maps.SupportMapFragment" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/civProfilePic"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/account_default"
+            app:civ_border_width="4dp"
+            app:civ_border_color="@color/white"
+            android:layout_marginTop="150dp"
+            android:layout_marginLeft="@dimen/margin2"
+            android:layout_marginRight="@dimen/margin2"
+            android:scaleType="centerCrop"/>
+
+        <LinearLayout
+            android:id="@+id/llBtnNavigation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin2"
+            android:background="@drawable/background_white"
+            android:layout_alignParentRight="true"
+            android:layout_above="@id/llBtnNoTelp">
+
+            <ImageView
+                android:layout_margin="@dimen/margin2"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_navigation_black_24dp"
+                android:tint="@color/colorPrimary"/>
+
+            <TextView
+                android:layout_gravity="center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Arahkan saya"
+                android:layout_margin="@dimen/margin2"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llBtnNoTelp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin2"
+            android:background="@drawable/background_white"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/fragMap">
+
+            <ImageView
+                android:layout_margin="@dimen/margin2"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_local_phone_black_24dp"
+                android:tint="@color/colorPrimary"/>
+
+            <TextView
+                android:id="@+id/tvNoTelp"
+                android:layout_gravity="center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Hubungi 0123456789"
+                android:layout_margin="@dimen/margin2"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/padding1"
+            android:layout_below="@id/civProfilePic">
+
+            <!--        <TextView-->
+            <!--            android:id="@+id/title"-->
+            <!--            android:layout_alignParentTop="true"-->
+            <!--            android:layout_width="match_parent"-->
+            <!--            android:layout_height="wrap_content"-->
+            <!--            android:text="Detail Pemesanan"-->
+            <!--            android:textSize="@dimen/header1"-->
+            <!--            android:layout_margin="@dimen/margin2"/>-->
+
+            <TextView
+                android:id="@+id/tvNamaMurid"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Nama murid"
+                android:singleLine="true"
+                android:textSize="@dimen/header3"
+                android:layout_margin="@dimen/margin2"
+                android:textStyle="bold"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/padding1">
+
+                <ImageView
+                    android:id="@+id/ivLogoAlamat"
+                    android:layout_centerVertical="true"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_place_black_24dp"
+                    android:tint="@color/colorPrimary"
+                    android:layout_marginLeft="@dimen/margin1"
+                    android:layout_marginRight="@dimen/margin1"
+                    android:layout_alignParentLeft="true"/>
+
+                <TextView
+                    android:id="@+id/tvAlamatTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Deskripsi alamat"
+                    android:layout_toRightOf="@id/ivLogoAlamat"
+                    android:layout_marginRight="@dimen/margin2"
+                    android:textSize="@dimen/paragraph"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/tvAlamatMurid"
+                    android:layout_below="@id/tvAlamatTitle"
+                    android:layout_toRightOf="@id/ivLogoAlamat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Alamat"
+                    android:layout_marginRight="@dimen/margin2"
+                    android:textSize="@dimen/paragraph"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/padding1">
+
+                <ImageView
+                    android:id="@+id/ivLogoMapel"
+                    android:layout_centerVertical="true"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_local_library_black_24dp"
+                    android:tint="@color/colorPrimary"
+                    android:layout_marginLeft="@dimen/margin1"
+                    android:layout_marginRight="@dimen/margin1"
+                    android:layout_alignParentLeft="true"/>
+
+                <TextView
+                    android:id="@+id/tvMapelTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Mata Pelajaran"
+                    android:layout_toRightOf="@id/ivLogoMapel"
+                    android:layout_marginRight="@dimen/margin2"
+                    android:textSize="@dimen/paragraph"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/tvMapel"
+                    android:layout_below="@id/tvMapelTitle"
+                    android:layout_toRightOf="@id/ivLogoMapel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Mapel"
+                    android:layout_marginRight="@dimen/margin2"
+                    android:textSize="@dimen/paragraph"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/padding1">
+
+                <ImageView
+                    android:id="@+id/ivLogoJenjang"
+                    android:layout_centerVertical="true"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_school_black_24dp"
+                    android:tint="@color/colorPrimary"
+                    android:layout_marginLeft="@dimen/margin1"
+                    android:layout_marginRight="@dimen/margin1"
+                    android:layout_alignParentLeft="true"/>
+
+                <TextView
+                    android:id="@+id/tvJenjangTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Jenjang"
+                    android:layout_toRightOf="@id/ivLogoJenjang"
+                    android:layout_marginRight="@dimen/margin2"
+                    android:textSize="@dimen/paragraph"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/tvJenjang"
+                    android:layout_below="@id/tvJenjangTitle"
+                    android:layout_toRightOf="@id/ivLogoJenjang"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Jenjang"
+                    android:layout_marginRight="@dimen/margin2"
+                    android:textSize="@dimen/paragraph"/>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</ScrollView>

@@ -14,4 +14,7 @@
     <dimen name="header2">27sp</dimen>
     <dimen name="header3">18sp</dimen>
     <dimen name="paragraph">15sp</dimen>
+
+    <!--  CardView corner radius  -->
+    <dimen name="cornerRadius">10dp</dimen>
 </resources>

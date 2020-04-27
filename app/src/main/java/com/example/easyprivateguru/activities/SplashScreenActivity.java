@@ -26,7 +26,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class SplashScreenActivity extends AppCompatActivity {
-    GoogleSignInAccount account;
+    private GoogleSignInAccount account;
     private static final String TAG = "SplashScreenActivity";
 
     //API
@@ -88,26 +88,16 @@ public class SplashScreenActivity extends AppCompatActivity {
         call.enqueue(new Callback<Integer>() {
             @Override
             public void onResponse(Call<Integer> call, Response<Integer> response) {
-                Log.d(TAG, "onResponse: "+response.message());
+                Log.d(TAG, "onResponse: "+response.code()+response.message());
                 p.dismiss();
                 if(!response.isSuccessful()){
+                    Toast.makeText(SplashScreenActivity.this, response.code()+response.message(), Toast.LENGTH_LONG).show();
                     return;
                 }
 
                 int guruStatus = response.body();
                 if (guruStatus == 1){
-                    User u = userHelper.retrieveUser();
-                    if(u != null){
-                        if(u.getEmail() != emailStr){
-                            callGuru(emailStr);
-                        }
-                        else{
-                            Toast.makeText(SplashScreenActivity.this, "Selamat datang!", Toast.LENGTH_LONG).show();
-                            homeIntent();
-                        }
-                    }else{
-                        callGuru(emailStr);
-                    }
+                    callGuru(emailStr);
                 }else {
                     daftarIntent();
                 }

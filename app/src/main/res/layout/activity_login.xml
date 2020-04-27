@@ -12,7 +12,8 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:gravity="center"
-        android:layout_centerInParent="true">
+        android:layout_centerInParent="true"
+        android:layout_margin="50dp">
 
         <ImageView
             android:id="@+id/ivLogo"
@@ -38,22 +39,12 @@
             android:text="Guru"
             android:textSize="@dimen/paragraph"/>
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/llCommandRow1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:orientation="vertical"
-        android:layout_margin="50dp">
-
         <com.google.android.gms.common.SignInButton
             android:id="@+id/btn_sign_in"
-            android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:buttonSize="wide"
+            android:layout_marginTop="100dp"
             />
 
         <Button

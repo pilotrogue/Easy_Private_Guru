@@ -3,6 +3,10 @@ package com.example.easyprivateguru.api;
 import android.app.ProgressDialog;
 import android.content.Context;
 
+import com.example.easyprivateguru.R;
+import com.squareup.picasso.Picasso;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 

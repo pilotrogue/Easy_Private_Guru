@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.EditJadwalActivity"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/padding1"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Jadwal Saya"
+            android:textSize="@dimen/header1"
+            android:layout_margin="@dimen/margin2"/>
+
+        <CheckBox
+            android:id="@+id/cbSenin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Senin"/>
+
+        <CheckBox
+            android:id="@+id/cbSelasa"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Selasa"/>
+
+        <CheckBox
+            android:id="@+id/cbRabu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Rabu"/>
+        <CheckBox
+            android:id="@+id/cbKamis"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Kamis"/>
+        <CheckBox
+            android:id="@+id/cbJumat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Jum'at"/>
+        <CheckBox
+            android:id="@+id/cbSabtu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Sabtu"/>
+        <CheckBox
+            android:id="@+id/cbMinggu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Minggu"/>
+
+    </LinearLayout>
+
+</ScrollView>

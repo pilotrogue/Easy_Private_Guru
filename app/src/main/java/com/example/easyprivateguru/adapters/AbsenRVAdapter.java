@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.easyprivateguru.UserHelper;
 import com.example.easyprivateguru.models.Absen;
 import com.example.easyprivateguru.models.Pemesanan;
 import com.example.easyprivateguru.models.User;
@@ -28,6 +29,7 @@ import static androidx.constraintlayout.widget.Constraints.TAG;
 public class AbsenRVAdapter extends RecyclerView.Adapter<AbsenRVAdapter.ViewHolder>{
     private Context mContext;
     private ArrayList<Absen> absens = new ArrayList<>();
+    private UserHelper userHelper;
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         TextView subtitle1, title, subtitle2;
@@ -46,6 +48,7 @@ public class AbsenRVAdapter extends RecyclerView.Adapter<AbsenRVAdapter.ViewHold
     public AbsenRVAdapter(Context mContext, ArrayList<Absen> absens) {
         this.mContext = mContext;
         this.absens = absens;
+        this.userHelper = new UserHelper(mContext);
         Log.d(TAG, "AbsenRVAdapter: absens.size: "+absens.size());
     }
 
@@ -63,30 +66,11 @@ public class AbsenRVAdapter extends RecyclerView.Adapter<AbsenRVAdapter.ViewHold
         User guru = p.getGuru();
         User murid = p.getMurid();
 
-        Picasso.get()
-                .load(murid.getAvatar())
-                .placeholder(R.drawable.account_default)
-                .error(R.drawable.account_default)
-                .noFade()
-                .into(holder.image);
-
+        userHelper.putIntoImage(murid.getAvatar(), holder.image);
         holder.title.setText(murid.getName());
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        try{
-            Date date = sdf.parse(a.getWaktuAbsen());
-
-            sdf.applyPattern("dd MMMM yyyy");
-            String tanggal = sdf.format(date);
-
-            sdf.applyPattern("HH:mm");
-            String waktu = sdf.format(date);
-
-            holder.subtitle1.setText(tanggal+", "+waktu);
-        }catch (ParseException e){
-            Log.d(TAG, "onBindViewHolder: "+e.getMessage());
-            holder.subtitle1.setText("Error");
-        }
+        String dateStr = reformatDate(a.getWaktuAbsen());
+        holder.subtitle1.setText(dateStr);
 
         holder.subtitle2.setText(p.getMataPelajaran().getNamaMapel());
     }
@@ -94,5 +78,23 @@ public class AbsenRVAdapter extends RecyclerView.Adapter<AbsenRVAdapter.ViewHold
     @Override
     public int getItemCount() {
         return absens.size();
+    }
+
+    private String reformatDate(String dateStr){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        try{
+            Date date = sdf.parse(dateStr);
+
+            sdf.applyPattern("dd MMMM yyyy");
+            String tanggal = sdf.format(date);
+
+            sdf.applyPattern("HH:mm");
+            String waktu = sdf.format(date);
+
+            return tanggal+", "+waktu;
+        }catch (ParseException e){
+            Log.d(TAG, "reformatDate: "+ e.getMessage());
+            return "Error";
+        }
     }
 }

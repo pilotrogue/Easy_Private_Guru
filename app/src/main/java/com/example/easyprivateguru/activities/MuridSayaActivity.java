@@ -4,10 +4,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.example.easyprivateguru.DummyGenerator;
+import com.example.easyprivateguru.UserHelper;
 import com.example.easyprivateguru.adapters.MuridSayaRVAdapter;
+import com.example.easyprivateguru.api.ApiInterface;
+import com.example.easyprivateguru.api.RetrofitClientInstance;
 import com.example.easyprivateguru.models.Jenjang;
 import com.example.easyprivateguru.models.MataPelajaran;
 import com.example.easyprivateguru.models.Pemesanan;
@@ -16,8 +21,20 @@ import com.example.easyprivateguru.R;
 
 import java.util.ArrayList;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class MuridSayaActivity extends AppCompatActivity {
-    RecyclerView rvMuridSaya;
+    private RecyclerView rvMuridSaya;
+    private ArrayList<Pemesanan> pemesanans = new ArrayList<>();
+    private RetrofitClientInstance rci = new RetrofitClientInstance();
+    private ApiInterface apiInterface = rci.getApiInterface();
+
+    private UserHelper userHelper;
+    private User currUser;
+
+    private static final String TAG = "MuridSayaActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,38 +42,45 @@ public class MuridSayaActivity extends AppCompatActivity {
         setContentView(R.layout.activity_murid_saya);
 
         init();
-        DummyGenerator dg = new DummyGenerator();
-        MuridSayaRVAdapter adapter = new MuridSayaRVAdapter(this, dg.getPesananDummy());
-        rvMuridSaya.setAdapter(adapter);
-        rvMuridSaya.setLayoutManager(new LinearLayoutManager(this));
+        callPemesanans();
     }
 
     private void init(){
+        Log.d(TAG, "init: called");
         rvMuridSaya = findViewById(R.id.rvMuridSaya);
+        userHelper = new UserHelper(this);
+        currUser = userHelper.retrieveUser();
     }
 
-//    private ArrayList<Pemesanan> getPesananDummy(){
-//        User user1 = new User("Lala", "lala@email.com", "Jakarta Barat", 1);
-//        User user2 = new User("Lulu", "lulu@email.com", "Jakarta Utara", 1);
-//        User user3 = new User("Lili", "lili@email.com", "Jakarta Timur", 1);
-//        User user4 = new User("Rega", "rega@email.com", "Jakarta Pusat", 2);
-//
-//        Jenjang j1 = new Jenjang("SD", 200000, 75000);
-//
-//        MataPelajaran m1 = new MataPelajaran("Matematika", j1);
-//        MataPelajaran m2 = new MataPelajaran("IPA", j1);
-//        MataPelajaran m3 = new MataPelajaran("Bahasa Inggris", j1);
-//
-//        Pemesanan p1 = new Pemesanan(user1, user4, m1);
-//        Pemesanan p2 = new Pemesanan(user2, user4, m2);
-//        Pemesanan p3 = new Pemesanan(user3, user4, m3);
-//
-//        ArrayList<Pemesanan> pesanans = new ArrayList<>();
-//
-//        pesanans.add(p1);
-//        pesanans.add(p2);
-//        pesanans.add(p3);
-//
-//        return pesanans;
-//    }
+    private void callPemesanans(){
+        Call<ArrayList<Pemesanan>> call = apiInterface.getPemesananFiltered(null, currUser.getId(), null, null);
+        ProgressDialog progressDialog = rci.getProgressDialog(this, "Menampilkan murid Anda");
+        progressDialog.show();
+        call.enqueue(new Callback<ArrayList<Pemesanan>>() {
+            @Override
+            public void onResponse(Call<ArrayList<Pemesanan>> call, Response<ArrayList<Pemesanan>> response) {
+                Log.d(TAG, "onResponse: "+response.message());
+                progressDialog.dismiss();
+                if(!response.isSuccessful()){
+                    return;
+                }
+
+                pemesanans = response.body();
+                retrievePemesanans();
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<Pemesanan>> call, Throwable t) {
+                Log.d(TAG, "onFailure: "+t.getMessage());
+                progressDialog.dismiss();
+                return;
+            }
+        });
+    }
+
+    private void retrievePemesanans(){
+        MuridSayaRVAdapter adapter = new MuridSayaRVAdapter(this, pemesanans);
+        rvMuridSaya.setAdapter(adapter);
+        rvMuridSaya.setLayoutManager(new LinearLayoutManager(this));
+    }
 }

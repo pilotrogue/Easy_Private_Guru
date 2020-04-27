@@ -11,32 +11,38 @@
     <style name="BtnPrimary" parent="Widget.AppCompat.Button.Colored">
         <item name="android:textColor">@color/fontLight</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:background">@color/blue</item>
-
+        <item name="android:background">@drawable/button_primary</item>
     </style>
 
     <style name="BtnSecondary" parent="Widget.AppCompat.Button.Colored">
         <item name="android:textColor">@color/fontDark</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:background">@color/white</item>
+        <item name="android:background">@drawable/button_secondary</item>
     </style>
 
     <style name="BtnTertiary" parent="Widget.AppCompat.Button.Colored">
-        <item name="android:textColor">@color/blue</item>
+        <item name="android:textColor">@drawable/button_tertiary_text</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:background"></item>
+        <item name="android:background">@drawable/button_tertiary</item>
     </style>
 
     <style name="BtnSubmit" parent="Widget.AppCompat.Button.Colored">
         <item name="android:textColor">@color/fontLight</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:background">@color/green</item>
+        <item name="android:background">@drawable/button_submit</item>
     </style>
 
     <style name="BtnDanger" parent="Widget.AppCompat.Button.Colored">
-        <item name="android:textColor">@color/redLight</item>
+        <item name="android:textColor">@drawable/button_danger_text</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:background"></item>
+        <item name="android:background">@drawable/button_tertiary</item>
+        <item name="android:minWidth">200dp</item>
+    </style>
+
+    <style name="BtnWarning" parent="Widget.AppCompat.Button.Colored">
+        <item name="android:textColor">@drawable/button_warning_text</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:background">@drawable/button_tertiary</item>
         <item name="android:minWidth">200dp</item>
     </style>
 

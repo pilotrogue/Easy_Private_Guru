@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.easyprivateguru.R;
@@ -31,7 +32,8 @@ public class DaftarActivity extends AppCompatActivity {
     private ApiInterface apiInterface = rci.getApiInterface();
     private static final String TAG = "DaftarActivity";
 
-    Button btnDaftar, btnGantiAkun;
+    private TextView tvGreeting;
+    private Button btnDaftar, btnGantiAkun;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +41,8 @@ public class DaftarActivity extends AppCompatActivity {
         setContentView(R.layout.activity_daftar);
 
         init();
+
+        tvGreeting.setText("Halo, "+account.getDisplayName()+"!");
 
         btnGantiAkun.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -51,6 +55,9 @@ public class DaftarActivity extends AppCompatActivity {
     private void init(){
         btnDaftar = findViewById(R.id.btnDaftar);
         btnGantiAkun = findViewById(R.id.btnGantiAkun);
+        tvGreeting = findViewById(R.id.tvGreetings);
+
+        account = GoogleSignIn.getLastSignedInAccount(DaftarActivity.this);
     }
 
     private void signOut(){

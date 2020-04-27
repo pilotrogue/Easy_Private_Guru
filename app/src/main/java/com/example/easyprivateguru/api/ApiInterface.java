@@ -7,11 +7,16 @@ import com.example.easyprivateguru.models.User;
 
 import java.util.ArrayList;
 
+import okhttp3.MultipartBody;
+import okhttp3.Request;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.Path;
 
 public interface ApiInterface {
@@ -27,6 +32,16 @@ public interface ApiInterface {
     @POST("user/guru")
     Call<User> getGuru(
             @Field("email") String email
+    );
+
+    //Edit guru
+    @Multipart
+    @POST("user/guru/update")
+    Call<User> editGuru(
+            @Part("id") RequestBody id,
+            @Part("name") RequestBody name,
+            @Part("no_handphone") RequestBody noTelp,
+            @Part MultipartBody.Part image
     );
 
     @FormUrlEncoded
@@ -59,10 +74,26 @@ public interface ApiInterface {
             @Field("status") int status
     );
 
+    //Get pemesanan dengan filter
+    @FormUrlEncoded
+    @POST("pemesanan/filter")
+    Call<ArrayList<Pemesanan>> getPemesananFiltered(
+            @Field("id_pemesanan") Integer idPemesanan,
+            @Field("id_guru") Integer idGuru,
+            @Field("id_murid") Integer idMurid,
+            @Field("status") Integer status
+    );
+
     //Get absen berdasarkan id guru
     @GET("absen/guru/{id}")
     Call<ArrayList<Absen>> getAbsenByIdGuru(
             @Path("id") int idGuru
+    );
+
+    //Get jadwal ajar berdasarkan id
+    @GET("jadwalAjar/{id}")
+    Call<JadwalAjar> getJadwalAjarById(
+            @Path("id_jadwal_ajar") int id
     );
 
     //Get jadwal ajar berdasarkan id guru

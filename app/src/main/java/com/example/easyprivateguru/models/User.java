@@ -8,7 +8,7 @@ import java.util.List;
 public class User {
     @Expose
     @SerializedName("alamat")
-    private List<Alamat> alamat;
+    private Alamat alamat;
     @Expose
     @SerializedName("id")
     private int id;
@@ -34,7 +34,7 @@ public class User {
     @SerializedName("avatar")
     private String avatar;
 
-    public List<Alamat> getAlamat() {
+    public Alamat getAlamat() {
         return alamat;
     }
 
@@ -74,5 +74,17 @@ public class User {
         this.name = name;
         this.email = email;
         this.role = role;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setNoHandphone(String noHandphone) {
+        this.noHandphone = noHandphone;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 }

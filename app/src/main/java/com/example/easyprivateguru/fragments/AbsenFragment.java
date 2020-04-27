@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -42,7 +43,7 @@ public class AbsenFragment extends Fragment {
     private ArrayList<Absen> absens = new ArrayList<>();
 
     private RecyclerView rvAbsen;
-    private CardView cvBtnQRScanner;
+    private LinearLayout llBtnScanner;
 
     private Context mContext;
 
@@ -78,7 +79,7 @@ public class AbsenFragment extends Fragment {
         init(v);
         callAbsen();
 
-        cvBtnQRScanner.setOnClickListener(new View.OnClickListener() {
+        llBtnScanner.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(mContext, QRScannerActivity.class);
@@ -91,7 +92,7 @@ public class AbsenFragment extends Fragment {
 
     private void init(View v){
         rvAbsen = v.findViewById(R.id.rvAbsen);
-        cvBtnQRScanner = v.findViewById(R.id.cvBtnQRScanner);
+        llBtnScanner = v.findViewById(R.id.llBtnQRScanner);
 
         userHelper = new UserHelper(mContext);
         currUser = userHelper.retrieveUser();

@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -25,7 +24,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
-import com.google.gson.Gson;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -102,6 +100,7 @@ public class LoginActivity extends AppCompatActivity {
         btnDaftar = findViewById(R.id.btnDaftar);
     }
 
+    //Membuka website pendaftaran
     private void signUp(){
         Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(rci.getBaseUrl()+"login/"));
         startActivity(i);
@@ -127,7 +126,7 @@ public class LoginActivity extends AppCompatActivity {
                 guruValidation(emailStr);
             }catch (ApiException e){
                 //Jaga jaga kalo ada yang error
-                Log.v(TAG, e.getMessage());
+                e.printStackTrace();
 
                 //Kalo error nya hanya karena user menekan tombol back, tidak akan muncul toast
                 if(e.getStatusCode() != 12501) {
@@ -152,11 +151,17 @@ public class LoginActivity extends AppCompatActivity {
                     return;
                 }
 
-                int guruStatus = response.body();
-                if (guruStatus == 1){
-                    callGuru(emailStr);
-                }else {
-                    daftarIntent();
+                int guruStatus;
+
+                try {
+                    guruStatus = response.body();
+                    if (guruStatus == 1){
+                        callGuru(emailStr);
+                    }else {
+                        daftarIntent();
+                    }
+                }catch (NullPointerException e) {
+                    e.printStackTrace();
                 }
             }
 

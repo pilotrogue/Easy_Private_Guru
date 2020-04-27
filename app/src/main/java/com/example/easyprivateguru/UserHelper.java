@@ -9,10 +9,15 @@ import com.example.easyprivateguru.api.RetrofitClientInstance;
 import com.example.easyprivateguru.models.Absen;
 import com.example.easyprivateguru.models.User;
 import com.google.gson.Gson;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 import static androidx.constraintlayout.widget.Constraints.TAG;
 
 public class UserHelper {
+    private static final String TAG = "UserHelper";
     private Context mContext;
     private SharedPreferences preferences;
 
@@ -66,6 +71,41 @@ public class UserHelper {
             Log.d(TAG, "jsonToAbsen: "+t.getMessage());
             return null;
         }
+    }
+
+    public void putIntoImage(String avatarStr, CircleImageView civ){
+        Picasso.get()
+                .load(avatarStr)
+                .placeholder(R.drawable.account_default)
+                .error(R.drawable.account_default)
+                .noFade()
+                .into(civ, new Callback() {
+                    @Override
+                    public void onSuccess() {
+
+                    }
+
+                    @Override
+                    public void onError(Exception e) {
+                        e.printStackTrace();
+                        String avatarStrAlt = modifyAvatarStr(avatarStr);
+                        putIntoImageAlt(avatarStrAlt, civ);
+                    }
+                });
+    }
+
+    public void putIntoImageAlt(String avatarStr, CircleImageView civ){
+        Picasso.get()
+                .load(avatarStr)
+                .placeholder(R.drawable.account_default)
+                .error(R.drawable.account_default)
+                .noFade()
+                .into(civ);
+    }
+
+    public String modifyAvatarStr(String avatarStr){
+        avatarStr = rci.getBaseUrl() + "assets/avatars/" + avatarStr;
+        return avatarStr;
     }
 
     public static String getUserTag() {

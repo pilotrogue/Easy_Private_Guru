@@ -15,11 +15,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <FrameLayout
-                android:id="@+id/flMaps"
+<!--            <FrameLayout-->
+<!--                android:id="@+id/flMaps"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="200dp"-->
+<!--                android:background="@color/whiteDark"/>-->
+
+            <fragment
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
-                android:background="@color/whiteDark"/>
+                android:id="@+id/fragMap"
+                android:name="com.google.android.gms.maps.SupportMapFragment" />
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/civProfilePic"
@@ -32,6 +38,61 @@
                 android:layout_marginLeft="@dimen/margin2"
                 android:layout_marginRight="@dimen/margin2"
                 android:scaleType="centerCrop"/>
+
+            <LinearLayout
+                android:id="@+id/llBtnNavigation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin2"
+                android:background="@drawable/background_white"
+                android:layout_alignParentRight="true"
+                android:layout_above="@id/llBtnNoTelp"
+                android:visibility="invisible"
+                >
+
+                <ImageView
+                    android:layout_margin="@dimen/margin2"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_navigation_black_24dp"
+                    android:tint="@color/colorPrimary"/>
+
+                <TextView
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Arahkan saya"
+                    android:layout_margin="@dimen/margin2"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llBtnNoTelp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin2"
+                android:background="@drawable/background_white"
+                android:layout_alignParentRight="true"
+                android:layout_below="@id/fragMap"
+                android:visibility="invisible"
+                >
+
+                <ImageView
+                    android:layout_margin="@dimen/margin2"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_local_phone_black_24dp"
+                    android:tint="@color/colorPrimary"/>
+
+                <TextView
+                    android:id="@+id/tvNoTelp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Hubungi 0123456789"
+                    android:layout_margin="@dimen/margin2"/>
+
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -53,7 +114,7 @@
                     android:id="@+id/tvNamaMurid"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Muhammad Rafi Nugroho"
+                    android:text="Nama murid"
                     android:singleLine="true"
                     android:textSize="@dimen/header3"
                     android:layout_margin="@dimen/margin2"
@@ -91,7 +152,7 @@
                         android:layout_toRightOf="@id/ivLogoAlamat"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Jl. Pandawa, RT/RW 009/013"
+                        android:text="Alamat"
                         android:layout_marginRight="@dimen/margin2"
                         android:textSize="@dimen/paragraph"/>
 
@@ -129,7 +190,7 @@
                         android:layout_toRightOf="@id/ivLogoMapel"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Matematika"
+                        android:text="Mapel"
                         android:layout_marginRight="@dimen/margin2"
                         android:textSize="@dimen/paragraph"/>
 
@@ -167,7 +228,7 @@
                         android:layout_toRightOf="@id/ivLogoJenjang"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="SD"
+                        android:text="Jenjang"
                         android:layout_marginRight="@dimen/margin2"
                         android:textSize="@dimen/paragraph"/>
 
@@ -205,7 +266,7 @@
                         android:layout_toRightOf="@id/ivLogoStatus"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Menunggu konfirmasi"
+                        android:text="Status"
                         android:layout_marginRight="@dimen/margin2"
                         android:textSize="@dimen/paragraph"/>
 

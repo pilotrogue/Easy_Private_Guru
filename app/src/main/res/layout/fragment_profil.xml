@@ -31,24 +31,13 @@
 
                 <ImageView
                     android:id="@+id/ivEdit"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
                     android:src="@drawable/ic_settings_black_24dp"
                     android:tint="@color/white"
                     android:layout_margin="@dimen/margin2"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentTop="true"/>
-
-
-<!--                <ImageView-->
-<!--                    android:id="@+id/ivProfilePic"-->
-<!--                    android:layout_margin="@dimen/margin2"-->
-<!--                    android:layout_width="100dp"-->
-<!--                    android:layout_height="100dp"-->
-<!--                    android:layout_centerHorizontal="true"-->
-<!--                    android:layout_below="@id/llTopBar"-->
-<!--                    android:background="@color/colorPrimary"-->
-<!--                    />-->
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/civProfilePic"
@@ -65,7 +54,7 @@
                     android:id="@+id/tvEmail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="mrafiapex96@gmail.com"
+                    android:text="someone@email.com"
                     android:textSize="@dimen/paragraph"
                     android:gravity="center"
                     android:textAlignment="center"
@@ -83,7 +72,7 @@
                     android:layout_marginLeft="@dimen/margin2"
                     android:layout_marginRight="@dimen/margin2"
                     android:layout_below="@id/tvEmail"
-                    android:text="Muhammad Rafi Nugroho"
+                    android:text="My name right here"
                     android:textSize="@dimen/header3"
                     android:textAlignment="center"
                     android:gravity="center"
@@ -93,7 +82,7 @@
                     android:id="@+id/tvRole"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Guru"
+                    android:text="My role right here"
                     android:textSize="@dimen/paragraph"
                     android:gravity="center"
                     android:textAlignment="center"
@@ -119,15 +108,17 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:rating="4.5"
-                    android:progressTint="@color/colorAccent"
+                    android:progressTint="@color/gold"
                     android:layout_below="@id/tvRole"
-                    android:layout_centerHorizontal="true"/>
+                    android:layout_centerHorizontal="true"
+                    android:isIndicator="true"
+                    />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="Excellent!"
+                    android:text="My rating right here"
                     android:textSize="@dimen/paragraph"
                     android:textColor="@color/white"/>
 
@@ -210,8 +201,9 @@
             </RelativeLayout>
 
             <Button
+                android:layout_gravity="center_horizontal"
                 android:id="@+id/btnSignOut"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Sign out"
                 style="@style/BtnDanger"/>

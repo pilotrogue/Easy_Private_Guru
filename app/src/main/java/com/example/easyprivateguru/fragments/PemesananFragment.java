@@ -89,8 +89,7 @@ public class PemesananFragment extends Fragment {
     }
 
     private void callPemesanans(){
-        Call<ArrayList<Pemesanan>> call = apiInterface.getPemesananByIdGuru(currUser.getId());
-
+        Call<ArrayList<Pemesanan>> call = apiInterface.getPemesananFiltered(null, currUser.getId(), null, null);
         ProgressDialog p = rci.getProgressDialog(mContext, "Menampilkan pesanan kamu");
         p.show();
 

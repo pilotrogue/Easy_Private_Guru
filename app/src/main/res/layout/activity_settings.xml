@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.SettingsActivity"
+    android:orientation="vertical"
+    android:background="@color/whiteDark">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_margin="@dimen/margin2">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_alignParentTop="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Pengaturan"
+            android:textSize="@dimen/header1"
+            android:padding="@dimen/padding1"/>
+
+        <LinearLayout
+            android:id="@+id/llProfil"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="@dimen/padding1"
+            android:gravity="center_vertical"
+            android:background="@drawable/background_white"
+            android:layout_margin="@dimen/margin2">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_person_black_24dp"
+                android:layout_margin="@dimen/margin2"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Profil saya"
+                android:textSize="@dimen/paragraph"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llJadwal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="@dimen/padding1"
+            android:gravity="center_vertical"
+            android:background="@drawable/background_white"
+            android:layout_margin="@dimen/margin2">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_list_black_24dp"
+                android:layout_margin="@dimen/margin2"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Jadwal saya"
+                android:textSize="@dimen/paragraph"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</ScrollView>
