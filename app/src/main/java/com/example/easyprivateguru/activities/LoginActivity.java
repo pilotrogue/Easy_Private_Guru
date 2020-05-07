@@ -64,7 +64,7 @@ public class LoginActivity extends AppCompatActivity {
         client = GoogleSignIn.getClient(this, gso);
 
         if(account != null){
-            guruValidation(account.getEmail());
+            callGuru(account.getEmail());
         }
     }
 
@@ -123,7 +123,7 @@ public class LoginActivity extends AppCompatActivity {
             try {
                 account = task.getResult(ApiException.class);
                 String emailStr = account.getEmail();
-                guruValidation(emailStr);
+                callGuru(emailStr);
             }catch (ApiException e){
                 //Jaga jaga kalo ada yang error
                 e.printStackTrace();
@@ -193,7 +193,13 @@ public class LoginActivity extends AppCompatActivity {
                 userHelper.storeUser(u);
 
                 Toast.makeText(LoginActivity.this, "Selamat datang!", Toast.LENGTH_LONG).show();
-                homeIntent();
+                if(u.getRole() == 2) {
+                    Log.d(TAG, "onResponse: role: Guru sudah terdaftar");
+                    homeIntent();
+                }else{
+                    Log.d(TAG, "onResponse: role: Guru belum terdaftar");
+                    daftarIntent();
+                }
             }
 
             @Override

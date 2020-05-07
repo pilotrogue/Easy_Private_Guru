@@ -51,7 +51,7 @@ public class SplashScreenActivity extends AppCompatActivity {
             @Override
             public void run() {
                 if(account!=null){
-                    guruValidation(account.getEmail());
+                    callGuru(account.getEmail());
                 }else{
                     Intent i = new Intent(SplashScreenActivity.this, LoginActivity.class);
                     startActivity(i);
@@ -65,7 +65,7 @@ public class SplashScreenActivity extends AppCompatActivity {
             public void onClick(View v) {
                 btnRetry.setVisibility(View.GONE);
                 if(account!=null){
-                    guruValidation(account.getEmail());
+                    callGuru(account.getEmail());
                 }else{
                     Intent i = new Intent(SplashScreenActivity.this, LoginActivity.class);
                     startActivity(i);

@@ -62,52 +62,6 @@ public class UserHelper {
         }
     }
 
-    public Absen jsonToAbsen(String absenJsonStr){
-        Gson gson = new Gson();
-        try {
-            Absen absen = gson.fromJson(absenJsonStr, Absen.class);
-            return absen;
-        }catch (Throwable t){
-            Log.d(TAG, "jsonToAbsen: "+t.getMessage());
-            return null;
-        }
-    }
-
-    public void putIntoImage(String avatarStr, CircleImageView civ){
-        Picasso.get()
-                .load(avatarStr)
-                .placeholder(R.drawable.account_default)
-                .error(R.drawable.account_default)
-                .noFade()
-                .into(civ, new Callback() {
-                    @Override
-                    public void onSuccess() {
-
-                    }
-
-                    @Override
-                    public void onError(Exception e) {
-                        e.printStackTrace();
-                        String avatarStrAlt = modifyAvatarStr(avatarStr);
-                        putIntoImageAlt(avatarStrAlt, civ);
-                    }
-                });
-    }
-
-    public void putIntoImageAlt(String avatarStr, CircleImageView civ){
-        Picasso.get()
-                .load(avatarStr)
-                .placeholder(R.drawable.account_default)
-                .error(R.drawable.account_default)
-                .noFade()
-                .into(civ);
-    }
-
-    public String modifyAvatarStr(String avatarStr){
-        avatarStr = rci.getBaseUrl() + "assets/avatars/" + avatarStr;
-        return avatarStr;
-    }
-
     public static String getUserTag() {
         return TAG_USER;
     }

@@ -3,18 +3,23 @@ package com.example.easyprivateguru.models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
-
 public class User {
+
     @Expose
     @SerializedName("alamat")
     private Alamat alamat;
     @Expose
-    @SerializedName("id")
-    private int id;
+    @SerializedName("updated_at")
+    private String updatedAt;
+    @Expose
+    @SerializedName("created_at")
+    private String createdAt;
     @Expose
     @SerializedName("role")
     private int role;
+    @Expose
+    @SerializedName("no_handphone")
+    private String noHandphone;
     @Expose
     @SerializedName("tanggal_lahir")
     private String tanggalLahir;
@@ -28,22 +33,30 @@ public class User {
     @SerializedName("name")
     private String name;
     @Expose
-    @SerializedName("no_handphone")
-    private String noHandphone;
-    @Expose
     @SerializedName("avatar")
     private String avatar;
+    @Expose
+    @SerializedName("id")
+    private int id;
 
     public Alamat getAlamat() {
         return alamat;
     }
 
-    public int getId() {
-        return id;
+    public String getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public String getCreatedAt() {
+        return createdAt;
     }
 
     public int getRole() {
         return role;
+    }
+
+    public String getNoHandphone() {
+        return noHandphone;
     }
 
     public String getTanggalLahir() {
@@ -62,29 +75,11 @@ public class User {
         return name;
     }
 
-    public String getNoHandphone() {
-        return noHandphone;
-    }
-
     public String getAvatar() {
         return avatar;
     }
 
-    public User(String name, String email, int role) {
-        this.name = name;
-        this.email = email;
-        this.role = role;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setNoHandphone(String noHandphone) {
-        this.noHandphone = noHandphone;
-    }
-
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
+    public int getId() {
+        return id;
     }
 }

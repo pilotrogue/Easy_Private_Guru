@@ -5,14 +5,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.location.Address;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.CpuUsageInfo;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.easyprivateguru.CustomUtility;
 import com.example.easyprivateguru.R;
 import com.example.easyprivateguru.UserHelper;
 import com.example.easyprivateguru.api.ApiInterface;
@@ -36,6 +39,7 @@ import retrofit2.Response;
 public class DetailMuridActivity extends AppCompatActivity {
     private Intent currIntent;
     private UserHelper userHelper;
+    private CustomUtility customUtility;
     private RetrofitClientInstance rci = new RetrofitClientInstance();
     private ApiInterface apiInterface = rci.getApiInterface();
     private Pemesanan currPemesanan;
@@ -66,6 +70,7 @@ public class DetailMuridActivity extends AppCompatActivity {
 
     private void init(){
         userHelper = new UserHelper(this);
+        customUtility = new CustomUtility(this);
         currIntent = getIntent();
 
         civProfilePic = findViewById(R.id.civProfilePic);
@@ -168,10 +173,9 @@ public class DetailMuridActivity extends AppCompatActivity {
         mapMoveCamera(muridLocation);
 
         //Menampilkan profile picture
-        userHelper.putIntoImage(murid.getAvatar(), civProfilePic);
+        customUtility.putIntoImage(murid.getAvatar(), civProfilePic);
 
         //Menampilkan nomor telepon pada button
-        tvNoTelp.setText("Hubungi "+murid.getNoHandphone());
         llBtnNoTelp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -183,7 +187,16 @@ public class DetailMuridActivity extends AppCompatActivity {
         tvNamaMurid.setText(murid.getName());
 
         //Menampilkan alamat
-        tvAlamatMurid.setText(murid.getAlamat().getAlamatLengkap());
+        Address address = customUtility.getAddress(currAlamat.getLatitude(), currAlamat.getLongitude());
+
+        String alamatStr = "";
+        if(address == null){
+            alamatStr = currAlamat.getAlamatLengkap();
+        }else{
+            alamatStr = address.getLocality() + ", " + address.getSubLocality() + ", "+address.getSubAdminArea();
+        }
+        Log.d(TAG, "retrievePemesanan: alamatStr: "+alamatStr);
+        tvAlamatMurid.setText(alamatStr);
 
         //Menampilkan mata pelajaran dan jenjang
         MataPelajaran mapel = pemesanan.getMataPelajaran();

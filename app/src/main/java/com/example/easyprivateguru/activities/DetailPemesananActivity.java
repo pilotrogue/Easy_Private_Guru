@@ -5,12 +5,15 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Address;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
@@ -22,11 +25,15 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.easyprivateguru.CustomUtility;
 import com.example.easyprivateguru.R;
 import com.example.easyprivateguru.UserHelper;
+import com.example.easyprivateguru.adapters.HariJamRVAdapter;
 import com.example.easyprivateguru.api.ApiInterface;
 import com.example.easyprivateguru.api.RetrofitClientInstance;
 import com.example.easyprivateguru.models.Alamat;
+import com.example.easyprivateguru.models.JadwalAvailable;
+import com.example.easyprivateguru.models.JadwalPemesananPerminggu;
 import com.example.easyprivateguru.models.MataPelajaran;
 import com.example.easyprivateguru.models.Pemesanan;
 import com.example.easyprivateguru.models.User;
@@ -41,15 +48,23 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static androidx.constraintlayout.widget.Constraints.TAG;
+
 public class DetailPemesananActivity extends AppCompatActivity{
     private RetrofitClientInstance rci = new RetrofitClientInstance();
     private ApiInterface apiInterface = rci.getApiInterface();
     private UserHelper userHelper;
+    private CustomUtility customUtility;
     private Intent currIntent;
     private Pemesanan currPemesanan;
     private boolean mLocationPermission = false;
@@ -59,6 +74,9 @@ public class DetailPemesananActivity extends AppCompatActivity{
     private Button btnTerima, btnTolak;
     private GoogleMap gMap;
     private LinearLayout llCommandRow, llBtnNoTelp, llBtnNavigation;
+    private RecyclerView rvHariJam;
+
+    private static final String DIRECTION_URI_STR = "https://www.google.com/maps/dir/?api=1&destination=";
 
     private static final String TAG = "DetailPemesananActivity";
     private static final int DEFAULT_MAP_ZOOM = 10;
@@ -87,12 +105,15 @@ public class DetailPemesananActivity extends AppCompatActivity{
     private void init(){
         Log.d(TAG, "init: called");
         userHelper = new UserHelper(this);
+        customUtility = new CustomUtility(this);
 
         currIntent = getIntent();
 
         civProfilePic = findViewById(R.id.civProfilePic);
         llBtnNoTelp = findViewById(R.id.llBtnNoTelp);
         llBtnNavigation = findViewById(R.id.llBtnNavigation);
+
+        rvHariJam = findViewById(R.id.rvHariJam);
 
         tvNoTelp = findViewById(R.id.tvNoTelp);
         tvNamaMurid = findViewById(R.id.tvNamaMurid);
@@ -235,10 +256,9 @@ public class DetailPemesananActivity extends AppCompatActivity{
         mapMoveCamera(muridLocation);
 
         //Menampilkan profile picture
-        userHelper.putIntoImage(murid.getAvatar(), civProfilePic);
+        customUtility.putIntoImage(murid.getAvatar(), civProfilePic);
 
         //Menampilkan nomor telepon pada button
-        tvNoTelp.setText("Hubungi "+murid.getNoHandphone());
         llBtnNoTelp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -250,7 +270,26 @@ public class DetailPemesananActivity extends AppCompatActivity{
         tvNamaMurid.setText(murid.getName());
 
         //Menampilkan alamat
-        tvAlamatMurid.setText(murid.getAlamat().getAlamatLengkap());
+        Address address = customUtility.getAddress(currAlamat.getLatitude(), currAlamat.getLongitude());
+
+        String alamatStr = "";
+        if(address == null){
+            alamatStr = currAlamat.getAlamatLengkap();
+        }else{
+            alamatStr = address.getLocality() + ", " + address.getSubLocality() + ", "+address.getSubAdminArea();
+        }
+        tvAlamatMurid.setText(alamatStr);
+
+        //Menampilkan jadwal
+        ArrayList<JadwalAvailable> jadwalAvailable = new ArrayList<>();
+        for(int i = 0; i < pemesanan.getJadwalPemesananPerminggu().size(); i++){
+            JadwalAvailable ja = pemesanan.getJadwalPemesananPerminggu().get(i).getJadwalAvailable();
+            jadwalAvailable.add(ja);
+        }
+
+        HariJamRVAdapter hariJamRVAdapter = new HariJamRVAdapter(this, jadwalAvailable);
+        rvHariJam.setAdapter(hariJamRVAdapter);
+        rvHariJam.setLayoutManager(new LinearLayoutManager(this));
 
         //Menampilkan mata pelajaran dan jenjang
         MataPelajaran mapel = pemesanan.getMataPelajaran();
@@ -360,7 +399,7 @@ public class DetailPemesananActivity extends AppCompatActivity{
     }
 
     private void openDirections(LatLng latLng){
-        String directionUriStr = "https://www.google.com/maps/dir/?api=1&destination="+latLng.latitude+","+latLng.longitude;
+        String directionUriStr = DIRECTION_URI_STR + latLng.latitude + "," + latLng.longitude;
         Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(directionUriStr));
         startActivity(i);
     }

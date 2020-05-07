@@ -2,6 +2,7 @@ package com.example.easyprivateguru.api;
 
 import com.example.easyprivateguru.models.Absen;
 import com.example.easyprivateguru.models.JadwalAjar;
+import com.example.easyprivateguru.models.JadwalPemesananPerminggu;
 import com.example.easyprivateguru.models.Pemesanan;
 import com.example.easyprivateguru.models.User;
 
@@ -100,5 +101,20 @@ public interface ApiInterface {
     @GET("jadwalAjar/guru/{id}")
     Call<ArrayList<JadwalAjar>> getJadwalAjarByIdGuru(
             @Path("id") int idGuru
+    );
+
+    //Get jadwal pemesanan perminggu
+    @FormUrlEncoded
+    @POST("pemesanan/jadwal/filter")
+    Call<ArrayList<JadwalPemesananPerminggu>> getJadwalPemesananPerminggu(
+            @Field("id_pemesanan") Integer idPemesanan,
+            @Field("id_guru") Integer idGuru,
+            @Field("status_pemesanan") Integer statusPemesanan
+    );
+
+    //Get jadwal pemesanan perminggu berdasarkan id
+    @GET("pemesanan/jadwal/{id}")
+    Call<JadwalPemesananPerminggu> getJadwalPemesananPermingguById(
+            @Path("id") int id
     );
 }

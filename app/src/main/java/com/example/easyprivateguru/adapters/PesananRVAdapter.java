@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.location.Address;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,8 +18,10 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.easyprivateguru.CustomUtility;
 import com.example.easyprivateguru.UserHelper;
 import com.example.easyprivateguru.activities.DetailPemesananActivity;
+import com.example.easyprivateguru.models.Alamat;
 import com.example.easyprivateguru.models.MataPelajaran;
 import com.example.easyprivateguru.models.Pemesanan;
 import com.example.easyprivateguru.models.User;
@@ -76,11 +79,24 @@ public class PesananRVAdapter extends RecyclerView.Adapter<PesananRVAdapter.View
         User murid = p.getMurid();
         MataPelajaran mataPelajaran = p.getMataPelajaran();
 
-        userHelper.putIntoImage(murid.getAvatar(), holder.image);
+        CustomUtility customUtility = new CustomUtility(mContext);
+
+        customUtility.putIntoImage(murid.getAvatar(), holder.image);
 
         holder.title.setText(murid.getName());
-        holder.subtitle1.setText(murid.getAlamat().getAlamatLengkap());
-        holder.subtitle2.setText(mataPelajaran.getNamaMapel());
+
+        Alamat currAlamat = murid.getAlamat();
+        Address address = customUtility.getAddress(currAlamat.getLatitude(), currAlamat.getLongitude());
+
+        String alamatStr = "";
+        if(address == null){
+            alamatStr = currAlamat.getAlamatLengkap();
+        }else{
+            alamatStr = address.getSubLocality()+", "+address.getLocality()+", "+address.getSubAdminArea()+", "+address.getAdminArea()+", "+address.getCountryName();
+        }
+
+        holder.subtitle1.setText(mataPelajaran.getNamaMapel() + ", " +"Kelas "+p.getKelas());
+        holder.subtitle2.setText(alamatStr);
         holder.subtitle3.setVisibility(View.VISIBLE);
 
         holder.rvCardItem.setOnClickListener(new View.OnClickListener() {
@@ -97,17 +113,17 @@ public class PesananRVAdapter extends RecyclerView.Adapter<PesananRVAdapter.View
             case 0:
                 holder.subtitle3.setText("Pemesanan baru");
                 holder.subtitle3.setTextColor(mContext.getResources().getColor(R.color.white));
-                holder.subtitle3.setBackgroundColor(mContext.getResources().getColor(R.color.yellow));
+                holder.subtitle3.setBackgroundResource(R.drawable.background_yellow);
                 break;
             case 1:
-                holder.subtitle3.setText("Pemesanan diterima");
+                holder.subtitle3.setText("Pemesanan aktif");
                 holder.subtitle3.setTextColor(mContext.getResources().getColor(R.color.white));
-                holder.subtitle3.setBackgroundColor(mContext.getResources().getColor(R.color.green));
+                holder.subtitle3.setBackgroundResource(R.drawable.background_green);
                 break;
             case 2:
                 holder.subtitle3.setText("Pemesanan ditolak");
                 holder.subtitle3.setTextColor(mContext.getResources().getColor(R.color.white));
-                holder.subtitle3.setBackgroundColor(mContext.getResources().getColor(R.color.red));
+                holder.subtitle3.setBackgroundResource(R.drawable.background_red);
                 holder.rvCardItem.setOnClickListener(null);
                 break;
             case 3:

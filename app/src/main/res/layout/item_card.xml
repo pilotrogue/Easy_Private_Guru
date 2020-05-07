@@ -3,16 +3,42 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/rvItem"
-    android:layout_marginBottom="@dimen/margin2"
+    android:layout_marginBottom="@dimen/margin1"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@drawable/background_white">
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/rlBigTitle"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/tvBigTitle"
+            android:text="Big Title"
+            android:textSize="@dimen/header3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/margin2"
+            android:textStyle="bold"
+            />
+
+        <View
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/tvBigTitle"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/colorPrimary"/>
+
+    </RelativeLayout>
 
     <LinearLayout
+        android:layout_below="@id/rlBigTitle"
         android:id="@+id/llBody"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:background="@drawable/background_white">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/civPic"

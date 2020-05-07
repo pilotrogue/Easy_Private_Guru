@@ -2,6 +2,7 @@ package com.example.easyprivateguru.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.location.Address;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,8 +15,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.easyprivateguru.CustomUtility;
 import com.example.easyprivateguru.UserHelper;
 import com.example.easyprivateguru.activities.DetailMuridActivity;
+import com.example.easyprivateguru.models.Alamat;
 import com.example.easyprivateguru.models.MataPelajaran;
 import com.example.easyprivateguru.models.Pemesanan;
 import com.example.easyprivateguru.models.User;
@@ -71,10 +74,27 @@ public class MuridSayaRVAdapter extends RecyclerView.Adapter<MuridSayaRVAdapter.
         User murid = pesanan.getMurid();
         MataPelajaran mataPelajaran = pesanan.getMataPelajaran();
 
-        userHelper.putIntoImage(murid.getAvatar(), holder.image);
+        CustomUtility customUtility = new CustomUtility(mContext);
+
+        customUtility.putIntoImage(murid.getAvatar(), holder.image);
         holder.title.setText(murid.getName());
-        holder.subtitle1.setText(murid.getAlamat().getAlamatLengkap());
-        holder.subtitle2.setText(mataPelajaran.getJenjang().getNamaJenjang());
+
+        Alamat currAlamat = murid.getAlamat();
+        Address address = customUtility.getAddress(currAlamat.getLatitude(), currAlamat.getLongitude());
+
+        String alamatStr = "";
+        if(address == null){
+            alamatStr = currAlamat.getAlamatLengkap();
+        }else{
+            alamatStr = address.getLocality() + ", " + address.getSubLocality() + ", "+address.getSubAdminArea();
+        }
+
+        holder.subtitle1.setText(alamatStr);
+        holder.subtitle2.setText(mataPelajaran.getNamaMapel()+ " " + "Kelas "+pesanan.getKelas());
+        holder.subtitle3.setVisibility(View.VISIBLE);
+        holder.subtitle3.setText("Tekan untuk info lengkap");
+        holder.subtitle3.setTextColor(mContext.getResources().getColor(R.color.fontDark));
+        holder.subtitle3.setBackgroundColor(mContext.getResources().getColor(R.color.whiteDark));
 
         holder.rvItem.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,23 +109,5 @@ public class MuridSayaRVAdapter extends RecyclerView.Adapter<MuridSayaRVAdapter.
     @Override
     public int getItemCount() {
         return pesanans.size();
-    }
-
-    private String reformatDate(String dateStr){
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        try{
-            Date date = sdf.parse(dateStr);
-
-            sdf.applyPattern("dd MMMM yyyy");
-            String tanggal = sdf.format(date);
-
-            sdf.applyPattern("HH:mm");
-            String waktu = sdf.format(date);
-
-            return tanggal+", "+waktu;
-        }catch (ParseException e){
-            Log.d(TAG, "reformatDate: "+ e.getMessage());
-            return "Error";
-        }
     }
 }

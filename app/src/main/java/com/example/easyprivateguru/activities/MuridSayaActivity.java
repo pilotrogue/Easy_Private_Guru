@@ -8,13 +8,10 @@ import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.example.easyprivateguru.DummyGenerator;
 import com.example.easyprivateguru.UserHelper;
 import com.example.easyprivateguru.adapters.MuridSayaRVAdapter;
 import com.example.easyprivateguru.api.ApiInterface;
 import com.example.easyprivateguru.api.RetrofitClientInstance;
-import com.example.easyprivateguru.models.Jenjang;
-import com.example.easyprivateguru.models.MataPelajaran;
 import com.example.easyprivateguru.models.Pemesanan;
 import com.example.easyprivateguru.models.User;
 import com.example.easyprivateguru.R;
@@ -53,7 +50,7 @@ public class MuridSayaActivity extends AppCompatActivity {
     }
 
     private void callPemesanans(){
-        Call<ArrayList<Pemesanan>> call = apiInterface.getPemesananFiltered(null, currUser.getId(), null, null);
+        Call<ArrayList<Pemesanan>> call = apiInterface.getPemesananFiltered(null, currUser.getId(), null, 1);
         ProgressDialog progressDialog = rci.getProgressDialog(this, "Menampilkan murid Anda");
         progressDialog.show();
         call.enqueue(new Callback<ArrayList<Pemesanan>>() {

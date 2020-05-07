@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.easyprivateguru.CustomUtility;
 import com.example.easyprivateguru.UserHelper;
 import com.example.easyprivateguru.models.Absen;
 import com.example.easyprivateguru.models.Pemesanan;
@@ -66,10 +67,12 @@ public class AbsenRVAdapter extends RecyclerView.Adapter<AbsenRVAdapter.ViewHold
         User guru = p.getGuru();
         User murid = p.getMurid();
 
-        userHelper.putIntoImage(murid.getAvatar(), holder.image);
+        CustomUtility customUtility = new CustomUtility(mContext);
+
+        customUtility.putIntoImage(murid.getAvatar(), holder.image);
         holder.title.setText(murid.getName());
 
-        String dateStr = reformatDate(a.getWaktuAbsen());
+        String dateStr = customUtility.reformatDateTime(a.getWaktuAbsen(), "yyyy-MM-dd HH:mm:ss", "dd MMMM yyyy, HH:mm");
         holder.subtitle1.setText(dateStr);
 
         holder.subtitle2.setText(p.getMataPelajaran().getNamaMapel());
@@ -78,23 +81,5 @@ public class AbsenRVAdapter extends RecyclerView.Adapter<AbsenRVAdapter.ViewHold
     @Override
     public int getItemCount() {
         return absens.size();
-    }
-
-    private String reformatDate(String dateStr){
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        try{
-            Date date = sdf.parse(dateStr);
-
-            sdf.applyPattern("dd MMMM yyyy");
-            String tanggal = sdf.format(date);
-
-            sdf.applyPattern("HH:mm");
-            String waktu = sdf.format(date);
-
-            return tanggal+", "+waktu;
-        }catch (ParseException e){
-            Log.d(TAG, "reformatDate: "+ e.getMessage());
-            return "Error";
-        }
     }
 }

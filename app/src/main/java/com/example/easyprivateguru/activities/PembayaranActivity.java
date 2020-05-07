@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 
 import com.example.easyprivateguru.adapters.PembayaranRVAdapter;
-import com.example.easyprivateguru.DummyGenerator;
 import com.example.easyprivateguru.R;
 
 public class PembayaranActivity extends AppCompatActivity {
@@ -19,12 +18,6 @@ public class PembayaranActivity extends AppCompatActivity {
         setContentView(R.layout.activity_pembayaran);
 
         init();
-
-        DummyGenerator dg = new DummyGenerator();
-        PembayaranRVAdapter adapter = new PembayaranRVAdapter(this, dg.getPembayaranDummy());
-
-        rvPembayaran.setAdapter(adapter);
-        rvPembayaran.setLayoutManager(new LinearLayoutManager(this));
     }
 
     private void init(){

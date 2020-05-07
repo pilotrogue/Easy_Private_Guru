@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.location.Address;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,12 +13,14 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.easyprivateguru.CustomUtility;
 import com.example.easyprivateguru.R;
 import com.example.easyprivateguru.UserHelper;
 import com.example.easyprivateguru.api.ApiInterface;
 import com.example.easyprivateguru.api.RetrofitClientInstance;
 import com.example.easyprivateguru.models.Alamat;
 import com.example.easyprivateguru.models.JadwalAjar;
+import com.example.easyprivateguru.models.JadwalPemesananPerminggu;
 import com.example.easyprivateguru.models.MataPelajaran;
 import com.example.easyprivateguru.models.Pemesanan;
 import com.example.easyprivateguru.models.User;
@@ -30,6 +33,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -42,9 +46,10 @@ import static androidx.constraintlayout.widget.Constraints.TAG;
 public class DetailJadwalActivity extends AppCompatActivity {
     private Intent currIntent;
     private UserHelper userHelper;
+    private CustomUtility customUtility;
     private RetrofitClientInstance rci = new RetrofitClientInstance();
     private ApiInterface apiInterface = rci.getApiInterface();
-    private JadwalAjar currJadwalAjar;
+    private JadwalPemesananPerminggu currJadwalPemesananPerminggu;
 
     private boolean mLocationPermission = false;
 
@@ -67,13 +72,14 @@ public class DetailJadwalActivity extends AppCompatActivity {
         init();
 
         Intent currIntent = getIntent();
-        int idJadwalAjar = currIntent.getIntExtra("idJadwalAjar", 0);
+        int idJadwalPemesananPerminggu = currIntent.getIntExtra("idJadwalPemesananPerminggu", 0);
 
-        callJadwalById(idJadwalAjar);
+        callJadwalPemesananPerminggu(idJadwalPemesananPerminggu);
     }
 
     private void init(){
         userHelper = new UserHelper(this);
+        customUtility = new CustomUtility(this);
         currIntent = getIntent();
 
         civProfilePic = findViewById(R.id.civProfilePic);
@@ -102,27 +108,88 @@ public class DetailJadwalActivity extends AppCompatActivity {
         });
     }
 
-    private void callJadwalById(int id){
-        Call<JadwalAjar> call = apiInterface.getJadwalAjarById(id);
-        ProgressDialog progressDialog = rci.getProgressDialog(this, "Menampilkan jadwal Anda");
-        progressDialog.show();
-        call.enqueue(new Callback<JadwalAjar>() {
+    private void callJadwalPemesananPerminggu(int id){
+        Call<JadwalPemesananPerminggu> call = apiInterface.getJadwalPemesananPermingguById(id);
+        ProgressDialog progressDialog = rci.getProgressDialog(this, "Menampilkan jadwal...");
+        call.enqueue(new Callback<JadwalPemesananPerminggu>() {
             @Override
-            public void onResponse(Call<JadwalAjar> call, Response<JadwalAjar> response) {
+            public void onResponse(Call<JadwalPemesananPerminggu> call, Response<JadwalPemesananPerminggu> response) {
                 Log.d(TAG, "onResponse: "+response.message());
                 if(!response.isSuccessful()){
                     return;
                 }
-                currJadwalAjar = response.body();
-                retrieveJadwalAjar();
+
+                currJadwalPemesananPerminggu = response.body();
+                retrieveJadwalPemesananPerminggu();
             }
 
             @Override
-            public void onFailure(Call<JadwalAjar> call, Throwable t) {
+            public void onFailure(Call<JadwalPemesananPerminggu> call, Throwable t) {
                 Log.d(TAG, "onFailure: "+t.getMessage());
-                return;
+                t.printStackTrace();
             }
         });
+    }
+
+    private void retrieveJadwalPemesananPerminggu(){
+        Pemesanan pemesanan = currJadwalPemesananPerminggu.getPemesanan();
+        User murid = pemesanan.getMurid();
+
+        //Menampilkan alamat pada Google Map
+        Alamat currAlamat = murid.getAlamat();
+        LatLng muridLocation = new LatLng(currAlamat.getLatitude(), currAlamat.getLongitude());
+
+        if(pemesanan.getStatus() != 1){
+            llBtnNavigation.setVisibility(View.INVISIBLE);
+            llBtnNoTelp.setVisibility(View.INVISIBLE);
+        }
+
+        llBtnNavigation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openDirections(muridLocation);
+            }
+        });
+
+        mapAddMarker(muridLocation, currAlamat.getAlamatLengkap());
+        mapMoveCamera(muridLocation);
+
+        //Menampilkan profile picture
+        customUtility.putIntoImage(murid.getAvatar(), civProfilePic);
+
+        //Menampilkan nomor telepon pada button
+        llBtnNoTelp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openPhone(murid.getNoHandphone());
+            }
+        });
+
+        //Menampilkan nama
+        tvNamaMurid.setText(murid.getName());
+
+        //Menampilkan alamat
+        Address address = customUtility.getAddress(currAlamat.getLatitude(), currAlamat.getLongitude());
+
+        String alamatStr = "";
+        if(address == null){
+            alamatStr = currAlamat.getAlamatLengkap();
+        }else{
+            alamatStr = address.getLocality() + ", " + address.getSubLocality() + ", "+address.getSubAdminArea();
+        }
+
+        tvAlamatMurid.setText(alamatStr);
+
+        //Menampilkan waktu ajar
+        String startStr = customUtility.reformatDateTime(currJadwalPemesananPerminggu.getJadwalAvailable().getStart(), "yyyy-MM-dd HH:mm:ss", "EEEE, dd MMMM yyyy");
+        String endStr = customUtility.reformatDateTime(currJadwalPemesananPerminggu.getJadwalAvailable().getEnd(), "yyyy-MM-dd HH:mm:ss", "EEEE, dd MMMM yyyy");
+        String timeStr = "Hari "+currJadwalPemesananPerminggu.getJadwalAvailable().getHari()+", "+startStr + " s/d " + endStr;
+        tvWaktuBelajar.setText(timeStr);
+
+        //Menampilkan mata pelajaran dan jenjang
+        MataPelajaran mapel = pemesanan.getMataPelajaran();
+        tvMapel.setText(mapel.getNamaMapel());
+        tvJenjang.setText(mapel.getJenjang().getNamaJenjang());
     }
 
     private void openPhone(String phoneNumber){
@@ -152,73 +219,5 @@ public class DetailJadwalActivity extends AppCompatActivity {
     private void mapAddMarker(LatLng latLng, String locationNameStr){
         //Menambahkan pin merah
         gMap.addMarker(new MarkerOptions().position(latLng).title(locationNameStr));
-    }
-
-    private void retrieveJadwalAjar(){
-        User murid = currJadwalAjar.getPemesanan().getMurid();
-        Pemesanan pemesanan = currJadwalAjar.getPemesanan();
-
-        //Menampilkan alamat pada Google Map
-        Alamat currAlamat = murid.getAlamat();
-        LatLng muridLocation = new LatLng(currAlamat.getLatitude(), currAlamat.getLongitude());
-
-        if(pemesanan.getStatus() != 1){
-            llBtnNavigation.setVisibility(View.INVISIBLE);
-            llBtnNoTelp.setVisibility(View.INVISIBLE);
-        }
-
-        llBtnNavigation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openDirections(muridLocation);
-            }
-        });
-
-        mapAddMarker(muridLocation, currAlamat.getAlamatLengkap());
-        mapMoveCamera(muridLocation);
-
-        //Menampilkan profile picture
-        userHelper.putIntoImage(murid.getAvatar(), civProfilePic);
-
-        //Menampilkan nomor telepon pada button
-        tvNoTelp.setText("Hubungi "+murid.getNoHandphone());
-        llBtnNoTelp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openPhone(murid.getNoHandphone());
-            }
-        });
-
-        //Menampilkan nama
-        tvNamaMurid.setText(murid.getName());
-
-        //Menampilkan alamat
-        tvAlamatMurid.setText(murid.getAlamat().getAlamatLengkap());
-
-        //Menampilkan waktu ajar
-        tvWaktuBelajar.setText(reformatDate(currJadwalAjar.getWaktuAjar()));
-
-        //Menampilkan mata pelajaran dan jenjang
-        MataPelajaran mapel = pemesanan.getMataPelajaran();
-        tvMapel.setText(mapel.getNamaMapel());
-        tvJenjang.setText(mapel.getJenjang().getNamaJenjang());
-    }
-
-    private String reformatDate(String dateStr){
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        try{
-            Date date = sdf.parse(dateStr);
-
-            sdf.applyPattern("EEEE, dd MMMM yyyy");
-            String tanggal = sdf.format(date);
-
-            sdf.applyPattern("HH:mm");
-            String waktu = sdf.format(date);
-
-            return tanggal+", "+waktu;
-        }catch (ParseException e){
-            Log.d(TAG, "reformatDate: "+ e.getMessage());
-            return "Error";
-        }
     }
 }

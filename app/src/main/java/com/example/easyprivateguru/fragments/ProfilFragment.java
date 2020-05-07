@@ -22,6 +22,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
+import com.example.easyprivateguru.CustomUtility;
 import com.example.easyprivateguru.UserHelper;
 import com.example.easyprivateguru.activities.LoginActivity;
 import com.example.easyprivateguru.R;
@@ -49,6 +50,7 @@ public class ProfilFragment extends Fragment {
     private Context mContext;
 
     private UserHelper userHelper;
+    private CustomUtility customUtility;
     private User currUser;
 
     @Nullable
@@ -80,6 +82,8 @@ public class ProfilFragment extends Fragment {
     private void init(View v){
         mContext = v.getContext();
         userHelper = new UserHelper(mContext);
+        customUtility = new CustomUtility(mContext);
+
         currUser = userHelper.retrieveUser();
         account = GoogleSignIn.getLastSignedInAccount(mContext);
         Log.d(TAG, "init: profile Uri: "+account.getPhotoUrl().toString());
@@ -100,7 +104,7 @@ public class ProfilFragment extends Fragment {
     }
 
     private void showProfile(){
-        userHelper.putIntoImage(currUser.getAvatar(), civPic);
+        customUtility.putIntoImage(currUser.getAvatar(), civPic);
         tvEmail.setText(currUser.getEmail());
         tvName.setText(currUser.getName());
 

@@ -29,6 +29,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.easyprivateguru.BuildConfig;
+import com.example.easyprivateguru.CustomUtility;
 import com.example.easyprivateguru.R;
 import com.example.easyprivateguru.UserHelper;
 import com.example.easyprivateguru.api.ApiInterface;
@@ -59,6 +60,7 @@ public class EditProfileActivity extends AppCompatActivity {
     private RetrofitClientInstance rci = new RetrofitClientInstance();
     private ApiInterface apiInterface = rci.getApiInterface();
     private UserHelper userHelper;
+    private CustomUtility customUtility;
 
     private EditText etName, etTelp;
     private CircleImageView civProfilePic;
@@ -139,6 +141,7 @@ public class EditProfileActivity extends AppCompatActivity {
 
     private void init(){
         userHelper = new UserHelper(this);
+        customUtility = new CustomUtility(this);
         currUser = userHelper.retrieveUser();
 
         civProfilePic = findViewById(R.id.civPic);
@@ -150,7 +153,7 @@ public class EditProfileActivity extends AppCompatActivity {
 
         btnSubmit = findViewById(R.id.btnSubmit);
 
-        userHelper.putIntoImage(currUser.getAvatar(), civProfilePic);
+        customUtility.putIntoImage(currUser.getAvatar(), civProfilePic);
         etName.setText(currUser.getName());
         etTelp.setText(currUser.getNoHandphone());
 

@@ -13,10 +13,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.easyprivateguru.CustomUtility;
 import com.example.easyprivateguru.R;
 import com.example.easyprivateguru.UserHelper;
 import com.example.easyprivateguru.activities.DetailJadwalActivity;
 import com.example.easyprivateguru.models.JadwalAjar;
+import com.example.easyprivateguru.models.JadwalPemesananPerminggu;
 import com.example.easyprivateguru.models.User;
 import com.squareup.picasso.Picasso;
 
@@ -31,18 +33,22 @@ import static androidx.constraintlayout.widget.Constraints.TAG;
 
 public class JadwalRVAdapter extends RecyclerView.Adapter<JadwalRVAdapter.ViewHolder>{
     private Context mContext;
-    private ArrayList<JadwalAjar> jadwalAjars = new ArrayList<>();
+    private ArrayList<JadwalPemesananPerminggu> jadwalPemesananPermingguArrayList = new ArrayList<>();
     private UserHelper userHelper;
 
     public class ViewHolder extends RecyclerView.ViewHolder{
-        TextView title, subtitle1, subtitle2, subtitle3;
-        RelativeLayout rvItem;
+        TextView bigTitle, title, subtitle1, subtitle2, subtitle3;
+        RelativeLayout rvItem, rlBigTitle;
         CircleImageView image;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             rvItem = itemView.findViewById(R.id.rvItem);
+            rlBigTitle = itemView.findViewById(R.id.rlBigTitle);
+
+            bigTitle = itemView.findViewById(R.id.tvBigTitle);
+
             image = itemView.findViewById(R.id.civPic);
 
             title = itemView.findViewById(R.id.tvTitle);
@@ -52,9 +58,9 @@ public class JadwalRVAdapter extends RecyclerView.Adapter<JadwalRVAdapter.ViewHo
         }
     }
 
-    public JadwalRVAdapter(Context mContext, ArrayList<JadwalAjar> jadwalAjars) {
+    public JadwalRVAdapter(Context mContext, ArrayList<JadwalPemesananPerminggu> jadwalPemesananPermingguArrayList) {
         this.mContext = mContext;
-        this.jadwalAjars = jadwalAjars;
+        this.jadwalPemesananPermingguArrayList = jadwalPemesananPermingguArrayList;
         this.userHelper = new UserHelper(mContext);
     }
 
@@ -67,20 +73,40 @@ public class JadwalRVAdapter extends RecyclerView.Adapter<JadwalRVAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        JadwalAjar j = jadwalAjars.get(position);
-        Log.d(TAG, "onBindViewHolder: eventId: "+j.getIdJadwalAjar());
+        JadwalPemesananPerminggu j = jadwalPemesananPermingguArrayList.get(position);
+        Log.d(TAG, "onBindViewHolder: id jadwal pemesanan perminggu: "+j.getIdJadwalPemesananPerminggu());
 
-        userHelper.putIntoImage(j.getPemesanan().getMurid().getAvatar(), holder.image);
+        //Menampilkan hari
+        if(position > 0){
+            JadwalPemesananPerminggu jx = jadwalPemesananPermingguArrayList.get(position - 1);
+            if(!jx.getJadwalAvailable().getHari().equals(j.getJadwalAvailable().getHari())){
+                holder.rlBigTitle.setVisibility(View.VISIBLE);
+                holder.bigTitle.setText(j.getJadwalAvailable().getHari());
+            }
+        }else if(position == 0){
+            holder.rlBigTitle.setVisibility(View.VISIBLE);
+            holder.bigTitle.setText(j.getJadwalAvailable().getHari());
+        }
+        CustomUtility cu = new CustomUtility(mContext);
+        cu.putIntoImage(j.getPemesanan().getMurid().getAvatar(), holder.image);
 
         holder.title.setText(j.getPemesanan().getMurid().getName());
-        holder.subtitle1.setText(reformatDate(j.getWaktuAjar()));
-        holder.subtitle2.setText(j.getPemesanan().getMataPelajaran().getNamaMapel());
+
+        String jamStartStr = cu.reformatDateTime(j.getJadwalAvailable().getStart(), "HH:mm:ss", "HH:mm");
+        String jamEndStr = cu.reformatDateTime(j.getJadwalAvailable().getEnd(), "HH:mm:ss", "HH:mm");
+
+        holder.subtitle1.setText(j.getJadwalAvailable().getHari() + ", " + jamStartStr + " s/d " + jamEndStr);
+        holder.subtitle2.setText(j.getPemesanan().getMataPelajaran().getNamaMapel() + " Kelas "+j.getPemesanan().getKelas());
+        holder.subtitle3.setVisibility(View.VISIBLE);
+        holder.subtitle3.setText("Tekan untuk info lengkap");
+        holder.subtitle3.setTextColor(mContext.getResources().getColor(R.color.fontDark));
+        holder.subtitle3.setBackgroundColor(mContext.getResources().getColor(R.color.whiteDark));
 
         holder.rvItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(mContext, DetailJadwalActivity.class);
-                i.putExtra("idJadwalAjar", j.getIdJadwalAjar());
+                i.putExtra("idJadwalPemesananPerminggu", j.getIdJadwalPemesananPerminggu());
                 mContext.startActivity(i);
             }
         });
@@ -88,24 +114,6 @@ public class JadwalRVAdapter extends RecyclerView.Adapter<JadwalRVAdapter.ViewHo
 
     @Override
     public int getItemCount() {
-        return jadwalAjars.size();
-    }
-
-    private String reformatDate(String dateStr){
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        try{
-            Date date = sdf.parse(dateStr);
-
-            sdf.applyPattern("dd MMMM yyyy");
-            String tanggal = sdf.format(date);
-
-            sdf.applyPattern("HH:mm");
-            String waktu = sdf.format(date);
-
-            return tanggal+", "+waktu;
-        }catch (ParseException e){
-            Log.d(TAG, "reformatDate: "+ e.getMessage());
-            return "Error";
-        }
+        return jadwalPemesananPermingguArrayList.size();
     }
 }

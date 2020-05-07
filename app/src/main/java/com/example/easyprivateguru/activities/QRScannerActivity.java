@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.easyprivateguru.CustomUtility;
 import com.example.easyprivateguru.UserHelper;
 import com.example.easyprivateguru.api.ApiInterface;
 import com.example.easyprivateguru.api.RetrofitClientInstance;
@@ -20,6 +21,7 @@ public class QRScannerActivity extends AppCompatActivity {
     private ApiInterface apiInterface = rci.getApiInterface();
 
     private UserHelper userHelper;
+    private CustomUtility customUtility;
 
     private static final String TAG = "QRScannerActivity";
 
@@ -55,10 +57,11 @@ public class QRScannerActivity extends AppCompatActivity {
 
     private void init(){
         userHelper = new UserHelper(this);
+        customUtility = new CustomUtility(this);
     }
 
     private void retrieveAbsen(String absenJsonStr){
-        Absen currAbsen = userHelper.jsonToAbsen(absenJsonStr);
+        Absen currAbsen = customUtility.jsonToAbsen(absenJsonStr);
         //Jika qr code valid
         if(currAbsen!=null){
             Log.d(TAG, "retrieveAbsen: id_absen: "+currAbsen.getIdAbsen());
