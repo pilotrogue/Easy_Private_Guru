@@ -12,15 +12,19 @@
     <!--  Button  -->
     <color name="green">#129609</color>
     <color name="greenLight">#2ce320</color>
+    <color name="greenDark">#0f6309</color>
 
-    <color name="blue">#097f96</color>
-    <color name="blueLight">#28cbeb</color>
+    <color name="blue">#007DD3</color>
+    <color name="blueLight">#02b8fa</color>
+    <color name="blueDark">#004979</color>
 
     <color name="red">#ad1e0e</color>
     <color name="redLight">#e3402d</color>
+    <color name="redDark">#631209</color>
 
     <color name="yellow">#fcba03</color>
     <color name="yellowLight">#fff130</color>
+    <color name="yellowDark">#b88b0f</color>
 
     <!--  Fonts  -->
     <color name="fontLight">#DDDDDD</color>

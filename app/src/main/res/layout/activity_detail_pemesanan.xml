@@ -7,9 +7,10 @@
     tools:context=".activities.DetailPemesananActivity">
 
     <ScrollView
+        android:id="@+id/svMain"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/llCommandRow">
+        android:layout_above="@id/llWarning">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -51,7 +52,7 @@
                 >
 
                 <ImageView
-                    android:layout_margin="@dimen/margin2"
+                    android:layout_margin="@dimen/padding2"
                     android:layout_width="18dp"
                     android:layout_height="18dp"
                     android:src="@drawable/ic_navigation_black_24dp"
@@ -63,7 +64,7 @@
                     android:layout_height="wrap_content"
                     android:text="Arahkan saya"
                     android:textSize="@dimen/paragraph"
-                    android:layout_margin="@dimen/margin2"/>
+                    android:layout_margin="@dimen/padding2"/>
 
             </LinearLayout>
 
@@ -79,7 +80,7 @@
                 >
 
                 <ImageView
-                    android:layout_margin="@dimen/margin2"
+                    android:layout_margin="@dimen/padding2"
                     android:layout_width="18dp"
                     android:layout_height="18dp"
                     android:src="@drawable/ic_local_phone_black_24dp"
@@ -92,7 +93,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/paragraph"
                     android:text="Hubungi murid"
-                    android:layout_margin="@dimen/margin2"/>
+                    android:layout_margin="@dimen/padding2"/>
 
             </LinearLayout>
 
@@ -186,9 +187,18 @@
                         android:textStyle="bold"/>
 
                     <androidx.recyclerview.widget.RecyclerView
+                        android:visibility="gone"
                         android:id="@+id/rvHariJam"
                         android:layout_height="wrap_content"
                         android:layout_width="match_parent"
+                        android:layout_toRightOf="@id/ivLogoJadwal"
+                        android:layout_below="@id/tvJadwalTitle"/>
+
+                    <LinearLayout
+                        android:id="@+id/llHariJam"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
                         android:layout_toRightOf="@id/ivLogoJadwal"
                         android:layout_below="@id/tvJadwalTitle"/>
 
@@ -313,6 +323,34 @@
         </RelativeLayout>
 
     </ScrollView>
+
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/llWarning"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:padding="@dimen/padding2"
+        android:background="@drawable/background_yellow"
+        android:layout_above="@id/llCommandRow">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_info_black_24dp"
+            android:tint="@color/white"
+            android:layout_margin="@dimen/padding3"
+            />
+
+        <TextView
+            android:id="@+id/tvAlert"
+            android:text="0 pemesanan dengan jadwal yang sama"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="@dimen/paragraph"/>
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/llCommandRow"

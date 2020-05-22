@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activities.KonfirmasiJadwalActivity"
+    android:background="@color/whiteDark"
+    android:padding="50dp">
+
+    <TextView
+        android:id="@+id/tvGreetings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Hore!"
+        android:textSize="@dimen/header2"/>
+
+    <TextView
+        android:id="@+id/tvPesan"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Nama murid telah menjadi murid Anda. \nDi bawah ini adalah jadwal murid Anda:"
+        android:textSize="@dimen/paragraph"/>
+
+    <LinearLayout
+        android:id="@+id/llJadwal"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="@dimen/margin2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" />
+
+    <Button
+        android:layout_margin="@dimen/padding3"
+        android:layout_gravity="center_horizontal"
+        android:id="@+id/btnTambahJadwalGoogleCalendar"
+        style="@style/BtnTertiary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tambahkan ke Google Calendar"/>
+
+    <Button
+        android:layout_margin="@dimen/padding3"
+        android:layout_gravity="center_horizontal"
+        style="@style/BtnTertiary"
+        android:id="@+id/btnKembali"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Kembali"/>
+
+</LinearLayout>

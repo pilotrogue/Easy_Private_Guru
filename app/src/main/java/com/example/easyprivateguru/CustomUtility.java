@@ -16,6 +16,7 @@ import com.squareup.picasso.Picasso;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -108,5 +109,54 @@ public class CustomUtility {
     public String modifyAvatarStr(String avatarStr){
         avatarStr = rci.getBaseUrl() + "assets/avatars/" + avatarStr;
         return avatarStr;
+    }
+
+    public String getCountTimeString(String timeStr, String pattern){
+        String timeCountStr = getCountTimeString(reformatDateTime(timeStr, pattern, "yyyy-MM-dd HH:mm:ss"));
+        return timeCountStr;
+    }
+
+    public String getCountTimeString(String timeStr){
+        String yearStart = reformatDateTime(timeStr, "yyyy-MM-dd HH:mm:ss", "yyyy");
+        String monthStart = reformatDateTime(timeStr, "yyyy-MM-dd HH:mm:ss", "MM");
+        String dayStart = reformatDateTime(timeStr, "yyyy-MM-dd HH:mm:ss", "dd");
+        String hourStart = reformatDateTime(timeStr, "yyyy-MM-dd HH:mm:ss", "HH");
+        String minuteStart = reformatDateTime(timeStr, "yyyy-MM-dd HH:mm:ss", "mm");
+        String secondStart = reformatDateTime(timeStr, "yyyy-MM-dd HH:mm:ss", "ss");
+
+        Log.d(TAG, "addJadwalToGoogleCalendar: monthStart: "+monthStart);
+
+        //Get calendar first meet
+        Calendar currCalendar = Calendar.getInstance();
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.YEAR, Integer.parseInt(yearStart));
+        calendar.set(Calendar.MONTH, Integer.parseInt(monthStart) - 1);
+        calendar.set(Calendar.DAY_OF_MONTH, Integer.parseInt(dayStart));
+        calendar.set(Calendar.HOUR_OF_DAY, Integer.parseInt(hourStart));
+        calendar.set(Calendar.MINUTE, Integer.parseInt(minuteStart));
+        calendar.set(Calendar.SECOND, Integer.parseInt(secondStart));
+
+        long currDateLong = currCalendar.getTimeInMillis();
+        long dateLong = calendar.getTimeInMillis();
+
+        long difference = currDateLong - dateLong;
+        String timeCountStr = "";
+
+        long seconds = difference/1000;
+        timeCountStr = seconds + " detik yang lalu";
+        if(seconds > 60){
+            long minutes = seconds/60;
+            timeCountStr = minutes + " menit yang lalu";
+            if(minutes > 60){
+                long hours = minutes/60;
+                timeCountStr = hours + " jam yang lalu";
+                if(hours > 24){
+                    long days = hours/24;
+                    timeCountStr = days + " hari yang lalu";
+                }
+            }
+        }
+
+        return timeCountStr;
     }
 }

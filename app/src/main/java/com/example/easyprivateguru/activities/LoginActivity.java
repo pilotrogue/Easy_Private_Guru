@@ -116,12 +116,14 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         if(requestCode == RC_SIGN_IN){
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
 
             try {
                 account = task.getResult(ApiException.class);
+//                String name = account.getAccount().name;
+//                Log.d(TAG, "onActivityResult: account name: "+name);
+
                 String emailStr = account.getEmail();
                 callGuru(emailStr);
             }catch (ApiException e){
@@ -134,45 +136,6 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         }
-    }
-
-    //Memeriksa apakah guru tergolong valid
-    private void guruValidation(String emailStr){
-        Log.d(TAG, "guruValidation: called");
-        ProgressDialog p = rci.getProgressDialog(this, "Validasi guru");
-        Call<Integer> call = apiInterface.isGuruValid(emailStr);
-        p.show();
-        call.enqueue(new Callback<Integer>() {
-            @Override
-            public void onResponse(Call<Integer> call, Response<Integer> response) {
-                Log.d(TAG, "onResponse: "+response.message());
-                p.dismiss();
-                if(!response.isSuccessful()){
-                    return;
-                }
-
-                int guruStatus;
-
-                try {
-                    guruStatus = response.body();
-                    if (guruStatus == 1){
-                        callGuru(emailStr);
-                    }else {
-                        daftarIntent();
-                    }
-                }catch (NullPointerException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Integer> call, Throwable t) {
-                p.dismiss();
-                Log.d(TAG, "onFailure: "+t.getMessage());
-                Toast.makeText(LoginActivity.this, t.getMessage(), Toast.LENGTH_LONG).show();
-                return;
-            }
-        });
     }
 
     private void callGuru(String emailStr){

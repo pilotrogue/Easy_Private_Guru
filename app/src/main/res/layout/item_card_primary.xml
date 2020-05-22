@@ -45,33 +45,31 @@
             android:layout_width="64dp"
             android:layout_height="64dp"
             android:src="@drawable/account_default"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
+            android:layout_gravity="top"
             android:layout_margin="@dimen/margin2"/>
 
         <!--Icon made by Freepik perfect from www.flaticon.com-->
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:id="@+id/llDetail"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_marginRight="@dimen/margin2"
+            android:layout_marginEnd="@dimen/margin2">
             <TextView
                 android:id="@+id/tvTitle"
                 android:text="Title"
-                android:layout_toRightOf="@id/civPic"
                 android:singleLine="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/header3"
                 android:textStyle="bold"
-                android:layout_marginTop="@dimen/margin2"
-                android:layout_marginRight="@dimen/margin2"/>
+                android:layout_marginTop="@dimen/margin2"/>
 
             <TextView
                 android:id="@+id/tvSubtitle1"
                 android:text="Subtitle 1"
-                android:layout_below="@id/tvTitle"
                 android:singleLine="true"
-                android:layout_toRightOf="@id/civPic"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/paragraph"/>
@@ -79,17 +77,15 @@
             <TextView
                 android:id="@+id/tvSubtitle2"
                 android:text="Subtitle 2"
-                android:layout_below="@id/tvSubtitle1"
                 android:singleLine="true"
-                android:layout_toRightOf="@id/civPic"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/paragraph"
-                android:layout_marginBottom="@dimen/margin2"
-                android:layout_marginRight="@dimen/margin2"/>
+                android:layout_marginBottom="@dimen/margin2"/>
         </LinearLayout>
 
     </LinearLayout>
+
     <TextView
         android:id="@+id/tvSubtitle3"
         android:layout_below="@id/llBody"
@@ -104,4 +100,36 @@
         android:visibility="gone"
         android:background="@color/white"
         android:textStyle="bold"/>
+
+    <LinearLayout
+        android:id="@+id/llCommandRow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@id/tvSubtitle3"
+        android:layout_alignParentRight="true"
+        android:visibility="gone"
+        >
+
+        <Button
+            android:id="@+id/btnTolak"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tolak"
+            style="@style/BtnDangerAlt"
+            android:textAlignment="center"
+            android:gravity="center"
+            android:textStyle="bold"/>
+
+        <Button
+            android:id="@+id/btnTerima"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Terima"
+            style="@style/BtnSubmit"
+            android:textAlignment="center"
+            android:gravity="center"
+            android:textStyle="bold"/>
+
+    </LinearLayout>
 </RelativeLayout>

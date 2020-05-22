@@ -1,9 +1,12 @@
 package com.example.easyprivateguru.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class User {
+public class User implements Parcelable {
 
     @Expose
     @SerializedName("alamat")
@@ -14,6 +17,9 @@ public class User {
     @Expose
     @SerializedName("created_at")
     private String createdAt;
+    @Expose
+    @SerializedName("universitas")
+    private String universitas;
     @Expose
     @SerializedName("role")
     private int role;
@@ -39,47 +45,148 @@ public class User {
     @SerializedName("id")
     private int id;
 
+    public User() {
+    }
+
+    protected User(Parcel in) {
+        updatedAt = in.readString();
+        createdAt = in.readString();
+        universitas = in.readString();
+        role = in.readInt();
+        noHandphone = in.readString();
+        tanggalLahir = in.readString();
+        jenisKelamin = in.readString();
+        email = in.readString();
+        name = in.readString();
+        avatar = in.readString();
+        id = in.readInt();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(updatedAt);
+        dest.writeString(createdAt);
+        dest.writeString(universitas);
+        dest.writeInt(role);
+        dest.writeString(noHandphone);
+        dest.writeString(tanggalLahir);
+        dest.writeString(jenisKelamin);
+        dest.writeString(email);
+        dest.writeString(name);
+        dest.writeString(avatar);
+        dest.writeInt(id);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<User> CREATOR = new Creator<User>() {
+        @Override
+        public User createFromParcel(Parcel in) {
+            return new User(in);
+        }
+
+        @Override
+        public User[] newArray(int size) {
+            return new User[size];
+        }
+    };
+
     public Alamat getAlamat() {
         return alamat;
+    }
+
+    public void setAlamat(Alamat alamat) {
+        this.alamat = alamat;
     }
 
     public String getUpdatedAt() {
         return updatedAt;
     }
 
+    public void setUpdatedAt(String updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
     public String getCreatedAt() {
         return createdAt;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public String getUniversitas() {
+        return universitas;
+    }
+
+    public void setUniversitas(String universitas) {
+        this.universitas = universitas;
     }
 
     public int getRole() {
         return role;
     }
 
+    public void setRole(int role) {
+        this.role = role;
+    }
+
     public String getNoHandphone() {
         return noHandphone;
+    }
+
+    public void setNoHandphone(String noHandphone) {
+        this.noHandphone = noHandphone;
     }
 
     public String getTanggalLahir() {
         return tanggalLahir;
     }
 
+    public void setTanggalLahir(String tanggalLahir) {
+        this.tanggalLahir = tanggalLahir;
+    }
+
     public String getJenisKelamin() {
         return jenisKelamin;
+    }
+
+    public void setJenisKelamin(String jenisKelamin) {
+        this.jenisKelamin = jenisKelamin;
     }
 
     public String getEmail() {
         return email;
     }
 
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public String getName() {
         return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getAvatar() {
         return avatar;
     }
 
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
     public int getId() {
         return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

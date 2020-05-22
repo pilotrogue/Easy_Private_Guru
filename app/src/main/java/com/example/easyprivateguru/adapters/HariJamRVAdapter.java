@@ -1,7 +1,6 @@
 package com.example.easyprivateguru.adapters;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,13 +13,7 @@ import com.example.easyprivateguru.CustomUtility;
 import com.example.easyprivateguru.R;
 import com.example.easyprivateguru.models.JadwalAvailable;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.zip.Inflater;
-
-import static androidx.constraintlayout.widget.Constraints.TAG;
 
 public class HariJamRVAdapter extends RecyclerView.Adapter<HariJamRVAdapter.ViewHolder>{
     private Context mContext;
@@ -44,7 +37,7 @@ public class HariJamRVAdapter extends RecyclerView.Adapter<HariJamRVAdapter.View
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(mContext).inflate(R.layout.schedule_item_card, parent, false);
+        View v = LayoutInflater.from(mContext).inflate(R.layout.item_card_schedule, parent, false);
         return new HariJamRVAdapter.ViewHolder(v);
     }
 

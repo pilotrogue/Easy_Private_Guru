@@ -2,6 +2,7 @@ package com.example.easyprivateguru.api;
 
 import com.example.easyprivateguru.models.Absen;
 import com.example.easyprivateguru.models.JadwalAjar;
+import com.example.easyprivateguru.models.JadwalAvailable;
 import com.example.easyprivateguru.models.JadwalPemesananPerminggu;
 import com.example.easyprivateguru.models.Pemesanan;
 import com.example.easyprivateguru.models.User;
@@ -91,18 +92,6 @@ public interface ApiInterface {
             @Path("id") int idGuru
     );
 
-    //Get jadwal ajar berdasarkan id
-    @GET("jadwalAjar/{id}")
-    Call<JadwalAjar> getJadwalAjarById(
-            @Path("id_jadwal_ajar") int id
-    );
-
-    //Get jadwal ajar berdasarkan id guru
-    @GET("jadwalAjar/guru/{id}")
-    Call<ArrayList<JadwalAjar>> getJadwalAjarByIdGuru(
-            @Path("id") int idGuru
-    );
-
     //Get jadwal pemesanan perminggu
     @FormUrlEncoded
     @POST("pemesanan/jadwal/filter")
@@ -112,9 +101,46 @@ public interface ApiInterface {
             @Field("status_pemesanan") Integer statusPemesanan
     );
 
+    @FormUrlEncoded
+    @POST("pemesanan/jadwal/updateIdEvent")
+    Call<Void> updateIdEventJadwalPemesananPerminggu(
+            @Field("id_jadwal_pemesanan_perminggu") Integer idJadwalPemesananPerminggu,
+            @Field("id_event") Integer idEvent
+    );
+
     //Get jadwal pemesanan perminggu berdasarkan id
     @GET("pemesanan/jadwal/{id}")
     Call<JadwalPemesananPerminggu> getJadwalPemesananPermingguById(
             @Path("id") int id
+    );
+
+    //Get pemesanan yang memiliki konflik
+    @GET("pemesanan/conflict/{id}")
+    Call<ArrayList<Pemesanan>> getConflictedPemesanan(
+            @Path("id") int id
+    );
+
+    //Get jumlah pemesanan yang memiliki konflik
+    @GET("pemesanan/conflict/count/{id}")
+    Call<Integer> getCountConflictedPemesanan(
+            @Path("id") int id
+    );
+
+    @FormUrlEncoded
+    @POST("jadwalAvailable/filter")
+    Call<ArrayList<JadwalAvailable>> getJadwalAvailable(
+            @Field("id_user") Integer id_user,
+            @Field("available") Integer available,
+            @Field("hari[]") ArrayList<String> hari,
+            @Field("start") String start,
+            @Field("end") String end
+    );
+
+    @FormUrlEncoded
+    @POST("jadwalAvailable/update")
+    Call<Void> updateJadwalAvailable(
+            @Field("id_available[]") ArrayList<Integer> id_available,
+            @Field("id_non_available[]") ArrayList<Integer> id_non_available,
+            @Field("id_terisi[]") ArrayList<Integer> id_terisi
     );
 }

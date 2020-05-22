@@ -5,59 +5,40 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activities.EditJadwalActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="@dimen/padding1">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/padding1"
-        android:orientation="vertical">
+        android:minHeight="150dp">
 
-        <TextView
+        <LinearLayout
+            android:id="@+id/llMain"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Jadwal Saya"
-            android:textSize="@dimen/header1"
-            android:layout_margin="@dimen/margin2"/>
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            >
 
-        <CheckBox
-            android:id="@+id/cbSenin"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Senin"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Jadwal Saya"
+                android:textSize="@dimen/header1"/>
 
-        <CheckBox
-            android:id="@+id/cbSelasa"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Selasa"/>
+        </LinearLayout>
 
-        <CheckBox
-            android:id="@+id/cbRabu"
+        <Button
+            android:id="@+id/btnSimpan"
+            android:layout_alignParentBottom="true"
+            android:layout_below="@id/llMain"
+            android:text="Simpan"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Rabu"/>
-        <CheckBox
-            android:id="@+id/cbKamis"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Kamis"/>
-        <CheckBox
-            android:id="@+id/cbJumat"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Jum'at"/>
-        <CheckBox
-            android:id="@+id/cbSabtu"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Sabtu"/>
-        <CheckBox
-            android:id="@+id/cbMinggu"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Minggu"/>
+            style="@style/BtnSubmit"
+            />
 
-    </LinearLayout>
+    </RelativeLayout>
 
 </ScrollView>

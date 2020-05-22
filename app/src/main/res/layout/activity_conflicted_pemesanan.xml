@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activities.ConflictedPemesananActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/background_white">
+
+        <LinearLayout
+            android:id="@+id/llBody"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/civPic"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:src="@drawable/account_default"
+                android:layout_gravity="top"
+                android:layout_margin="@dimen/margin2"/>
+
+            <!--Icon made by Freepik perfect from www.flaticon.com-->
+            <LinearLayout
+                android:id="@+id/llDetail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginRight="@dimen/margin2"
+                android:layout_marginEnd="@dimen/margin2">
+
+                <TextView
+                    android:id="@+id/tvNamaMurid"
+                    android:text="Nama murid"
+                    android:singleLine="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/header3"
+                    android:textStyle="bold"
+                    android:layout_marginTop="@dimen/margin2"/>
+
+                <TextView
+                    android:id="@+id/tvMapel"
+                    android:text="Mata pelajaran"
+                    android:singleLine="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/paragraph"/>
+
+                <TextView
+                    android:id="@+id/tvAlamatMurid"
+                    android:text="Alamat"
+                    android:singleLine="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/paragraph"
+                    android:layout_marginBottom="@dimen/margin2"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <Button
+            android:layout_below="@id/llBody"
+            android:id="@+id/btnTerima"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Terima"
+            android:layout_margin="@dimen/margin2"
+            style="@style/BtnSubmit"/>
+
+    </RelativeLayout>
+
+<!--    <TextView-->
+<!--        android:id="@+id/title"-->
+<!--        android:layout_alignParentTop="true"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="Pemesanan"-->
+<!--        android:textSize="@dimen/header1"-->
+<!--        android:layout_margin="@dimen/margin2"/>-->
+
+    <TextView
+        android:layout_marginTop="@dimen/margin1"
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Berikut pemesanan dengan jadwal yang serupa:"
+        android:textSize="@dimen/paragraph"
+        android:padding="@dimen/margin2"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:background="@drawable/background_yellow"/>
+
+<!--    <GridLayout-->
+<!--        android:layout_centerHorizontal="true"-->
+<!--        android:layout_margin="@dimen/margin2"-->
+<!--        android:id="@+id/glJadwalAvailable"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content">-->
+
+<!--    </GridLayout>-->
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvPesananKonflik"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/padding1"/>
+
+</LinearLayout>

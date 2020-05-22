@@ -80,40 +80,6 @@ public class SplashScreenActivity extends AppCompatActivity {
         super.onStart();
     }
 
-    private void guruValidation(String emailStr){
-        Log.d(TAG, "guruValidation: called");
-        ProgressDialog p = rci.getProgressDialog(this, "Validasi guru");
-        Call<Integer> call = apiInterface.isGuruValid(emailStr);
-        p.show();
-        call.enqueue(new Callback<Integer>() {
-            @Override
-            public void onResponse(Call<Integer> call, Response<Integer> response) {
-                Log.d(TAG, "onResponse: "+response.code()+response.message());
-                p.dismiss();
-                if(!response.isSuccessful()){
-                    Toast.makeText(SplashScreenActivity.this, response.code()+response.message(), Toast.LENGTH_LONG).show();
-                    return;
-                }
-
-                int guruStatus = response.body();
-                if (guruStatus == 1){
-                    callGuru(emailStr);
-                }else {
-                    daftarIntent();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Integer> call, Throwable t) {
-                p.dismiss();
-                btnRetry.setVisibility(View.VISIBLE);
-                Log.d(TAG, "onFailure: "+t.getMessage());
-                Toast.makeText(SplashScreenActivity.this, t.getMessage(), Toast.LENGTH_LONG).show();
-                return;
-            }
-        });
-    }
-
     private void callGuru(String emailStr){
         Call<User> call = apiInterface.getGuru(emailStr);
         ProgressDialog p = rci.getProgressDialog(this, "Mengunduh informasi Anda");

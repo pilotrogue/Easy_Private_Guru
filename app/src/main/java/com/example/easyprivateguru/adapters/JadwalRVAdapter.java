@@ -6,7 +6,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -17,15 +16,9 @@ import com.example.easyprivateguru.CustomUtility;
 import com.example.easyprivateguru.R;
 import com.example.easyprivateguru.UserHelper;
 import com.example.easyprivateguru.activities.DetailJadwalActivity;
-import com.example.easyprivateguru.models.JadwalAjar;
 import com.example.easyprivateguru.models.JadwalPemesananPerminggu;
-import com.example.easyprivateguru.models.User;
-import com.squareup.picasso.Picasso;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -67,7 +60,7 @@ public class JadwalRVAdapter extends RecyclerView.Adapter<JadwalRVAdapter.ViewHo
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(mContext).inflate(R.layout.item_card, parent, false);
+        View v = LayoutInflater.from(mContext).inflate(R.layout.item_card_primary, parent, false);
         return new ViewHolder(v);
     }
 
@@ -88,7 +81,10 @@ public class JadwalRVAdapter extends RecyclerView.Adapter<JadwalRVAdapter.ViewHo
             holder.bigTitle.setText(j.getJadwalAvailable().getHari());
         }
         CustomUtility cu = new CustomUtility(mContext);
-        cu.putIntoImage(j.getPemesanan().getMurid().getAvatar(), holder.image);
+
+        if(j.getPemesanan().getMurid().getAvatar() != null){
+            cu.putIntoImage(j.getPemesanan().getMurid().getAvatar(), holder.image);
+        }
 
         holder.title.setText(j.getPemesanan().getMurid().getName());
 

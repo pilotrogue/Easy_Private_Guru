@@ -104,7 +104,10 @@ public class ProfilFragment extends Fragment {
     }
 
     private void showProfile(){
-        customUtility.putIntoImage(currUser.getAvatar(), civPic);
+        if(currUser.getAvatar() != null){
+            customUtility.putIntoImage(currUser.getAvatar(), civPic);
+        }
+
         tvEmail.setText(currUser.getEmail());
         tvName.setText(currUser.getName());
 
@@ -127,7 +130,7 @@ public class ProfilFragment extends Fragment {
                 signOut();
             }
         });
-        alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Kembali", new DialogInterface.OnClickListener() {
+        alertDialog.setButton(DialogInterface.BUTTON_NEUTRAL, "Kembali", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();

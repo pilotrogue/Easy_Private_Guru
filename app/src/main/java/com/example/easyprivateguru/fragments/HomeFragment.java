@@ -16,6 +16,7 @@ import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
+import com.example.easyprivateguru.activities.AddEventActivity;
 import com.example.easyprivateguru.activities.JadwalActivity;
 import com.example.easyprivateguru.activities.MuridSayaActivity;
 import com.example.easyprivateguru.activities.PembayaranActivity;
@@ -25,7 +26,7 @@ import com.example.easyprivateguru.R;
 public class HomeFragment extends Fragment {
 
     private LinearLayout llJadwal, llMuridSaya, llPembayaran;
-    private Button btnShowQR;
+    private Button btnShowQR, btnAddEvent;
 
     @Nullable
     @Override
@@ -70,6 +71,14 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        btnAddEvent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(mContext, AddEventActivity.class);
+                startActivity(i);
+            }
+        });
+
         return v;
     }
 
@@ -84,6 +93,7 @@ public class HomeFragment extends Fragment {
         llMuridSaya = v.findViewById(R.id.llMuridSaya);
 
         btnShowQR = v.findViewById(R.id.btnShowQR);
-        btnShowQR.setVisibility(View.GONE);
+
+        btnAddEvent = v.findViewById(R.id.btnAddEvent);
     }
 }

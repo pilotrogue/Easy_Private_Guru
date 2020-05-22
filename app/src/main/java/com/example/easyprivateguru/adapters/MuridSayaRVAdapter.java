@@ -3,12 +3,9 @@ package com.example.easyprivateguru.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Address;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -23,16 +20,10 @@ import com.example.easyprivateguru.models.MataPelajaran;
 import com.example.easyprivateguru.models.Pemesanan;
 import com.example.easyprivateguru.models.User;
 import com.example.easyprivateguru.R;
-import com.squareup.picasso.Picasso;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-
-import static androidx.constraintlayout.widget.Constraints.TAG;
 
 public class MuridSayaRVAdapter extends RecyclerView.Adapter<MuridSayaRVAdapter.ViewHolder>{
     private Context mContext;
@@ -64,7 +55,7 @@ public class MuridSayaRVAdapter extends RecyclerView.Adapter<MuridSayaRVAdapter.
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(mContext).inflate(R.layout.item_card, parent, false);
+        View v = LayoutInflater.from(mContext).inflate(R.layout.item_card_primary, parent, false);
         return new ViewHolder(v);
     }
 
@@ -76,7 +67,10 @@ public class MuridSayaRVAdapter extends RecyclerView.Adapter<MuridSayaRVAdapter.
 
         CustomUtility customUtility = new CustomUtility(mContext);
 
-        customUtility.putIntoImage(murid.getAvatar(), holder.image);
+        if(murid.getAvatar() != null){
+            customUtility.putIntoImage(murid.getAvatar(), holder.image);
+        }
+
         holder.title.setText(murid.getName());
 
         Alamat currAlamat = murid.getAlamat();
@@ -86,7 +80,7 @@ public class MuridSayaRVAdapter extends RecyclerView.Adapter<MuridSayaRVAdapter.
         if(address == null){
             alamatStr = currAlamat.getAlamatLengkap();
         }else{
-            alamatStr = address.getLocality() + ", " + address.getSubLocality() + ", "+address.getSubAdminArea();
+            alamatStr = address.getLocality()+", "+address.getSubAdminArea();
         }
 
         holder.subtitle1.setText(alamatStr);

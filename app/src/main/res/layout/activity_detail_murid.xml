@@ -39,7 +39,7 @@
             android:layout_above="@id/llBtnNoTelp">
 
             <ImageView
-                android:layout_margin="@dimen/margin2"
+                android:layout_margin="@dimen/padding2"
                 android:layout_width="18dp"
                 android:layout_height="18dp"
                 android:src="@drawable/ic_navigation_black_24dp"
@@ -51,7 +51,7 @@
                 android:layout_height="wrap_content"
                 android:text="Arahkan saya"
                 android:textSize="@dimen/paragraph"
-                android:layout_margin="@dimen/margin2"/>
+                android:layout_margin="@dimen/padding2"/>
 
         </LinearLayout>
 
@@ -65,7 +65,7 @@
             android:layout_below="@id/fragMap">
 
             <ImageView
-                android:layout_margin="@dimen/margin2"
+                android:layout_margin="@dimen/padding2"
                 android:layout_width="18dp"
                 android:layout_height="18dp"
                 android:src="@drawable/ic_local_phone_black_24dp"
@@ -77,7 +77,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Hubungi murid"
-                android:layout_margin="@dimen/margin2"
+                android:layout_margin="@dimen/padding2"
                 android:textSize="@dimen/paragraph"/>
 
         </LinearLayout>

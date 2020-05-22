@@ -2,20 +2,16 @@ package com.example.easyprivateguru.adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.easyprivateguru.CustomUtility;
@@ -26,9 +22,9 @@ import com.example.easyprivateguru.models.MataPelajaran;
 import com.example.easyprivateguru.models.Pemesanan;
 import com.example.easyprivateguru.models.User;
 import com.example.easyprivateguru.R;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -36,10 +32,12 @@ public class PesananRVAdapter extends RecyclerView.Adapter<PesananRVAdapter.View
     private Context mContext;
     private ArrayList<Pemesanan> pesanans = new ArrayList<>();
     private UserHelper userHelper;
+    private Boolean showAllBool = false;
     private static final String TAG = "PesananRVAdapter";
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         private RelativeLayout rvCardItem;
+        private LinearLayout llDetail;
         private TextView title, subtitle1, subtitle2, subtitle3;
         private CircleImageView image;
         private static final String TAG = "ViewHolder";
@@ -48,6 +46,7 @@ public class PesananRVAdapter extends RecyclerView.Adapter<PesananRVAdapter.View
             super(itemView);
             Log.d(TAG, "ViewHolder: called");
             rvCardItem = itemView.findViewById(R.id.rvItem);
+            llDetail = itemView.findViewById(R.id.llDetail);
 
             image = itemView.findViewById(R.id.civPic);
             title = itemView.findViewById(R.id.tvTitle);
@@ -68,7 +67,7 @@ public class PesananRVAdapter extends RecyclerView.Adapter<PesananRVAdapter.View
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Log.d(TAG, "onCreateViewHolder: called");
-        View v = LayoutInflater.from(mContext).inflate(R.layout.item_card, parent, false);
+        View v = LayoutInflater.from(mContext).inflate(R.layout.item_card_primary, parent, false);
         return new PesananRVAdapter.ViewHolder(v);
     }
 
@@ -81,7 +80,9 @@ public class PesananRVAdapter extends RecyclerView.Adapter<PesananRVAdapter.View
 
         CustomUtility customUtility = new CustomUtility(mContext);
 
-        customUtility.putIntoImage(murid.getAvatar(), holder.image);
+        if(murid.getAvatar() != null){
+            customUtility.putIntoImage(murid.getAvatar(), holder.image);
+        }
 
         holder.title.setText(murid.getName());
 
@@ -92,7 +93,7 @@ public class PesananRVAdapter extends RecyclerView.Adapter<PesananRVAdapter.View
         if(address == null){
             alamatStr = currAlamat.getAlamatLengkap();
         }else{
-            alamatStr = address.getSubLocality()+", "+address.getLocality()+", "+address.getSubAdminArea()+", "+address.getAdminArea()+", "+address.getCountryName();
+            alamatStr = address.getLocality()+", "+address.getSubAdminArea();
         }
 
         holder.subtitle1.setText(mataPelajaran.getNamaMapel() + ", " +"Kelas "+p.getKelas());
@@ -111,7 +112,9 @@ public class PesananRVAdapter extends RecyclerView.Adapter<PesananRVAdapter.View
 
         switch (p.getStatus()){
             case 0:
-                holder.subtitle3.setText("Pemesanan baru");
+                String waktuPemesanan = customUtility.getCountTimeString(p.getWaktuPemesanan());
+
+                holder.subtitle3.setText("Pemesanan baru \n("+waktuPemesanan+")");
                 holder.subtitle3.setTextColor(mContext.getResources().getColor(R.color.white));
                 holder.subtitle3.setBackgroundResource(R.drawable.background_yellow);
                 break;
@@ -125,25 +128,56 @@ public class PesananRVAdapter extends RecyclerView.Adapter<PesananRVAdapter.View
                 holder.subtitle3.setTextColor(mContext.getResources().getColor(R.color.white));
                 holder.subtitle3.setBackgroundResource(R.drawable.background_red);
                 holder.rvCardItem.setOnClickListener(null);
+                if(!showAllBool){
+                    setVisibility(holder, View.GONE);
+                }
                 break;
             case 3:
                 holder.subtitle3.setText("Pemesanan selesai");
                 holder.subtitle3.setTextColor(mContext.getResources().getColor(R.color.fontDark));
                 holder.subtitle3.setBackgroundColor(mContext.getResources().getColor(R.color.whiteDark));
                 holder.rvCardItem.setOnClickListener(null);
+                if(!showAllBool){
+                    setVisibility(holder, View.GONE);
+                }
                 break;
             default:
                 holder.subtitle3.setText("Hmm... ada sesuatu yang salah");
                 holder.subtitle3.setTextColor(mContext.getResources().getColor(R.color.fontDark));
                 holder.subtitle3.setBackgroundColor(mContext.getResources().getColor(R.color.whiteDark));
                 holder.rvCardItem.setOnClickListener(null);
+                if(!showAllBool){
+                    setVisibility(holder, View.GONE);
+                }
                 break;
         }
+    }
+
+    private void setVisibility(ViewHolder holder, int visibility){
+        holder.rvCardItem.setVisibility(visibility);
+        holder.title.setVisibility(visibility);
+        holder.subtitle1.setVisibility(visibility);
+        holder.subtitle2.setVisibility(visibility);
+        holder.subtitle3.setVisibility(visibility);
+        holder.llDetail.setVisibility(visibility);
+        holder.image.setVisibility(visibility);
+
+        RelativeLayout.LayoutParams noMarginParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        noMarginParams.setMargins(0,0,0,0);
+        holder.rvCardItem.setLayoutParams(noMarginParams);
     }
 
     @Override
     public int getItemCount() {
         Log.d(TAG, "getItemCount: "+pesanans.size());
         return pesanans.size();
+    }
+
+    public Boolean getShowAllBool() {
+        return showAllBool;
+    }
+
+    public void setShowAllBool(Boolean showAllBool) {
+        this.showAllBool = showAllBool;
     }
 }

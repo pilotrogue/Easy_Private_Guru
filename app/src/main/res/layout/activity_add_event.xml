@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activities.AddEventActivity"
+    android:padding="@dimen/padding1">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Add event"
+        android:textSize="@dimen/header1"/>
+
+    <EditText
+        android:id="@+id/etTitle"
+        android:hint="Event title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin2"/>
+
+    <EditText
+        android:id="@+id/etDtStart"
+        android:hint="Start date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:editable="false"
+        android:clickable="true"
+        android:focusable="false"
+        android:layout_margin="@dimen/margin2"/>
+
+    <EditText
+        android:id="@+id/etTimeStart"
+        android:hint="Start time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:editable="false"
+        android:clickable="true"
+        android:focusable="false"
+        android:layout_margin="@dimen/margin2"/>
+
+    <EditText
+        android:id="@+id/etDtEnd"
+        android:hint="End date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:editable="false"
+        android:clickable="true"
+        android:focusable="false"
+        android:layout_margin="@dimen/margin2"/>
+
+    <EditText
+        android:id="@+id/etTimeEnd"
+        android:hint="End time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:editable="false"
+        android:clickable="true"
+        android:focusable="false"
+        android:layout_margin="@dimen/margin2"/>
+
+    <Button
+        android:id="@+id/btnSubmit"
+        android:text="Add event"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/BtnSubmit"
+        android:layout_margin="@dimen/margin2"/>
+
+</LinearLayout>

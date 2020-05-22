@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.example.easyprivateguru.CustomUtility;
@@ -58,11 +59,28 @@ public class DetailJadwalActivity extends AppCompatActivity {
     private GoogleMap gMap;
     private LinearLayout llBtnNoTelp, llBtnNavigation;
 
+    private boolean hasBeenPaused = false;
+
     private static final String TAG = "DetailJadwalActivity";
-    private static final int DEFAULT_MAP_ZOOM = 10;
+    private static final int DEFAULT_MAP_ZOOM = 15;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1234;
     private static final String FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
     private static final String COARSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(hasBeenPaused){
+            hasBeenPaused = false;
+            callJadwalPemesananPerminggu(currIntent.getIntExtra("idJadwalPemesananPerminggu", 0));
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        hasBeenPaused = true;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -155,7 +173,9 @@ public class DetailJadwalActivity extends AppCompatActivity {
         mapMoveCamera(muridLocation);
 
         //Menampilkan profile picture
-        customUtility.putIntoImage(murid.getAvatar(), civProfilePic);
+        if(murid.getAvatar() != null){
+            customUtility.putIntoImage(murid.getAvatar(), civProfilePic);
+        }
 
         //Menampilkan nomor telepon pada button
         llBtnNoTelp.setOnClickListener(new View.OnClickListener() {
@@ -175,15 +195,15 @@ public class DetailJadwalActivity extends AppCompatActivity {
         if(address == null){
             alamatStr = currAlamat.getAlamatLengkap();
         }else{
-            alamatStr = address.getLocality() + ", " + address.getSubLocality() + ", "+address.getSubAdminArea();
+            alamatStr = address.getSubLocality()+", "+address.getLocality()+", "+address.getSubAdminArea()+", "+address.getAdminArea()+", "+address.getCountryName();
         }
 
         tvAlamatMurid.setText(alamatStr);
 
         //Menampilkan waktu ajar
-        String startStr = customUtility.reformatDateTime(currJadwalPemesananPerminggu.getJadwalAvailable().getStart(), "yyyy-MM-dd HH:mm:ss", "EEEE, dd MMMM yyyy");
-        String endStr = customUtility.reformatDateTime(currJadwalPemesananPerminggu.getJadwalAvailable().getEnd(), "yyyy-MM-dd HH:mm:ss", "EEEE, dd MMMM yyyy");
-        String timeStr = "Hari "+currJadwalPemesananPerminggu.getJadwalAvailable().getHari()+", "+startStr + " s/d " + endStr;
+        String startStr = customUtility.reformatDateTime(currJadwalPemesananPerminggu.getJadwalAvailable().getStart(), "HH:mm:ss", "HH:mm");
+        String endStr = customUtility.reformatDateTime(currJadwalPemesananPerminggu.getJadwalAvailable().getEnd(), "HH:mm:ss", "HH:mm");
+        String timeStr = currJadwalPemesananPerminggu.getJadwalAvailable().getHari() + ", "+startStr + " s/d " + endStr;
         tvWaktuBelajar.setText(timeStr);
 
         //Menampilkan mata pelajaran dan jenjang

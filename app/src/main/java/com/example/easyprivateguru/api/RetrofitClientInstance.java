@@ -12,7 +12,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitClientInstance {
     private Retrofit retrofit;
-    private static final String BASE_URL = "http://192.168.1.27/easyprivate/public/";
+    private static final String BASE_URL = "http://192.168.1.22/easyprivate/public/";
 
     private String defaultTitle = "Tunggu sebentar ya!";
     private String defaultMessage = "Menyambungkan dengan server";
@@ -31,6 +31,14 @@ public class RetrofitClientInstance {
 
     public String getBaseUrl(){
         return BASE_URL;
+    }
+
+    public String getDefaultTitle() {
+        return defaultTitle;
+    }
+
+    public String getDefaultMessage() {
+        return defaultMessage;
     }
 
     public ProgressDialog getProgressDialog(Context mContext){

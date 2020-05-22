@@ -8,6 +8,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -35,6 +38,9 @@ import retrofit2.Response;
 
 public class PemesananFragment extends Fragment {
     private RecyclerView rvPesanan;
+    private CheckBox cbShowAll;
+    private boolean boolShowAll = false;
+
     private RetrofitClientInstance rci = new RetrofitClientInstance();
     private ApiInterface apiInterface = rci.getApiInterface();
 
@@ -75,12 +81,25 @@ public class PemesananFragment extends Fragment {
         v = inflater.inflate(R.layout.fragment_pesanan, container, false);
         init(v);
 
+        cbShowAll.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    boolShowAll = true;
+                }else{
+                    boolShowAll = false;
+                }
+                retrievePemesanan();
+            }
+        });
+
         callPemesanans();
         return v;
     }
 
     private void init(View v){
         rvPesanan = v.findViewById(R.id.rvPesanan);
+        cbShowAll = v.findViewById(R.id.cbShowAll);
         mContext = v.getContext();
 
         account = GoogleSignIn.getLastSignedInAccount(mContext);
@@ -111,10 +130,12 @@ public class PemesananFragment extends Fragment {
                 Log.d(TAG, "onFailure: "+t.getMessage());
             }
         });
+
     }
 
     private void retrievePemesanan(){
         PesananRVAdapter adapter = new PesananRVAdapter(mContext, pemesanans);
+        adapter.setShowAllBool(boolShowAll);
         rvPesanan.setAdapter(adapter);
         rvPesanan.setLayoutManager(new LinearLayoutManager(mContext));
     }

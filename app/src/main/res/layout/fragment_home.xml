@@ -96,7 +96,15 @@
             android:id="@+id/btnShowQR"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Show QR"/>
+            android:text="Show QR"
+            android:visibility="gone"/>
+
+        <Button
+            android:id="@+id/btnAddEvent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Add Event"
+            android:visibility="gone"/>
 
     </LinearLayout>
 

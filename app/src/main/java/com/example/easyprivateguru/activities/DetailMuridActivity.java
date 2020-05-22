@@ -173,7 +173,9 @@ public class DetailMuridActivity extends AppCompatActivity {
         mapMoveCamera(muridLocation);
 
         //Menampilkan profile picture
-        customUtility.putIntoImage(murid.getAvatar(), civProfilePic);
+        if(murid.getAvatar() != null){
+            customUtility.putIntoImage(murid.getAvatar(), civProfilePic);
+        }
 
         //Menampilkan nomor telepon pada button
         llBtnNoTelp.setOnClickListener(new View.OnClickListener() {
@@ -193,7 +195,7 @@ public class DetailMuridActivity extends AppCompatActivity {
         if(address == null){
             alamatStr = currAlamat.getAlamatLengkap();
         }else{
-            alamatStr = address.getLocality() + ", " + address.getSubLocality() + ", "+address.getSubAdminArea();
+            alamatStr = address.getSubLocality()+", "+address.getLocality()+", "+address.getSubAdminArea()+", "+address.getAdminArea()+", "+address.getCountryName();
         }
         Log.d(TAG, "retrievePemesanan: alamatStr: "+alamatStr);
         tvAlamatMurid.setText(alamatStr);

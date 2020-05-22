@@ -16,12 +16,8 @@ import com.example.easyprivateguru.models.Absen;
 import com.example.easyprivateguru.models.Pemesanan;
 import com.example.easyprivateguru.models.User;
 import com.example.easyprivateguru.R;
-import com.squareup.picasso.Picasso;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -56,7 +52,7 @@ public class AbsenRVAdapter extends RecyclerView.Adapter<AbsenRVAdapter.ViewHold
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(mContext).inflate(R.layout.item_card, parent, false);
+        View v = LayoutInflater.from(mContext).inflate(R.layout.item_card_primary, parent, false);
         return new ViewHolder(v);
     }
 
@@ -69,12 +65,13 @@ public class AbsenRVAdapter extends RecyclerView.Adapter<AbsenRVAdapter.ViewHold
 
         CustomUtility customUtility = new CustomUtility(mContext);
 
-        customUtility.putIntoImage(murid.getAvatar(), holder.image);
+        if(murid.getAvatar() != null){
+            customUtility.putIntoImage(murid.getAvatar(), holder.image);
+        }
         holder.title.setText(murid.getName());
 
-        String dateStr = customUtility.reformatDateTime(a.getWaktuAbsen(), "yyyy-MM-dd HH:mm:ss", "dd MMMM yyyy, HH:mm");
+        String dateStr = customUtility.reformatDateTime(a.getWaktuAbsen(), "yyyy-MM-dd HH:mm:ss", "EEEE, dd MMMM yyyy, HH:mm");
         holder.subtitle1.setText(dateStr);
-
         holder.subtitle2.setText(p.getMataPelajaran().getNamaMapel());
     }
 
