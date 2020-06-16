@@ -6,7 +6,13 @@ import android.os.Parcelable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Absen implements Parcelable {
+public class Absen {
+    @Expose
+    @SerializedName("jadwal_pengganti")
+    private JadwalPengganti jadwalPengganti;
+    @Expose
+    @SerializedName("jadwal_pemesanan_perminggu")
+    private JadwalPemesananPerminggu jadwalPemesananPerminggu;
     @Expose
     @SerializedName("pemesanan")
     private Pemesanan pemesanan;
@@ -14,54 +20,41 @@ public class Absen implements Parcelable {
     @SerializedName("id_absen")
     private int idAbsen;
     @Expose
-    @SerializedName("jadwal_ajar")
-    private JadwalAjar jadwalAjar;
-    @Expose
     @SerializedName("waktu_absen")
     private String waktuAbsen;
     @Expose
+    @SerializedName("id_jadwal_pengganti")
+    private int idJadwalPengganti;
+    @Expose
+    @SerializedName("id_jadwal_pemesanan_perminggu")
+    private int idJadwalPemesananPerminggu;
+    @Expose
     @SerializedName("id_pemesanan")
     private int idPemesanan;
-    @Expose
-    @SerializedName("id_jadwal_ajar")
-    private int idJadwalAjar;
 
-    public Absen() {
+    public JadwalPengganti getJadwalPengganti() {
+        return jadwalPengganti;
     }
 
-    protected Absen(Parcel in) {
-        pemesanan = in.readParcelable(Pemesanan.class.getClassLoader());
-        idAbsen = in.readInt();
-        waktuAbsen = in.readString();
-        idPemesanan = in.readInt();
-        idJadwalAjar = in.readInt();
+    public void setJadwalPengganti(JadwalPengganti jadwalPengganti) {
+        this.jadwalPengganti = jadwalPengganti;
     }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeParcelable(pemesanan, flags);
-        dest.writeInt(idAbsen);
-        dest.writeString(waktuAbsen);
-        dest.writeInt(idPemesanan);
-        dest.writeInt(idJadwalAjar);
+    public int getIdJadwalPengganti() {
+        return idJadwalPengganti;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
+    public void setIdJadwalPengganti(int idJadwalPengganti) {
+        this.idJadwalPengganti = idJadwalPengganti;
     }
 
-    public static final Creator<Absen> CREATOR = new Creator<Absen>() {
-        @Override
-        public Absen createFromParcel(Parcel in) {
-            return new Absen(in);
-        }
+    public JadwalPemesananPerminggu getJadwalPemesananPerminggu() {
+        return jadwalPemesananPerminggu;
+    }
 
-        @Override
-        public Absen[] newArray(int size) {
-            return new Absen[size];
-        }
-    };
+    public void setJadwalPemesananPerminggu(JadwalPemesananPerminggu jadwalPemesananPerminggu) {
+        this.jadwalPemesananPerminggu = jadwalPemesananPerminggu;
+    }
 
     public Pemesanan getPemesanan() {
         return pemesanan;
@@ -69,30 +62,6 @@ public class Absen implements Parcelable {
 
     public void setPemesanan(Pemesanan pemesanan) {
         this.pemesanan = pemesanan;
-    }
-
-    public int getIdAbsen() {
-        return idAbsen;
-    }
-
-    public void setIdAbsen(int idAbsen) {
-        this.idAbsen = idAbsen;
-    }
-
-    public JadwalAjar getJadwalAjar() {
-        return jadwalAjar;
-    }
-
-    public void setJadwalAjar(JadwalAjar jadwalAjar) {
-        this.jadwalAjar = jadwalAjar;
-    }
-
-    public String getWaktuAbsen() {
-        return waktuAbsen;
-    }
-
-    public void setWaktuAbsen(String waktuAbsen) {
-        this.waktuAbsen = waktuAbsen;
     }
 
     public int getIdPemesanan() {
@@ -103,11 +72,27 @@ public class Absen implements Parcelable {
         this.idPemesanan = idPemesanan;
     }
 
-    public int getIdJadwalAjar() {
-        return idJadwalAjar;
+    public int getIdAbsen() {
+        return idAbsen;
     }
 
-    public void setIdJadwalAjar(int idJadwalAjar) {
-        this.idJadwalAjar = idJadwalAjar;
+    public void setIdAbsen(int idAbsen) {
+        this.idAbsen = idAbsen;
+    }
+
+    public String getWaktuAbsen() {
+        return waktuAbsen;
+    }
+
+    public void setWaktuAbsen(String waktuAbsen) {
+        this.waktuAbsen = waktuAbsen;
+    }
+
+    public int getIdJadwalPemesananPerminggu() {
+        return idJadwalPemesananPerminggu;
+    }
+
+    public void setIdJadwalPemesananPerminggu(int idJadwalPemesananPerminggu) {
+        this.idJadwalPemesananPerminggu = idJadwalPemesananPerminggu;
     }
 }

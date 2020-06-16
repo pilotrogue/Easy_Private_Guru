@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.example.easyprivateguru.CustomUtility;
@@ -20,7 +19,6 @@ import com.example.easyprivateguru.UserHelper;
 import com.example.easyprivateguru.api.ApiInterface;
 import com.example.easyprivateguru.api.RetrofitClientInstance;
 import com.example.easyprivateguru.models.Alamat;
-import com.example.easyprivateguru.models.JadwalAjar;
 import com.example.easyprivateguru.models.JadwalPemesananPerminggu;
 import com.example.easyprivateguru.models.MataPelajaran;
 import com.example.easyprivateguru.models.Pemesanan;
@@ -32,17 +30,10 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-
 import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import static androidx.constraintlayout.widget.Constraints.TAG;
 
 public class DetailJadwalActivity extends AppCompatActivity {
     private Intent currIntent;
@@ -173,9 +164,7 @@ public class DetailJadwalActivity extends AppCompatActivity {
         mapMoveCamera(muridLocation);
 
         //Menampilkan profile picture
-        if(murid.getAvatar() != null){
-            customUtility.putIntoImage(murid.getAvatar(), civProfilePic);
-        }
+        customUtility.putIntoImage(murid.getAvatar(), civProfilePic);
 
         //Menampilkan nomor telepon pada button
         llBtnNoTelp.setOnClickListener(new View.OnClickListener() {

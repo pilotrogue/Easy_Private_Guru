@@ -6,7 +6,7 @@ import android.os.Parcelable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class JadwalAvailable implements Parcelable{
+public class JadwalAvailable{
     private int changedAvailability = 99;
 
     @Expose
@@ -27,47 +27,10 @@ public class JadwalAvailable implements Parcelable{
     @Expose
     @SerializedName("id_jadwal_available")
     private int idJadwalAvailable;
+    @Expose
+    @SerializedName("jadwal_pemesanan_perminggu")
+    private JadwalPemesananPerminggu jadwalPemesananPerminggu;
 
-    public JadwalAvailable() {
-    }
-
-    protected JadwalAvailable(Parcel in) {
-        changedAvailability = in.readInt();
-        available = in.readInt();
-        end = in.readString();
-        start = in.readString();
-        hari = in.readString();
-        idUser = in.readInt();
-        idJadwalAvailable = in.readInt();
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(changedAvailability);
-        dest.writeInt(available);
-        dest.writeString(end);
-        dest.writeString(start);
-        dest.writeString(hari);
-        dest.writeInt(idUser);
-        dest.writeInt(idJadwalAvailable);
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    public static final Creator<JadwalAvailable> CREATOR = new Creator<JadwalAvailable>() {
-        @Override
-        public JadwalAvailable createFromParcel(Parcel in) {
-            return new JadwalAvailable(in);
-        }
-
-        @Override
-        public JadwalAvailable[] newArray(int size) {
-            return new JadwalAvailable[size];
-        }
-    };
 
     public int getChangedAvailability() {
         return changedAvailability;
@@ -123,5 +86,13 @@ public class JadwalAvailable implements Parcelable{
 
     public void setIdJadwalAvailable(int idJadwalAvailable) {
         this.idJadwalAvailable = idJadwalAvailable;
+    }
+
+    public JadwalPemesananPerminggu getJadwalPemesananPerminggu() {
+        return jadwalPemesananPerminggu;
+    }
+
+    public void setJadwalPemesananPerminggu(JadwalPemesananPerminggu jadwalPemesananPerminggu) {
+        this.jadwalPemesananPerminggu = jadwalPemesananPerminggu;
     }
 }

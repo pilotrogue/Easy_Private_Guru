@@ -6,15 +6,96 @@
     android:layout_height="match_parent"
     tools:context=".activities.DetailPemesananActivity">
 
+    <fragment
+        android:layout_width="match_parent"
+        android:layout_height="175dp"
+        android:id="@+id/fragMap"
+        android:name="com.google.android.gms.maps.SupportMapFragment" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/civProfilePic"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/account_default"
+        app:civ_border_width="4dp"
+        app:civ_border_color="@color/white"
+        android:layout_marginTop="125dp"
+        android:layout_marginLeft="@dimen/margin2"
+        android:layout_marginRight="@dimen/margin2"
+        android:scaleType="centerCrop"/>
+
+    <LinearLayout
+        android:id="@+id/llBtnNavigation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin2"
+        android:background="@drawable/background_white"
+        android:layout_alignParentRight="true"
+        android:layout_above="@id/llBtnNoTelp"
+        android:visibility="invisible"
+        >
+
+        <ImageView
+            android:layout_margin="@dimen/padding2"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:src="@drawable/ic_navigation_black_24dp"
+            android:tint="@color/colorPrimary"/>
+
+        <TextView
+            android:layout_gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Arahkan saya"
+            android:textSize="@dimen/paragraph"
+            android:layout_margin="@dimen/padding2"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llBtnNoTelp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin2"
+        android:background="@drawable/background_white"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/fragMap"
+        android:visibility="invisible"
+        >
+
+        <ImageView
+            android:layout_margin="@dimen/padding2"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:src="@drawable/ic_local_phone_black_24dp"
+            android:tint="@color/colorPrimary"/>
+
+        <TextView
+            android:id="@+id/tvNoTelp"
+            android:layout_gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/paragraph"
+            android:text="Hubungi murid"
+            android:layout_margin="@dimen/padding2"/>
+
+    </LinearLayout>
+
     <ScrollView
         android:id="@+id/svMain"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/llWarning">
+        android:layout_below="@id/fragMap"
+        android:layout_above="@id/llWarning"
+        android:fadeScrollbars="false"
+        android:scrollbarSize="10dp"
+        android:translationZ="-1dp"
+        >
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp">
 
 <!--            <FrameLayout-->
 <!--                android:id="@+id/flMaps"-->
@@ -22,87 +103,11 @@
 <!--                android:layout_height="200dp"-->
 <!--                android:background="@color/whiteDark"/>-->
 
-            <fragment
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:id="@+id/fragMap"
-                android:name="com.google.android.gms.maps.SupportMapFragment" />
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/civProfilePic"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:src="@drawable/account_default"
-                app:civ_border_width="4dp"
-                app:civ_border_color="@color/white"
-                android:layout_marginTop="150dp"
-                android:layout_marginLeft="@dimen/margin2"
-                android:layout_marginRight="@dimen/margin2"
-                android:scaleType="centerCrop"/>
-
-            <LinearLayout
-                android:id="@+id/llBtnNavigation"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin2"
-                android:background="@drawable/background_white"
-                android:layout_alignParentRight="true"
-                android:layout_above="@id/llBtnNoTelp"
-                android:visibility="invisible"
-                >
-
-                <ImageView
-                    android:layout_margin="@dimen/padding2"
-                    android:layout_width="18dp"
-                    android:layout_height="18dp"
-                    android:src="@drawable/ic_navigation_black_24dp"
-                    android:tint="@color/colorPrimary"/>
-
-                <TextView
-                    android:layout_gravity="center_vertical"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Arahkan saya"
-                    android:textSize="@dimen/paragraph"
-                    android:layout_margin="@dimen/padding2"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/llBtnNoTelp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin2"
-                android:background="@drawable/background_white"
-                android:layout_alignParentRight="true"
-                android:layout_below="@id/fragMap"
-                android:visibility="invisible"
-                >
-
-                <ImageView
-                    android:layout_margin="@dimen/padding2"
-                    android:layout_width="18dp"
-                    android:layout_height="18dp"
-                    android:src="@drawable/ic_local_phone_black_24dp"
-                    android:tint="@color/colorPrimary"/>
-
-                <TextView
-                    android:id="@+id/tvNoTelp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="@dimen/paragraph"
-                    android:text="Hubungi murid"
-                    android:layout_margin="@dimen/padding2"/>
-
-            </LinearLayout>
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="@dimen/padding1"
-                android:layout_below="@id/civProfilePic">
+                android:padding="@dimen/padding1">
 
                 <!--        <TextView-->
                 <!--            android:id="@+id/title"-->
@@ -124,6 +129,7 @@
                     android:textStyle="bold"/>
 
                 <RelativeLayout
+                    android:id="@+id/rlAlamat"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="@dimen/padding1">
@@ -162,6 +168,46 @@
                 </RelativeLayout>
 
                 <RelativeLayout
+                    android:id="@+id/rlFirstMeet"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/padding1">
+
+                    <ImageView
+                        android:id="@+id/ivLogoFirstMeet"
+                        android:layout_centerVertical="true"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/ic_date_range_black_24dp"
+                        android:tint="@color/colorPrimary"
+                        android:layout_marginLeft="@dimen/margin1"
+                        android:layout_marginRight="@dimen/margin1"
+                        android:layout_alignParentLeft="true"/>
+
+                    <TextView
+                        android:id="@+id/tvFirstMeetTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Tanggal pertemuan pertama"
+                        android:layout_toRightOf="@id/ivLogoFirstMeet"
+                        android:layout_marginRight="@dimen/margin2"
+                        android:textSize="@dimen/paragraph"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:id="@+id/tvFirstMeet"
+                        android:layout_below="@id/tvFirstMeetTitle"
+                        android:layout_toRightOf="@id/ivLogoFirstMeet"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="00-00-00"
+                        android:layout_marginRight="@dimen/margin2"
+                        android:textSize="@dimen/paragraph"/>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/rlJadwal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="@dimen/padding1">
@@ -205,6 +251,7 @@
                 </RelativeLayout>
 
                 <RelativeLayout
+                    android:id="@+id/rlMapel"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="@dimen/padding1">
@@ -224,7 +271,7 @@
                         android:id="@+id/tvMapelTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Mata Pelajaran"
+                        android:text="Mata pelajaran"
                         android:layout_toRightOf="@id/ivLogoMapel"
                         android:layout_marginRight="@dimen/margin2"
                         android:textSize="@dimen/paragraph"
@@ -243,6 +290,7 @@
                 </RelativeLayout>
 
                 <RelativeLayout
+                    android:id="@+id/rlJenjang"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="@dimen/padding1">
@@ -281,6 +329,7 @@
                 </RelativeLayout>
 
                 <RelativeLayout
+                    android:id="@+id/rlStatus"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="@dimen/padding1">
@@ -353,6 +402,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:visibility="gone"
         android:id="@+id/llCommandRow"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -374,6 +424,15 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             style="@style/BtnSubmit"/>
+
+        <Button
+            android:id="@+id/btnAkhiriPemesanan"
+            android:text="Akhiri pemesanan"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            style="@style/BtnDanger"
+            />
 
     </LinearLayout>
 

@@ -58,4 +58,14 @@ dependencies {
 
     //Glide
     implementation 'com.github.bumptech.glide:glide:4.11.0'
+
+    //Midtrans Sandbox
+    implementation 'com.midtrans:uikit:1.23.1-SANDBOX'
+    //sandboxImplementation 'com.midtrans:uikit:1.23.1-SANDBOX'
+
+    //Midtrans Production
+    //implementation 'com.midtrans:uikit:1.21.2'
+
+    //Firebase
+//    implementation 'com.google.firebase:firebase-messaging:20.2.0'
 }

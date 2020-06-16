@@ -12,10 +12,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitClientInstance {
     private Retrofit retrofit;
-    private static final String BASE_URL = "http://192.168.1.22/easyprivate/public/";
+    public static final String BASE_URL = "http://192.168.1.28/easyprivate/public/";
 
-    private String defaultTitle = "Tunggu sebentar ya!";
-    private String defaultMessage = "Menyambungkan dengan server";
+    public static final String DEFAULT_TITLE = "Tunggu sebentar ya!";
+    public static final String DEFAULT_MESSAGE = "Menyambungkan dengan server";
 
     public ApiInterface getApiInterface(){
         if(retrofit == null) {
@@ -29,22 +29,10 @@ public class RetrofitClientInstance {
         return apiInterface;
     }
 
-    public String getBaseUrl(){
-        return BASE_URL;
-    }
-
-    public String getDefaultTitle() {
-        return defaultTitle;
-    }
-
-    public String getDefaultMessage() {
-        return defaultMessage;
-    }
-
     public ProgressDialog getProgressDialog(Context mContext){
         ProgressDialog progressDialog = new ProgressDialog(mContext);
-        progressDialog.setTitle(defaultTitle);
-        progressDialog.setMessage(defaultMessage);
+        progressDialog.setTitle(DEFAULT_TITLE);
+        progressDialog.setMessage(DEFAULT_MESSAGE);
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progressDialog.setCancelable(false);
 
@@ -63,7 +51,7 @@ public class RetrofitClientInstance {
 
     public ProgressDialog getProgressDialog(Context mContext, String message){
         ProgressDialog progressDialog = new ProgressDialog(mContext);
-        progressDialog.setTitle(defaultTitle);
+        progressDialog.setTitle(DEFAULT_TITLE);
         progressDialog.setMessage(message);
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progressDialog.setCancelable(false);

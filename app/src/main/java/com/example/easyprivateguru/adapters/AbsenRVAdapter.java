@@ -1,10 +1,12 @@
 package com.example.easyprivateguru.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -12,7 +14,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.easyprivateguru.CustomUtility;
 import com.example.easyprivateguru.UserHelper;
+import com.example.easyprivateguru.activities.DetailPemesananActivity;
 import com.example.easyprivateguru.models.Absen;
+import com.example.easyprivateguru.models.JadwalPengganti;
 import com.example.easyprivateguru.models.Pemesanan;
 import com.example.easyprivateguru.models.User;
 import com.example.easyprivateguru.R;
@@ -29,16 +33,20 @@ public class AbsenRVAdapter extends RecyclerView.Adapter<AbsenRVAdapter.ViewHold
     private UserHelper userHelper;
 
     public class ViewHolder extends RecyclerView.ViewHolder{
-        TextView subtitle1, title, subtitle2;
+        RelativeLayout rvItem;
+        TextView subtitle1, title, subtitle2, subtitle3;
         CircleImageView image;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
+            rvItem = itemView.findViewById(R.id.rvItem);
+
             image = itemView.findViewById(R.id.civPic);
             title = itemView.findViewById(R.id.tvTitle);
             subtitle1 = itemView.findViewById(R.id.tvSubtitle1);
             subtitle2 = itemView.findViewById(R.id.tvSubtitle2);
+            subtitle3 = itemView.findViewById(R.id.tvSubtitle3);
         }
     }
 
@@ -59,20 +67,44 @@ public class AbsenRVAdapter extends RecyclerView.Adapter<AbsenRVAdapter.ViewHold
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Absen a = absens.get(position);
+        JadwalPengganti jp = a.getJadwalPengganti();
         Pemesanan p = a.getPemesanan();
         User guru = p.getGuru();
         User murid = p.getMurid();
 
         CustomUtility customUtility = new CustomUtility(mContext);
+        customUtility.putIntoImage(murid.getAvatar(), holder.image);
 
-        if(murid.getAvatar() != null){
-            customUtility.putIntoImage(murid.getAvatar(), holder.image);
-        }
         holder.title.setText(murid.getName());
 
         String dateStr = customUtility.reformatDateTime(a.getWaktuAbsen(), "yyyy-MM-dd HH:mm:ss", "EEEE, dd MMMM yyyy, HH:mm");
-        holder.subtitle1.setText(dateStr);
-        holder.subtitle2.setText(p.getMataPelajaran().getNamaMapel());
+        holder.subtitle2.setText(dateStr);
+
+        String countDateStr = customUtility.getCountTimeString(a.getWaktuAbsen());
+        holder.subtitle1.setText(p.getMataPelajaran().getNamaMapel());
+        holder.subtitle3.setVisibility(View.GONE);
+
+        if(jp != null){
+            holder.subtitle3.setVisibility(View.VISIBLE);
+
+            String waktuAbsenStr = customUtility.reformatDateTime(a.getWaktuAbsen(), "yyyy-MM-dd HH:mm:ss", "EEEE, dd MMMM yyyy");
+
+            holder.subtitle3.setText("Jadwal pengganti \n "+waktuAbsenStr);
+            holder.subtitle3.setTextColor(mContext.getResources().getColor(R.color.fontDark));
+            holder.subtitle3.setTypeface(null);
+
+            dateStr = customUtility.reformatDateTime(jp.getWaktuPengganti(), "yyyy-MM-dd HH:mm:ss", "EEEE, dd MMMM yyyy, HH:mm");
+            holder.subtitle2.setText(dateStr);
+        }
+
+        holder.rvItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(mContext, DetailPemesananActivity.class);
+                i.putExtra("idPemesanan", a.getIdPemesanan());
+                mContext.startActivity(i);
+            }
+        });
     }
 
     @Override

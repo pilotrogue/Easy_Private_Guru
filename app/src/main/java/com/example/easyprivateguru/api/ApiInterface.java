@@ -1,16 +1,17 @@
 package com.example.easyprivateguru.api;
 
+import android.provider.CalendarContract;
+
 import com.example.easyprivateguru.models.Absen;
-import com.example.easyprivateguru.models.JadwalAjar;
 import com.example.easyprivateguru.models.JadwalAvailable;
 import com.example.easyprivateguru.models.JadwalPemesananPerminggu;
 import com.example.easyprivateguru.models.Pemesanan;
+import com.example.easyprivateguru.models.TanggalPengganti;
 import com.example.easyprivateguru.models.User;
 
 import java.util.ArrayList;
 
 import okhttp3.MultipartBody;
-import okhttp3.Request;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -86,10 +87,31 @@ public interface ApiInterface {
             @Field("status") Integer status
     );
 
-    //Get absen berdasarkan id guru
-    @GET("absen/guru/{id}")
-    Call<ArrayList<Absen>> getAbsenByIdGuru(
-            @Path("id") int idGuru
+    //Get absen filtered
+    @FormUrlEncoded
+    @POST("absen/filter")
+    Call<ArrayList<Absen>> getAbsen(
+            @Field("id_absen") Integer idAbsen,
+            @Field("id_pemesanan") Integer idPemesanan,
+            @Field("status") Integer status,
+            @Field("id_jadwal_pemesanan_perminggu") Integer idJadwalPemesananPerminggu,
+            @Field("id_guru") Integer idGuru,
+            @Field("id_murid") Integer idMurid
+    );
+
+    //Get tanggal pengganti
+    @FormUrlEncoded
+    @POST("absen/tanggalPengganti")
+    Call<ArrayList<TanggalPengganti>> getTanggalPengganti(
+            @Field("id_pemesanan") Integer idPemesanan
+    );
+
+    @FormUrlEncoded
+    @POST("absen/store")
+    Call<Integer> createAbsen(
+            @Field("id_pemesanan") Integer idPemesanan,
+            @Field("id_jadwal_pemesanan_perminggu") Integer idJadwalPemesananPerminggu,
+            @Field("waktu_pengganti") String waktu_pengganti
     );
 
     //Get jadwal pemesanan perminggu
@@ -98,6 +120,7 @@ public interface ApiInterface {
     Call<ArrayList<JadwalPemesananPerminggu>> getJadwalPemesananPerminggu(
             @Field("id_pemesanan") Integer idPemesanan,
             @Field("id_guru") Integer idGuru,
+            @Field("id_murid") Integer idMurid,
             @Field("status_pemesanan") Integer statusPemesanan
     );
 

@@ -79,10 +79,7 @@ public class PesananRVAdapter extends RecyclerView.Adapter<PesananRVAdapter.View
         MataPelajaran mataPelajaran = p.getMataPelajaran();
 
         CustomUtility customUtility = new CustomUtility(mContext);
-
-        if(murid.getAvatar() != null){
-            customUtility.putIntoImage(murid.getAvatar(), holder.image);
-        }
+        customUtility.putIntoImage(murid.getAvatar(), holder.image);
 
         holder.title.setText(murid.getName());
 
@@ -112,9 +109,9 @@ public class PesananRVAdapter extends RecyclerView.Adapter<PesananRVAdapter.View
 
         switch (p.getStatus()){
             case 0:
-                String waktuPemesanan = customUtility.getCountTimeString(p.getWaktuPemesanan());
-
-                holder.subtitle3.setText("Pemesanan baru \n("+waktuPemesanan+")");
+//                String waktuPemesanan = customUtility.getCountTimeString(p.getWaktuPemesanan());
+//                holder.subtitle3.setText("Pemesanan baru \n("+waktuPemesanan+")");
+                holder.subtitle3.setText("Pemesanan baru");
                 holder.subtitle3.setTextColor(mContext.getResources().getColor(R.color.white));
                 holder.subtitle3.setBackgroundResource(R.drawable.background_yellow);
                 break;
@@ -127,7 +124,6 @@ public class PesananRVAdapter extends RecyclerView.Adapter<PesananRVAdapter.View
                 holder.subtitle3.setText("Pemesanan ditolak");
                 holder.subtitle3.setTextColor(mContext.getResources().getColor(R.color.white));
                 holder.subtitle3.setBackgroundResource(R.drawable.background_red);
-                holder.rvCardItem.setOnClickListener(null);
                 if(!showAllBool){
                     setVisibility(holder, View.GONE);
                 }
@@ -136,7 +132,6 @@ public class PesananRVAdapter extends RecyclerView.Adapter<PesananRVAdapter.View
                 holder.subtitle3.setText("Pemesanan selesai");
                 holder.subtitle3.setTextColor(mContext.getResources().getColor(R.color.fontDark));
                 holder.subtitle3.setBackgroundColor(mContext.getResources().getColor(R.color.whiteDark));
-                holder.rvCardItem.setOnClickListener(null);
                 if(!showAllBool){
                     setVisibility(holder, View.GONE);
                 }

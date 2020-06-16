@@ -92,6 +92,7 @@ public class ConflictedPemesananActivity extends AppCompatActivity {
         CustomUtility customUtility = new CustomUtility(this);
         customUtility.putIntoImage(currPemesanan.getMurid().getAvatar(), civPic);
 
+
         Alamat currAlamat = currPemesanan.getMurid().getAlamat();
         Address address = customUtility.getAddress(currAlamat.getLatitude(), currAlamat.getLongitude());
 

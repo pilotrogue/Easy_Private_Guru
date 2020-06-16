@@ -33,37 +33,6 @@ public class UserHelper {
         this.preferences = mContext.getSharedPreferences(TAG_PREF, Context.MODE_PRIVATE);
     }
 
-    public void contoh(){
-        SharedPreferences sharedPreferences = mContext.getSharedPreferences("currPref", Context.MODE_PRIVATE);
-
-        //Store
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("testStr", "ini adalah value");
-        editor.putInt("testInt", 99);
-
-        //Retrieve
-        String hasilRetrieve = sharedPreferences.getString("testStr", "cadangan");
-        Integer hasilRetrieveInt = sharedPreferences.getInt("testInt", 0);
-
-        //Convert object ke bentuk json(string)
-        Pemesanan pemesananBaru = new Pemesanan();
-        String jsonStr;
-
-        //Menyimpan hasil convert
-        jsonStr = new Gson().toJson(pemesananBaru);
-        editor.putString("pemesananBaru", jsonStr);
-
-        //Convert json(string) ke bentuk object
-        Gson gson = new Gson();
-        String pemesananJsonStr = sharedPreferences.getString("pemesananBaru", "");
-
-        try{
-            Pemesanan pemesananHasilConvert = gson.fromJson(pemesananJsonStr, Pemesanan.class);
-        }catch (Throwable t){
-            t.printStackTrace();
-        }
-    }
-
     public void storeUser(User u){
         String jsonStr = new Gson().toJson(u);
 
@@ -77,6 +46,7 @@ public class UserHelper {
     public User retrieveUser(){
         Gson gson = new Gson();
         String json = preferences.getString(TAG_USER, "");
+        Log.d(TAG, "retrieveUser: json: "+json);
         try {
             User u = gson.fromJson(json, User.class);
             return u;

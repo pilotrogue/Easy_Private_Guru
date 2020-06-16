@@ -62,12 +62,15 @@ public class EventQueryHandler extends AsyncQueryHandler{
     private static final int EVENT    = 1;
     private static final int REMINDER = 2;
     private static final int ATTENDEE = 3;
+    private static final int GET_EVENT = 4;
+    private static final int UPDATE_EVENT = 5;
 
     private static final String FREQ_RULE = "FREQ=";
     private static final String COUNT_RULE = "COUNT=";
     private static final String WKST_RULE = "WKST=";
     private static final String BYDAY_RULE = "BYDAY=";
     private static final String INTERVAL_RULE = "INTERVAL=";
+    private static final String UNTIL_RULE = "UNTIL=";
 
     public EventQueryHandler(Context mContext) {
         super(mContext.getContentResolver());
@@ -130,7 +133,42 @@ public class EventQueryHandler extends AsyncQueryHandler{
         contentValues.put(CalendarContract.Events.EVENT_LOCATION, eventLocation);
         contentValues.put(CalendarContract.Events.RRULE, rRule);
 
-        eventsQueryHandler.startQuery(CALENDAR, contentValues, CalendarContract.Calendars.CONTENT_URI, CALENDAR_PROJECTION, null, null, null);
+        User currUser = uh.retrieveUser();
+        String userEmail = currUser.getEmail();
+        String selectionStr = CalendarContract.Calendars.ACCOUNT_NAME+"= ? AND "+CalendarContract.Calendars.OWNER_ACCOUNT+"= ? ";
+        String[] selectionArgs = {userEmail, userEmail};
+
+        eventsQueryHandler.startQuery(CALENDAR, contentValues, CalendarContract.Calendars.CONTENT_URI, CALENDAR_PROJECTION, selectionStr, selectionArgs, null);
+    }
+
+    public void updateStopEvent(Context context, int eventId){
+        Log.d(TAG, "updateStopEvent: called");
+        CustomUtility cu = new CustomUtility(mContext);
+
+        if (eventsQueryHandler == null){
+            eventsQueryHandler = new EventQueryHandler(context, getMuridUser(), getIdJadwalPemesananPerminggu());
+        }
+
+        Calendar myCalendar = Calendar.getInstance();
+        String calendarStr = myCalendar.getTime().toString();
+        Log.d(TAG, "updateStopEvent: calendarStr: "+calendarStr);
+
+        calendarStr = cu.reformatDateTime(calendarStr, "EEE MMM dd HH:mm:ss z yyyy", "yyyyMMdd");
+
+        String rRule = FREQ_RULE+"WEEKLY;"+INTERVAL_RULE+"1;"+UNTIL_RULE+calendarStr;
+
+        Log.d(TAG, "updateStopEvent: rRule: "+rRule);
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(CalendarContract.Events._ID, eventId);
+        contentValues.put(CalendarContract.Events.RRULE, rRule);
+
+        User currUser = uh.retrieveUser();
+        String userEmail = currUser.getEmail();
+        String selectionStr = CalendarContract.Calendars.ACCOUNT_NAME+"= ? AND "+CalendarContract.Calendars.OWNER_ACCOUNT+"= ? ";
+        String[] selectionArgs = {userEmail, userEmail};
+
+        eventsQueryHandler.startQuery(UPDATE_EVENT, contentValues, CalendarContract.Calendars.CONTENT_URI, CALENDAR_PROJECTION, selectionStr, selectionArgs, null);
     }
 
     private String getHariCode(String hari){
@@ -168,6 +206,7 @@ public class EventQueryHandler extends AsyncQueryHandler{
     protected void onQueryComplete(int token, Object object, Cursor cursor) {
 //        super.onQueryComplete(token, object, cursor);
         Log.d(TAG, "onQueryComplete: called");
+        Log.d(TAG, "onQueryComplete: token: "+token);
         User currUser = uh.retrieveUser();
         String userEmail = currUser.getEmail();
         cursor.moveToFirst();
@@ -177,7 +216,7 @@ public class EventQueryHandler extends AsyncQueryHandler{
         String accountType = "";
         String ownerName = "";
 
-        while(cursor.moveToNext()){
+//        while(cursor.moveToNext()){
             calendarID = cursor.getLong(CALENDAR_ID_INDEX);
             accountName = cursor.getString(CALENDAR_ACCOUNT_NAME_INDEX);
             accountType = cursor.getString(CALENDAR_ACCOUNT_TYPE_INDEX);
@@ -189,18 +228,32 @@ public class EventQueryHandler extends AsyncQueryHandler{
             Log.d(TAG, "onQueryComplete: accountType: "+accountType);
             Log.d(TAG, "onQueryComplete: ownerName: "+ownerName);
 
-            if(accountName.equals(userEmail) && ownerName.equals(userEmail)){
-                break;
-            }
-        }
+//            if(accountName.equals(userEmail) && ownerName.equals(userEmail)){
+//                break;
+//            }
+//        }
 
         if(calendarID != 0 && !accountName.equals("") && !accountType.equals("") && !ownerName.equals("")){
             ContentValues contentValues = (ContentValues) object;
-            contentValues.put(CalendarContract.Events.CALENDAR_ID, calendarID);
-            contentValues.put(CalendarContract.Events.EVENT_TIMEZONE, TimeZone.getDefault().getDisplayName());
+
             progressDialog = rci.getProgressDialog(mContext);
             progressDialog.show();
-            startInsert(EVENT, null, CalendarContract.Events.CONTENT_URI, contentValues);
+            switch(token){
+                case CALENDAR:
+                    contentValues.put(CalendarContract.Events.CALENDAR_ID, calendarID);
+                    contentValues.put(CalendarContract.Events.EVENT_TIMEZONE, TimeZone.getDefault().getDisplayName());
+                    startInsert(EVENT, null, CalendarContract.Events.CONTENT_URI, contentValues);
+                    break;
+                case UPDATE_EVENT:
+                    String eventId = contentValues.get(CalendarContract.Events._ID).toString();
+
+                    String selectionStr = CalendarContract.Events._ID + " = ? AND "
+                            + CalendarContract.Events.CALENDAR_ID + " = ?";
+                    String[] selectionArgs = {eventId, String.valueOf(calendarID)};
+
+                    startUpdate(UPDATE_EVENT, null, CalendarContract.Events.CONTENT_URI, contentValues, selectionStr,selectionArgs);
+                    break;
+            }
         }else{
             Toast.makeText(mContext, "Account not found", Toast.LENGTH_LONG).show();
             Log.d(TAG, "onQueryComplete: account not found");
@@ -211,14 +264,16 @@ public class EventQueryHandler extends AsyncQueryHandler{
     protected void onInsertComplete(int token, Object object, Uri uri) {
 //        super.onInsertComplete(token, object, uri);
         User currUser = uh.retrieveUser();
+        Toast.makeText(mContext, "Jadwal berhasil dimasukkan", Toast.LENGTH_LONG).show();
         if (uri != null)
         {
             Log.d(TAG, "onInsertComplete: Insert complete " + uri.getLastPathSegment());
+            long eventID = Long.parseLong(uri.getLastPathSegment());
+            Integer eventIdInteger = (int) eventID;
 
             switch (token)
             {
                 case EVENT:
-                    long eventID = Long.parseLong(uri.getLastPathSegment());
                     ContentValues values = new ContentValues();
                     values.put(CalendarContract.Reminders.MINUTES, 30);
                     values.put(CalendarContract.Reminders.EVENT_ID, eventID);
@@ -236,9 +291,10 @@ public class EventQueryHandler extends AsyncQueryHandler{
                     }else{
                         Log.d(TAG, "onInsertComplete: murid is null");
                     }
-
-                    Integer eventIdInteger = (int) eventID;
                     callUpdateIdEventJadwalPemesananPerminggu(getIdJadwalPemesananPerminggu(), eventIdInteger);
+                    break;
+                case UPDATE_EVENT:
+                    progressDialog.dismiss();
                     break;
             }
         }

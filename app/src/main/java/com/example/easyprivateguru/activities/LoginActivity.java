@@ -102,7 +102,7 @@ public class LoginActivity extends AppCompatActivity {
 
     //Membuka website pendaftaran
     private void signUp(){
-        Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(rci.getBaseUrl()+"login/"));
+        Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(RetrofitClientInstance.BASE_URL+"login/"));
         startActivity(i);
     }
 

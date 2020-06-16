@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rvItem"
+    android:layout_marginBottom="@dimen/margin2"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/rlHari"
+        android:layout_marginBottom="@dimen/margin2"
+        android:visibility="gone"
+        >
+
+        <TextView
+            android:id="@+id/tvHari"
+            android:text="Hari"
+            android:textSize="@dimen/header3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/padding3"
+            android:textStyle="bold"
+            />
+
+        <View
+            android:layout_centerVertical="true"
+            android:layout_below="@id/tvHari"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/colorPrimary"/>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@id/rlHari">
+
+        <TextView
+            android:id="@+id/tvJam"
+            android:padding="@dimen/padding3"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:text="00:00"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:textAlignment="center"
+            android:background="@drawable/background_blue"
+            android:gravity="center"
+            android:layout_marginRight="@dimen/padding2" />
+
+        <LinearLayout
+            android:id="@+id/llBody"
+            android:layout_width="0dp"
+            android:layout_weight="5"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@drawable/background_white">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/civPic"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@drawable/account_default"
+                android:layout_gravity="top"
+                android:layout_margin="@dimen/margin2"/>
+
+            <!--Icon made by Freepik perfect from www.flaticon.com-->
+            <LinearLayout
+                android:id="@+id/llDetail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginRight="@dimen/margin2"
+                android:layout_marginEnd="@dimen/margin2"
+                android:layout_gravity="center">
+                <TextView
+                    android:id="@+id/tvNamaMurid"
+                    android:text="Nama murid"
+                    android:singleLine="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/paragraph"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/tvMapel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:text="Mata pelajaran dan jenjang"
+                    android:textSize="@dimen/paragraph" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

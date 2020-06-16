@@ -6,7 +6,7 @@ import android.os.Parcelable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class JadwalPemesananPerminggu implements Parcelable {
+public class JadwalPemesananPerminggu {
 
     @Expose
     @SerializedName("pemesanan")
@@ -26,45 +26,6 @@ public class JadwalPemesananPerminggu implements Parcelable {
     @Expose
     @SerializedName("id_jadwal_pemesanan_perminggu")
     private int idJadwalPemesananPerminggu;
-
-    public JadwalPemesananPerminggu() {
-    }
-
-    protected JadwalPemesananPerminggu(Parcel in) {
-        pemesanan = in.readParcelable(Pemesanan.class.getClassLoader());
-        jadwalAvailable = in.readParcelable(JadwalAvailable.class.getClassLoader());
-        idEvent = in.readInt();
-        idJadwalAvailable = in.readInt();
-        idPemesanan = in.readInt();
-        idJadwalPemesananPerminggu = in.readInt();
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeParcelable(pemesanan, flags);
-        dest.writeParcelable(jadwalAvailable, flags);
-        dest.writeInt(idEvent);
-        dest.writeInt(idJadwalAvailable);
-        dest.writeInt(idPemesanan);
-        dest.writeInt(idJadwalPemesananPerminggu);
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    public static final Creator<JadwalPemesananPerminggu> CREATOR = new Creator<JadwalPemesananPerminggu>() {
-        @Override
-        public JadwalPemesananPerminggu createFromParcel(Parcel in) {
-            return new JadwalPemesananPerminggu(in);
-        }
-
-        @Override
-        public JadwalPemesananPerminggu[] newArray(int size) {
-            return new JadwalPemesananPerminggu[size];
-        }
-    };
 
     public Pemesanan getPemesanan() {
         return pemesanan;

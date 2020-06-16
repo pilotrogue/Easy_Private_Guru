@@ -9,7 +9,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Pemesanan implements Parcelable {
+public class Pemesanan{
 
     @Expose
     @SerializedName("jadwal_pemesanan_perminggu")
@@ -23,9 +23,6 @@ public class Pemesanan implements Parcelable {
     @Expose
     @SerializedName("murid")
     private User murid;
-    @Expose
-    @SerializedName("jumlah_pertemuan")
-    private int jumlahPertemuan;
     @Expose
     @SerializedName("status")
     private int status;
@@ -50,51 +47,6 @@ public class Pemesanan implements Parcelable {
     @Expose
     @SerializedName("id_pemesanan")
     private int idPemesanan;
-
-    public Pemesanan() {
-    }
-
-    protected Pemesanan(Parcel in) {
-        jumlahPertemuan = in.readInt();
-        status = in.readInt();
-        firstMeet = in.readString();
-        waktuPemesanan = in.readString();
-        kelas = in.readInt();
-        idMapel = in.readInt();
-        idMurid = in.readInt();
-        idGuru = in.readInt();
-        idPemesanan = in.readInt();
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(jumlahPertemuan);
-        dest.writeInt(status);
-        dest.writeString(firstMeet);
-        dest.writeString(waktuPemesanan);
-        dest.writeInt(kelas);
-        dest.writeInt(idMapel);
-        dest.writeInt(idMurid);
-        dest.writeInt(idGuru);
-        dest.writeInt(idPemesanan);
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    public static final Creator<Pemesanan> CREATOR = new Creator<Pemesanan>() {
-        @Override
-        public Pemesanan createFromParcel(Parcel in) {
-            return new Pemesanan(in);
-        }
-
-        @Override
-        public Pemesanan[] newArray(int size) {
-            return new Pemesanan[size];
-        }
-    };
 
     public ArrayList<JadwalPemesananPerminggu> getJadwalPemesananPerminggu() {
         return jadwalPemesananPerminggu;
@@ -126,14 +78,6 @@ public class Pemesanan implements Parcelable {
 
     public void setMurid(User murid) {
         this.murid = murid;
-    }
-
-    public int getJumlahPertemuan() {
-        return jumlahPertemuan;
-    }
-
-    public void setJumlahPertemuan(int jumlahPertemuan) {
-        this.jumlahPertemuan = jumlahPertemuan;
     }
 
     public int getStatus() {

@@ -47,6 +47,7 @@ public class AbsenFragment extends Fragment {
     private boolean hasBeenRefreshed = true;
 
     private static final String TAG = "AbsenFragment";
+    private static final Integer REQUEST_CODE = 123;
 
     @Override
     public void onResume() {
@@ -97,7 +98,7 @@ public class AbsenFragment extends Fragment {
 
     private void callAbsen(){
         ProgressDialog progressDialog = rci.getProgressDialog(mContext, "Menampilkan daftar absen");
-        Call<ArrayList<Absen>> call = apiInterface.getAbsenByIdGuru(currUser.getId());
+        Call<ArrayList<Absen>> call = apiInterface.getAbsen(null, null, null, null, currUser.getId(), null);
 
         progressDialog.show();
         call.enqueue(new Callback<ArrayList<Absen>>() {

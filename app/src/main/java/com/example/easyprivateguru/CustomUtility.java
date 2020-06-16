@@ -8,8 +8,13 @@ import android.util.Log;
 import com.example.easyprivateguru.api.ApiInterface;
 import com.example.easyprivateguru.api.RetrofitClientInstance;
 import com.example.easyprivateguru.models.Absen;
+import com.example.easyprivateguru.models.Pemesanan;
 import com.google.android.gms.common.api.Api;
 import com.google.gson.Gson;
+import com.midtrans.sdk.corekit.callback.TransactionFinishedCallback;
+import com.midtrans.sdk.corekit.core.MidtransSDK;
+import com.midtrans.sdk.corekit.models.snap.CreditCard;
+import com.midtrans.sdk.corekit.models.snap.TransactionResult;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
@@ -76,7 +81,23 @@ public class CustomUtility {
         }
     }
 
+    public Pemesanan jsonToPemesanan(String pemesananJsonStr){
+        Gson gson = new Gson();
+        try {
+            Pemesanan pemesanan = gson.fromJson(pemesananJsonStr, Pemesanan.class);
+            return pemesanan;
+        }catch (Throwable t){
+            Log.d(TAG, "jsonToPemesanan: "+t.getMessage());
+            return null;
+        }
+    }
+
     public void putIntoImage(String avatarStr, CircleImageView civ){
+        if(avatarStr == null || avatarStr.equals("")){
+            Log.d(TAG, "putIntoImage: avatar is not available");
+            civ.setImageResource(R.drawable.account_default);
+            return;
+        }
         Picasso.get()
                 .load(avatarStr)
                 .placeholder(R.drawable.account_default)
@@ -107,7 +128,7 @@ public class CustomUtility {
     }
 
     public String modifyAvatarStr(String avatarStr){
-        avatarStr = rci.getBaseUrl() + "assets/avatars/" + avatarStr;
+        avatarStr = RetrofitClientInstance.BASE_URL + "assets/avatars/" + avatarStr;
         return avatarStr;
     }
 
@@ -124,7 +145,7 @@ public class CustomUtility {
         String minuteStart = reformatDateTime(timeStr, "yyyy-MM-dd HH:mm:ss", "mm");
         String secondStart = reformatDateTime(timeStr, "yyyy-MM-dd HH:mm:ss", "ss");
 
-        Log.d(TAG, "addJadwalToGoogleCalendar: monthStart: "+monthStart);
+        Log.d(TAG, "getCountTimeString: monthStart: "+monthStart);
 
         //Get calendar first meet
         Calendar currCalendar = Calendar.getInstance();
@@ -153,10 +174,49 @@ public class CustomUtility {
                 if(hours > 24){
                     long days = hours/24;
                     timeCountStr = days + " hari yang lalu";
+                    if(days > 30){
+                        long months = days/30;
+                        timeCountStr = months + " bulan yang lalu";
+                        if(months > 12){
+                            long years = months/12;
+                            timeCountStr = days + " tahun yang lalu";
+                        }
+                    }
                 }
             }
         }
 
         return timeCountStr;
+    }
+
+    public String hariIntToString(Integer hariInt){
+        String hariStr = "";
+        switch (hariInt){
+            case 1:
+                hariStr = "minggu";
+                break;
+            case 2:
+                hariStr = "senin";
+                break;
+            case 3:
+                hariStr = "selasa";
+                break;
+            case 4:
+                hariStr = "rabu";
+                break;
+            case 5:
+                hariStr = "kamis";
+                break;
+            case 6:
+                hariStr = "jumat";
+                break;
+            case 7:
+                hariStr = "sabtu";
+                break;
+            default:
+                hariStr = "";
+                break;
+        }
+        return hariStr;
     }
 }

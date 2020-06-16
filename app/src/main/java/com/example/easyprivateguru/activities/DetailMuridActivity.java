@@ -173,9 +173,8 @@ public class DetailMuridActivity extends AppCompatActivity {
         mapMoveCamera(muridLocation);
 
         //Menampilkan profile picture
-        if(murid.getAvatar() != null){
-            customUtility.putIntoImage(murid.getAvatar(), civProfilePic);
-        }
+        customUtility.putIntoImage(murid.getAvatar(), civProfilePic);
+
 
         //Menampilkan nomor telepon pada button
         llBtnNoTelp.setOnClickListener(new View.OnClickListener() {

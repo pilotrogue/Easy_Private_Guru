@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/rvItem"
-    android:layout_marginBottom="@dimen/margin1"
+    android:layout_marginBottom="@dimen/margin2"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -11,12 +11,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/rlBigTitle"
-        android:visibility="gone">
+        android:visibility="gone"
+        >
 
         <TextView
             android:id="@+id/tvBigTitle"
             android:text="Big Title"
-            android:textSize="@dimen/header3"
+            android:textSize="@dimen/paragraph"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="@dimen/margin2"

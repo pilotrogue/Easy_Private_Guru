@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.easyprivateguru.CustomUtility;
 import com.example.easyprivateguru.UserHelper;
 import com.example.easyprivateguru.activities.DetailMuridActivity;
+import com.example.easyprivateguru.activities.DetailPemesananActivity;
 import com.example.easyprivateguru.models.Alamat;
 import com.example.easyprivateguru.models.MataPelajaran;
 import com.example.easyprivateguru.models.Pemesanan;
@@ -93,8 +94,8 @@ public class MuridSayaRVAdapter extends RecyclerView.Adapter<MuridSayaRVAdapter.
         holder.rvItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(mContext, DetailMuridActivity.class);
-                i.putExtra("id_pemesanan", pesanan.getIdPemesanan());
+                Intent i = new Intent(mContext, DetailPemesananActivity.class);
+                i.putExtra("idPemesanan", pesanan.getIdPemesanan());
                 mContext.startActivity(i);
             }
         });

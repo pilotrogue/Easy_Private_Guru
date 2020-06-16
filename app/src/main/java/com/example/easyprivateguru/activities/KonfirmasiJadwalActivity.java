@@ -77,7 +77,7 @@ public class KonfirmasiJadwalActivity extends AppCompatActivity {
 
     private void callJadwalPemesananPerminggu(){
         Integer idPemesanan = getIntent().getIntExtra("idPemesanan", 0);
-        Call<ArrayList<JadwalPemesananPerminggu>> call = apiInterface.getJadwalPemesananPerminggu(idPemesanan, null, null);
+        Call<ArrayList<JadwalPemesananPerminggu>> call = apiInterface.getJadwalPemesananPerminggu(idPemesanan, null, null,null);
 
         ProgressDialog progressDialog = rci.getProgressDialog(this, "Menampilkan jadwal");
         progressDialog.show();
@@ -184,7 +184,7 @@ public class KonfirmasiJadwalActivity extends AppCompatActivity {
 
             long startDateLong = calendar.getTimeInMillis();
 
-            while(!currHari.toLowerCase().equals(hariIntToString(calendar.get(Calendar.DAY_OF_WEEK)))){
+            while(!currHari.toLowerCase().equals(customUtility.hariIntToString(calendar.get(Calendar.DAY_OF_WEEK)))){
                 startDateLong = calendar.getTimeInMillis();
                 startDateLong += (1000*60*60*24);
                 calendar.setTimeInMillis(startDateLong);
@@ -192,7 +192,7 @@ public class KonfirmasiJadwalActivity extends AppCompatActivity {
             }
 
             //Menambah murid ke dalam daftar hadir
-            eqh.setMuridUser(murid);
+//            eqh.setMuridUser(murid);
 
             //Menambah id jadwal pemesanan perminggu
             eqh.setIdJadwalPemesananPerminggu(jpp.getIdJadwalPemesananPerminggu());
@@ -200,36 +200,5 @@ public class KonfirmasiJadwalActivity extends AppCompatActivity {
             Log.d(TAG, "addJadwalToGoogleCalendar: idJadwalPemesananPerminggu: "+jpp.getIdJadwalPemesananPerminggu());
             eqh.insertEvent(this, startDateLong, titleStr, EventQueryHandler.DEFAULT_DESCRIPTION, eventLocationStr);
         }
-    }
-
-    private String hariIntToString(Integer hariInt){
-        String hariStr = "";
-        switch (hariInt){
-            case 1:
-                hariStr = "minggu";
-                break;
-            case 2:
-                hariStr = "senin";
-                break;
-            case 3:
-                hariStr = "selasa";
-                break;
-            case 4:
-                hariStr = "rabu";
-                break;
-            case 5:
-                hariStr = "kamis";
-                break;
-            case 6:
-                hariStr = "jumat";
-                break;
-            case 7:
-                hariStr = "sabtu";
-                break;
-            default:
-                hariStr = "";
-                break;
-        }
-        return hariStr;
     }
 }

@@ -32,16 +32,19 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.easyprivateguru.CustomUtility;
+import com.example.easyprivateguru.EventQueryHandler;
 import com.example.easyprivateguru.R;
 import com.example.easyprivateguru.UserHelper;
 import com.example.easyprivateguru.api.ApiInterface;
 import com.example.easyprivateguru.api.RetrofitClientInstance;
 import com.example.easyprivateguru.models.Alamat;
 import com.example.easyprivateguru.models.JadwalAvailable;
+import com.example.easyprivateguru.models.JadwalPemesananPerminggu;
 import com.example.easyprivateguru.models.MataPelajaran;
 import com.example.easyprivateguru.models.Pemesanan;
 import com.example.easyprivateguru.models.User;
@@ -75,16 +78,16 @@ public class DetailPemesananActivity extends AppCompatActivity{
     private boolean mLocationPermission = false;
 
     private CircleImageView civProfilePic;
-    private TextView tvNoTelp, tvNamaMurid, tvAlamatMurid, tvMapel, tvJenjang, tvStatus, tvAlert;
-    private Button btnTerima, btnTolak;
+    private RelativeLayout rlAlamat, rlFirstMeet, rlJadwal, rlMapel, rlJenjang, rlStatus;
+    private TextView tvNoTelp, tvNamaMurid, tvAlamatMurid, tvFirstMeet, tvMapel, tvJenjang, tvStatus, tvAlert;
+    private Button btnTerima, btnTolak, btnAkhir;
     private GoogleMap gMap;
     private LinearLayout llCommandRow, llBtnNoTelp, llBtnNavigation, llHariJam, llWarning;
-    private RecyclerView rvHariJam;
 
     private static final String DIRECTION_URI_STR = "https://www.google.com/maps/dir/?api=1&destination=";
 
     private static final String TAG = "DetailPemesananActivity";
-    private static final int DEFAULT_MAP_ZOOM = 13;
+    private static final int DEFAULT_MAP_ZOOM = 10;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1234;
     private static final String FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
     private static final String COARSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
@@ -92,6 +95,8 @@ public class DetailPemesananActivity extends AppCompatActivity{
 
     private boolean hasBeenPaused = false;
     public static Activity detailPemesananActivity;
+
+    private SupportMapFragment mapFragment;
 
     @Override
     protected void onResume() {
@@ -138,11 +143,17 @@ public class DetailPemesananActivity extends AppCompatActivity{
         llBtnNoTelp = findViewById(R.id.llBtnNoTelp);
         llBtnNavigation = findViewById(R.id.llBtnNavigation);
 
-        rvHariJam = findViewById(R.id.rvHariJam);
+        rlAlamat = findViewById(R.id.rlAlamat);
+        rlFirstMeet = findViewById(R.id.rlFirstMeet);
+        rlJadwal = findViewById(R.id.rlJadwal);
+        rlMapel = findViewById(R.id.rlMapel);
+        rlJenjang = findViewById(R.id.rlJenjang);
+        rlStatus = findViewById(R.id.rlStatus);
 
         tvNoTelp = findViewById(R.id.tvNoTelp);
         tvNamaMurid = findViewById(R.id.tvNamaMurid);
         tvAlamatMurid = findViewById(R.id.tvAlamatMurid);
+        tvFirstMeet = findViewById(R.id.tvFirstMeet);
         tvMapel = findViewById(R.id.tvMapel);
         tvJenjang = findViewById(R.id.tvJenjang);
         tvStatus = findViewById(R.id.tvStatus);
@@ -155,12 +166,13 @@ public class DetailPemesananActivity extends AppCompatActivity{
         llCommandRow = findViewById(R.id.llCommandRow);
         btnTerima = findViewById(R.id.btnTerimaPemesanan);
         btnTolak = findViewById(R.id.btnTolakPemesanan);
+        btnAkhir = findViewById(R.id.btnAkhiriPemesanan);
 
         initMap();
     }
 
     private void initMap(){
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+        mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.fragMap);
         mapFragment.getMapAsync(new OnMapReadyCallback() {
             @Override
@@ -247,9 +259,8 @@ public class DetailPemesananActivity extends AppCompatActivity{
         mapMoveCamera(muridLocation);
 
         //Menampilkan profile picture
-        if(murid.getAvatar() != null){
-            customUtility.putIntoImage(murid.getAvatar(), civProfilePic);
-        }
+        customUtility.putIntoImage(murid.getAvatar(), civProfilePic);
+
 
         //Menampilkan nomor telepon pada button
         llBtnNoTelp.setOnClickListener(new View.OnClickListener() {
@@ -285,6 +296,10 @@ public class DetailPemesananActivity extends AppCompatActivity{
 //        rvHariJam.setAdapter(hariJamRVAdapter);
 //        rvHariJam.setLayoutManager(new LinearLayoutManager(this));
 
+        //Menampilkan tanggal pertemuan pertama
+        String firstMeetStr = customUtility.reformatDateTime(pemesanan.getFirstMeet(), "yyyy-MM-dd HH:mm:ss", "EEEE, dd MMMM yyyy");
+        tvFirstMeet.setText(firstMeetStr);
+
         //Menampilkan mata pelajaran dan jenjang
         MataPelajaran mapel = pemesanan.getMataPelajaran();
         tvMapel.setText(mapel.getNamaMapel());
@@ -302,45 +317,64 @@ public class DetailPemesananActivity extends AppCompatActivity{
         String statusStr = "";
         switch (statusInt){
             case 0:
-                statusStr = "Pemesanan belum diterima";
+                statusStr = "Pemesanan baru";
                 llCommandRow.setVisibility(View.VISIBLE);
+                btnAkhir.setVisibility(View.GONE);
+
                 llBtnNavigation.setVisibility(View.INVISIBLE);
                 llBtnNoTelp.setVisibility(View.INVISIBLE);
+
+                //Menerima pemesanan
+                btnTerima.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        showDialogTerima();
+                    }
+                });
+
+                //Menolak pemesanan
+                btnTolak.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        showDialogTolak();
+                    }
+                });
                 break;
             case 1:
-                statusStr = "Pemesanan telah diterima";
+                statusStr = "Pemesanan aktif";
                 llBtnNavigation.setVisibility(View.VISIBLE);
                 llBtnNoTelp.setVisibility(View.VISIBLE);
+
+                llCommandRow.setVisibility(View.VISIBLE);
+                btnTolak.setVisibility(View.GONE);
+                btnTerima.setVisibility(View.GONE);
+
+                btnAkhir.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        showDialogAkhir();
+                    }
+                });
                 break;
             case 2:
+                mapFragment.getView().setVisibility(View.INVISIBLE);
+                rlAlamat.setVisibility(View.GONE);
                 statusStr = "Pemesanan telah ditolak";
                 break;
             case 3:
+                mapFragment.getView().setVisibility(View.INVISIBLE);
+                rlAlamat.setVisibility(View.GONE);
                 statusStr = "Pemesanan telah selesai";
                 break;
             default:
+                mapFragment.getView().setVisibility(View.INVISIBLE);
+                rlAlamat.setVisibility(View.GONE);
                 statusStr = "Hmm... sepertinya ada yang salah";
                 break;
         }
 
         //Menampilkan pesan status
         tvStatus.setText(statusStr);
-
-        //Menerima pemesanan
-        btnTerima.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showDialogTerima();
-            }
-        });
-
-        //Menolak pemesanan
-        btnTolak.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showDialogTolak();
-            }
-        });
 
         callCountConflictedPemesanan();
     }
@@ -388,11 +422,32 @@ public class DetailPemesananActivity extends AppCompatActivity{
                     for(int i = 0; i < currPemesanan.getJadwalPemesananPerminggu().size(); i++){
                         jadwalAvailableArrayList.add(currPemesanan.getJadwalPemesananPerminggu().get(i).getJadwalAvailable().getIdJadwalAvailable());
                     }
-                    callUpdateJadwalAvailable(jadwalAvailableArrayList);
+                    toastStr = "Hore! Pemesanan telah berhasil diterima!";
+                    Toast.makeText(DetailPemesananActivity.this, toastStr, Toast.LENGTH_LONG).show();
+                    finish();
+                    konfirmasiIntent();
+//                    callUpdateJadwalAvailable(null, null, jadwalAvailableArrayList, status);
+
                 }else if(status == 2){
                     toastStr = "Pemesanan berhasil ditolak.";
                     Toast.makeText(DetailPemesananActivity.this, toastStr, Toast.LENGTH_LONG).show();
                     finish();
+
+                }else if(status == 3){
+                    ArrayList<Integer> jadwalAvailableArrayList = new ArrayList<>();
+                    toastStr = "Pemesanan berhasil diakhiri.";
+                    Toast.makeText(DetailPemesananActivity.this, toastStr, Toast.LENGTH_LONG).show();
+                    EventQueryHandler eqh = new EventQueryHandler(DetailPemesananActivity.this);
+                    for(int i = 0; i < currPemesanan.getJadwalPemesananPerminggu().size(); i++){
+                        JadwalPemesananPerminggu jpp = currPemesanan.getJadwalPemesananPerminggu().get(i);
+                        jadwalAvailableArrayList.add(jpp.getJadwalAvailable().getIdJadwalAvailable());
+                        if(jpp.getIdEvent() != 0){
+                            eqh.updateStopEvent(DetailPemesananActivity.this, jpp.getIdEvent());
+                        }
+                    }
+                    finish();
+                    konfirmasiIntent();
+//                    callUpdateJadwalAvailable(jadwalAvailableArrayList, null, null, status);
                 }
             }
 
@@ -457,28 +512,28 @@ public class DetailPemesananActivity extends AppCompatActivity{
         });
     }
 
-    private void callUpdateJadwalAvailable(ArrayList<Integer> idTerisi){
-        Call<Void> call = apiInterface.updateJadwalAvailable(null, null, idTerisi);
+    private void callUpdateJadwalAvailable(ArrayList<Integer> idAvailable, ArrayList<Integer> idNonAvailable, ArrayList<Integer> idTerisi, Integer status){
+        Call<Void> call = apiInterface.updateJadwalAvailable(idAvailable, idNonAvailable, idTerisi);
         ProgressDialog progressDialog = rci.getProgressDialog(this);
         progressDialog.show();
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 Log.d(TAG, "onResponse: "+response.message());
+                progressDialog.dismiss();
 
-                if(!response.isSuccessful()){
+                if(!response.isSuccessful()) {
                     return;
                 }
-
-                String toastStr = "Hore! Pemesanan telah berhasil diterima!";
-                Toast.makeText(DetailPemesananActivity.this, toastStr, Toast.LENGTH_LONG).show();
+                if(status == 1){
+                    konfirmasiIntent();
+                }
                 finish();
-
-                konfirmasiIntent();
             }
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
+                progressDialog.dismiss();
                 Log.d(TAG, "onFailure: "+t.getMessage());
                 t.printStackTrace();
             }
@@ -526,6 +581,24 @@ public class DetailPemesananActivity extends AppCompatActivity{
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 callUpdatePemesanan(2);
+            }
+        });
+        alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Kembali", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        alertDialog.show();
+    }
+    private void showDialogAkhir(){
+        AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+        alertDialog.setTitle("Akhiri pemesanan?");
+        alertDialog.setMessage("Apakah Anda yakin ingin mengakhiri pemesanan?");
+        alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "Akhiri", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                callUpdatePemesanan(3);
             }
         });
         alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Kembali", new DialogInterface.OnClickListener() {

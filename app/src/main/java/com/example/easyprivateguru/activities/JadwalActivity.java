@@ -19,8 +19,7 @@ import com.example.easyprivateguru.UserHelper;
 import com.example.easyprivateguru.adapters.JadwalRVAdapter;
 import com.example.easyprivateguru.api.ApiInterface;
 import com.example.easyprivateguru.api.RetrofitClientInstance;
-import com.example.easyprivateguru.models.JadwalAjar;
-import com.example.easyprivateguru.models.JadwalPemesananPerminggu;
+import com.example.easyprivateguru.models.JadwalAvailable;
 import com.example.easyprivateguru.models.User;
 
 import java.util.ArrayList;
@@ -38,8 +37,7 @@ public class JadwalActivity extends AppCompatActivity {
     private RecyclerView rvJadwal;
     private Cursor mCursor;
     private static final String TAG = "JadwalActivity";
-    private ArrayList<JadwalAjar> jadwalAjars = new ArrayList<>();
-    private ArrayList<JadwalPemesananPerminggu> jadwalPemesananPermingguArrayList = new ArrayList<>();
+    private ArrayList<JadwalAvailable> jadwalAvailableArrayList = new ArrayList<>();
 
     private boolean hasBeenRefreshed = true;
 
@@ -49,10 +47,9 @@ public class JadwalActivity extends AppCompatActivity {
         if(hasBeenRefreshed == false){
             userHelper = new UserHelper(this);
             currUser = userHelper.retrieveUser();
-            jadwalAjars.clear();
             rvJadwal.setAdapter(null);
 
-            callJadwalPemesananPerminggu(currUser.getId());
+            callJadwalAvailable(currUser.getId());
             hasBeenRefreshed = true;
         }
     }
@@ -69,7 +66,7 @@ public class JadwalActivity extends AppCompatActivity {
         setContentView(R.layout.activity_jadwal);
 
         init();
-        callJadwalPemesananPerminggu(currUser.getId());
+        callJadwalAvailable(currUser.getId());
     }
 
     private void init() {
@@ -79,24 +76,25 @@ public class JadwalActivity extends AppCompatActivity {
         currUser = userHelper.retrieveUser();
     }
 
-    private void callJadwalPemesananPerminggu(Integer id_guru){
+    private void callJadwalAvailable(Integer id_guru){
         ProgressDialog progressDialog = rci.getProgressDialog(this, "Menampilkan jadwal kamu");
         progressDialog.show();
-        Call<ArrayList<JadwalPemesananPerminggu>> call = apiInterface.getJadwalPemesananPerminggu(null, id_guru, 1);
-        call.enqueue(new Callback<ArrayList<JadwalPemesananPerminggu>>() {
+        Call<ArrayList<JadwalAvailable>> call = apiInterface.getJadwalAvailable(id_guru, null, null, null, null);
+        call.enqueue(new Callback<ArrayList<JadwalAvailable>>() {
             @Override
-            public void onResponse(Call<ArrayList<JadwalPemesananPerminggu>> call, Response<ArrayList<JadwalPemesananPerminggu>> response) {
+            public void onResponse(Call<ArrayList<JadwalAvailable>> call, Response<ArrayList<JadwalAvailable>> response) {
                 Log.d(TAG, "onResponse: "+response.message());
                 progressDialog.dismiss();
                 if(!response.isSuccessful()){
                     return;
                 }
-                jadwalPemesananPermingguArrayList = response.body();
-                retrieveJadwalPemesananPerminggu();
+
+                jadwalAvailableArrayList = response.body();
+                retrieveJadwalAvailable();
             }
 
             @Override
-            public void onFailure(Call<ArrayList<JadwalPemesananPerminggu>> call, Throwable t) {
+            public void onFailure(Call<ArrayList<JadwalAvailable>> call, Throwable t) {
                 Log.d(TAG, "onFailure: "+t.getMessage());
                 t.printStackTrace();
                 progressDialog.dismiss();
@@ -104,40 +102,10 @@ public class JadwalActivity extends AppCompatActivity {
         });
     }
 
-    private void retrieveJadwalPemesananPerminggu(){
-        JadwalRVAdapter jadwalRVAdapter = new JadwalRVAdapter(this, jadwalPemesananPermingguArrayList);
+    private void retrieveJadwalAvailable(){
+        JadwalRVAdapter jadwalRVAdapter = new JadwalRVAdapter(this, jadwalAvailableArrayList);
         rvJadwal.setAdapter(jadwalRVAdapter);
         rvJadwal.setLayoutManager(new LinearLayoutManager(this));
-    }
-
-    private ArrayList<JadwalAjar> getJadwals(){
-        Log.d(TAG, "getJadwals: called");
-        int idIndex = mCursor.getColumnIndex(CalendarContract.Events._ID),
-                titleIndex = mCursor.getColumnIndex(CalendarContract.Events.TITLE),
-                descriptionIndex = mCursor.getColumnIndex(CalendarContract.Events.DESCRIPTION),
-                eventLocationIndex = mCursor.getColumnIndex(CalendarContract.Events.EVENT_LOCATION);
-
-        String idStr, titleStr, descriptionStr, eventLocationStr;
-        ArrayList<JadwalAjar> jadwalAjars = new ArrayList<>();
-        mCursor.moveToFirst();
-        while (mCursor.moveToNext()){
-            if (mCursor != null){
-                idStr = mCursor.getString(idIndex);
-                titleStr = mCursor.getString(titleIndex);
-                descriptionStr = mCursor.getString(descriptionIndex);
-                eventLocationStr = mCursor.getString(eventLocationIndex);
-                Log.d(TAG, "getJadwals: idStr: "+idStr);
-
-                JadwalAjar jadwalAjar = new JadwalAjar(Integer.parseInt(idStr));
-                jadwalAjars.add(jadwalAjar);
-            }else {
-                Log.d(TAG, "getJadwals: No events");
-                JadwalAjar jadwalAjar = new JadwalAjar(0);
-                jadwalAjars.add(jadwalAjar);
-            }
-        }
-
-        return jadwalAjars;
     }
 
     private Cursor getCursor(){
