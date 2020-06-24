@@ -15,6 +15,29 @@
         android:textSize="@dimen/header1"
         android:layout_margin="@dimen/margin2"/>
 
+    <LinearLayout
+        android:id="@+id/llBtnSync"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/background_white"
+        >
+
+        <ImageView
+            android:layout_margin="@dimen/margin2"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_google_calendar_icon"/>
+
+        <TextView
+            android:layout_gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sinkronisasi dengan Google Calendar"
+            android:layout_margin="@dimen/margin2"/>
+
+    </LinearLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvJadwal"
         android:layout_width="match_parent"

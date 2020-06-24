@@ -100,6 +100,17 @@
 
         </LinearLayout>
 
+        <ImageView
+            android:id="@+id/ivGoogleCalendar"
+            android:visibility="gone"
+            android:background="@drawable/background_white"
+            android:padding="@dimen/padding1"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_google_calendar_icon"
+            />
+
     </LinearLayout>
 
 </RelativeLayout>

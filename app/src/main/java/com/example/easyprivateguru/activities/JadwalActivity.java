@@ -9,20 +9,29 @@ import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.location.Address;
 import android.os.Bundle;
 import android.provider.CalendarContract;
 import android.util.Log;
+import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.example.easyprivateguru.CustomUtility;
+import com.example.easyprivateguru.EventQueryHandler;
 import com.example.easyprivateguru.R;
 import com.example.easyprivateguru.UserHelper;
 import com.example.easyprivateguru.adapters.JadwalRVAdapter;
 import com.example.easyprivateguru.api.ApiInterface;
 import com.example.easyprivateguru.api.RetrofitClientInstance;
+import com.example.easyprivateguru.models.Alamat;
 import com.example.easyprivateguru.models.JadwalAvailable;
+import com.example.easyprivateguru.models.JadwalPemesananPerminggu;
+import com.example.easyprivateguru.models.Pemesanan;
 import com.example.easyprivateguru.models.User;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -35,6 +44,7 @@ public class JadwalActivity extends AppCompatActivity {
     private User currUser;
 
     private RecyclerView rvJadwal;
+    private LinearLayout llBtnSync;
     private Cursor mCursor;
     private static final String TAG = "JadwalActivity";
     private ArrayList<JadwalAvailable> jadwalAvailableArrayList = new ArrayList<>();
@@ -71,6 +81,8 @@ public class JadwalActivity extends AppCompatActivity {
 
     private void init() {
         rvJadwal = findViewById(R.id.rvJadwal);
+        llBtnSync = findViewById(R.id.llBtnSync);
+
         mCursor = getCursor();
         userHelper = new UserHelper(this);
         currUser = userHelper.retrieveUser();
@@ -79,7 +91,7 @@ public class JadwalActivity extends AppCompatActivity {
     private void callJadwalAvailable(Integer id_guru){
         ProgressDialog progressDialog = rci.getProgressDialog(this, "Menampilkan jadwal kamu");
         progressDialog.show();
-        Call<ArrayList<JadwalAvailable>> call = apiInterface.getJadwalAvailable(id_guru, null, null, null, null);
+        Call<ArrayList<JadwalAvailable>> call = apiInterface.getJadwalAvailable(id_guru, 2, null, null, null);
         call.enqueue(new Callback<ArrayList<JadwalAvailable>>() {
             @Override
             public void onResponse(Call<ArrayList<JadwalAvailable>> call, Response<ArrayList<JadwalAvailable>> response) {
@@ -103,9 +115,32 @@ public class JadwalActivity extends AppCompatActivity {
     }
 
     private void retrieveJadwalAvailable(){
+        if(isSynced()){
+            llBtnSync.setVisibility(View.GONE);
+        }else{
+            llBtnSync.setVisibility(View.VISIBLE);
+            llBtnSync.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    addJadwalToGoogleCalendar();
+                }
+            });
+        }
+
         JadwalRVAdapter jadwalRVAdapter = new JadwalRVAdapter(this, jadwalAvailableArrayList);
         rvJadwal.setAdapter(jadwalRVAdapter);
         rvJadwal.setLayoutManager(new LinearLayoutManager(this));
+    }
+
+    //Memeriksa apakah jadwal sudah disinkronisasi atau belum
+    private boolean isSynced(){
+        for(int i = 0; i < jadwalAvailableArrayList.size(); i++){
+            JadwalPemesananPerminggu jpp = jadwalAvailableArrayList.get(i).getJadwalPemesananPerminggu();
+            if(jpp.getIdEvent() == null){
+                return false;
+            }
+        }
+        return true;
     }
 
     private Cursor getCursor(){
@@ -120,35 +155,81 @@ public class JadwalActivity extends AppCompatActivity {
         }
     }
 
-    //    private void callJadwalAjar(){
-//        ProgressDialog progressDialog = rci.getProgressDialog(this, "Menampilkan jadwal kamu");
-//        Call<ArrayList<JadwalAjar>> call = apiInterface.getJadwalAjarByIdGuru(currUser.getId());
-//        progressDialog.show();
-//        call.enqueue(new Callback<ArrayList<JadwalAjar>>() {
-//            @Override
-//            public void onResponse(Call<ArrayList<JadwalAjar>> call, Response<ArrayList<JadwalAjar>> response) {
-//                progressDialog.dismiss();
-//                Log.d(TAG, "onResponse: "+response.message());
-//                if(!response.isSuccessful()){
-//                    return;
-//                }
-//
-//                jadwalAjars = response.body();
-//                retrieveJadwalAjar();
-//            }
-//
-//            @Override
-//            public void onFailure(Call<ArrayList<JadwalAjar>> call, Throwable t) {
-//                progressDialog.dismiss();
-//                Log.d(TAG, "onFailure: "+t.getMessage());
-//                return;
-//            }
-//        });
-//    }
-//
-//    private void retrieveJadwalAjar(){
-//        JadwalRVAdapter adapter = new JadwalRVAdapter(this, jadwalAjars);
-//        rvJadwal.setAdapter(adapter);
-//        rvJadwal.setLayoutManager(new LinearLayoutManager(this));
-//    }
+    private void addJadwalToGoogleCalendar(){
+        //Memasukkan jadwal pemesanan perminggu ke dalam array
+        ArrayList<JadwalPemesananPerminggu> jadwalPemesananPermingguArrayList = new ArrayList<>();
+        for(int i = 0; i < jadwalAvailableArrayList.size(); i++){
+            JadwalPemesananPerminggu jpp = jadwalAvailableArrayList.get(i).getJadwalPemesananPerminggu();
+            if(jpp != null){
+                jadwalPemesananPermingguArrayList.add(jpp);
+            }
+        }
+
+        //looping jadwal pemesanan perminggu untuk dimasukkan ke dalam google calendar
+        for(int i = 0; i < jadwalPemesananPermingguArrayList.size(); i++){
+            JadwalPemesananPerminggu jadwalPemesananPerminggu = jadwalPemesananPermingguArrayList.get(i);
+            if(jadwalPemesananPerminggu.getIdEvent() == null){
+                Pemesanan pem = jadwalPemesananPermingguArrayList.get(i).getPemesanan();
+                Log.d(TAG, "addJadwalToGoogleCalendar: pem.first_meet: "+pem.getFirstMeet());
+
+                //Set title
+                String titleStr = EventQueryHandler.DEFAULT_TITLE + " " + pem.getMurid().getName();
+
+                //Set murid
+                User murid = pem.getMurid();
+
+                //Set event location
+                String eventLocationStr = "";
+                Alamat alamatMurid = murid.getAlamat();
+
+                CustomUtility customUtility = new CustomUtility(this);
+                Address addressMurid = customUtility.getAddress(alamatMurid.getLatitude(), alamatMurid.getLongitude());
+                if(addressMurid == null){
+                    eventLocationStr = alamatMurid.getAlamatLengkap();
+                }else{
+                    eventLocationStr = addressMurid.getSubLocality()+", "+addressMurid.getLocality()+", "+addressMurid.getSubAdminArea()+", "+addressMurid.getAdminArea()+", "+addressMurid.getCountryName();
+                }
+
+                EventQueryHandler eqh = new EventQueryHandler(this);
+                JadwalPemesananPerminggu jpp = jadwalPemesananPermingguArrayList.get(i);
+                String currHari = jpp.getJadwalAvailable().getHari();
+
+                String yearStart = customUtility.reformatDateTime(pem.getFirstMeet(), "yyyy-MM-dd HH:mm:ss", "yyyy");
+                String monthStart = customUtility.reformatDateTime(pem.getFirstMeet(), "yyyy-MM-dd HH:mm:ss", "MM");
+                String dayStart = customUtility.reformatDateTime(pem.getFirstMeet(), "yyyy-MM-dd HH:mm:ss", "dd");
+                String hourStart = customUtility.reformatDateTime(jpp.getJadwalAvailable().getStart(), "HH:mm:ss", "HH");
+                String minuteStart = customUtility.reformatDateTime(jpp.getJadwalAvailable().getStart(), "HH:mm:ss", "mm");
+                String secondStart = customUtility.reformatDateTime(jpp.getJadwalAvailable().getStart(), "HH:mm:ss", "ss");
+
+                Log.d(TAG, "addJadwalToGoogleCalendar: monthStart: "+monthStart);
+
+                //Get calendar first meet
+                Calendar calendar = Calendar.getInstance();
+                calendar.set(Calendar.YEAR, Integer.parseInt(yearStart));
+                calendar.set(Calendar.MONTH, Integer.parseInt(monthStart) - 1);
+                calendar.set(Calendar.DAY_OF_MONTH, Integer.parseInt(dayStart));
+                calendar.set(Calendar.HOUR_OF_DAY, Integer.parseInt(hourStart));
+                calendar.set(Calendar.MINUTE, Integer.parseInt(minuteStart));
+                calendar.set(Calendar.SECOND, Integer.parseInt(secondStart));
+
+                long startDateLong = calendar.getTimeInMillis();
+
+                while(!currHari.toLowerCase().equals(customUtility.hariIntToString(calendar.get(Calendar.DAY_OF_WEEK)))){
+                    startDateLong = calendar.getTimeInMillis();
+                    startDateLong += (1000*60*60*24);
+                    calendar.setTimeInMillis(startDateLong);
+                    Log.d(TAG, "addJadwalToGoogleCalendar: "+calendar.getTime().toString());
+                }
+
+                //Menambah murid ke dalam daftar hadir
+                //eqh.setMuridUser(murid);
+
+                //Menambah id jadwal pemesanan perminggu
+                eqh.setIdJadwalPemesananPerminggu(jpp.getIdJadwalPemesananPerminggu());
+
+                Log.d(TAG, "addJadwalToGoogleCalendar: idJadwalPemesananPerminggu: "+jpp.getIdJadwalPemesananPerminggu());
+                eqh.insertEvent(this, startDateLong, titleStr, EventQueryHandler.DEFAULT_DESCRIPTION, eventLocationStr);
+            }
+        }
+    }
 }

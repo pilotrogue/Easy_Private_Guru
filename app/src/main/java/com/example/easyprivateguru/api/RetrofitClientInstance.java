@@ -12,7 +12,12 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitClientInstance {
     private Retrofit retrofit;
+
+    //Local
     public static final String BASE_URL = "http://192.168.1.28/easyprivate/public/";
+
+    //Hosting
+//    public static final String BASE_URL = "http://easyprivate.tech/";
 
     public static final String DEFAULT_TITLE = "Tunggu sebentar ya!";
     public static final String DEFAULT_MESSAGE = "Menyambungkan dengan server";

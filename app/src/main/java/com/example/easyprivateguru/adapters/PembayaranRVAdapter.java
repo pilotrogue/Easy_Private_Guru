@@ -50,19 +50,6 @@ public class PembayaranRVAdapter extends RecyclerView.Adapter<PembayaranRVAdapte
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Pembayaran p = pembayarans.get(position);
 
-        SimpleDateFormat sdf = new SimpleDateFormat("MMMM yyyy");
-        String tanggalUpahStr = sdf.format(p.getTanggalUpah());
-
-        holder.subtitle1.setText(tanggalUpahStr);
-
-        if(p.isStatusDone()){
-            holder.title.setText("Lunas");
-        }else{
-            holder.title.setText("Belum lunas");
-        }
-
-        holder.subtitle2.setText("Rp " + String.valueOf(p.getJumlahUpah()));
-        holder.image.setVisibility(View.GONE);
     }
 
     @Override

@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -38,6 +39,7 @@ public class JadwalRVAdapter extends RecyclerView.Adapter<JadwalRVAdapter.ViewHo
         LinearLayout llBody;
         RelativeLayout rvItem, rlHari;
         CircleImageView image;
+        ImageView ivGoogleCalendar;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -46,6 +48,7 @@ public class JadwalRVAdapter extends RecyclerView.Adapter<JadwalRVAdapter.ViewHo
             rlHari = itemView.findViewById(R.id.rlHari);
             llBody = itemView.findViewById(R.id.llBody);
 
+            ivGoogleCalendar = itemView.findViewById(R.id.ivGoogleCalendar);
             image = itemView.findViewById(R.id.civPic);
 
             tvHari = itemView.findViewById(R.id.tvHari);
@@ -74,6 +77,7 @@ public class JadwalRVAdapter extends RecyclerView.Adapter<JadwalRVAdapter.ViewHo
         JadwalPemesananPerminggu jpp = ja.getJadwalPemesananPerminggu();
         Log.d(TAG, "onBindViewHolder: id jadwal available: "+ja.getIdJadwalAvailable());
 
+        holder.ivGoogleCalendar.setVisibility(View.GONE);
         holder.rlHari.setVisibility(View.GONE);
 
         //Menampilkan hari
@@ -100,6 +104,10 @@ public class JadwalRVAdapter extends RecyclerView.Adapter<JadwalRVAdapter.ViewHo
             holder.tvJam.setBackgroundResource(R.drawable.background_white);
             holder.tvJam.setTextColor(mContext.getResources().getColor(R.color.fontLight));
         }else{
+            //Menampilkan logo google calendar ketika terdapat id event
+            if(jpp.getIdEvent() != null){
+                holder.ivGoogleCalendar.setVisibility(View.VISIBLE);
+            }
             holder.llBody.setVisibility(View.VISIBLE);
             holder.tvJam.setBackgroundResource(R.drawable.background_blue);
             holder.tvJam.setTextColor(mContext.getResources().getColor(R.color.white));

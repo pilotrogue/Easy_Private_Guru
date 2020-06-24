@@ -1,26 +1,20 @@
 package com.example.easyprivateguru.models;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 import java.util.Date;
 
 public class Pembayaran {
-    private Date tanggalUpah;
-    private int jumlahUpah;
-    private boolean status = false;
+    @Expose
+    @SerializedName("id_pembayaran")
+    private int idPembayaran;
 
-    public Pembayaran(Date tanggalUpah, int jumlahUpah) {
-        this.tanggalUpah = tanggalUpah;
-        this.jumlahUpah = jumlahUpah;
+    public int getIdPembayaran() {
+        return idPembayaran;
     }
 
-    public Date getTanggalUpah() {
-        return tanggalUpah;
-    }
-
-    public int getJumlahUpah() {
-        return jumlahUpah;
-    }
-
-    public boolean isStatusDone() {
-        return status;
+    public void setIdPembayaran(int idPembayaran) {
+        this.idPembayaran = idPembayaran;
     }
 }

@@ -140,7 +140,7 @@ public class QRScannerActivity extends AppCompatActivity {
                         Log.d(TAG, "onResponse: currJadwalPemesananPerminggu is not null");
                         Log.d(TAG, "onResponse: idJadwalPemesananPerminggu: "+currJadwalPemesananPerminggu.getIdJadwalPemesananPerminggu());
                         callStoreAbsen(currPemesanan.getIdPemesanan(), currJadwalPemesananPerminggu.getIdJadwalPemesananPerminggu(), null);
-                    }else if(currJadwalPemesananPerminggu == null){
+                    }else {
                         Log.d(TAG, "onResponse: currJadwalPemesananPerminggu is null");
                         callTanggalPengganti();
 //                        callStoreAbsen(currPemesanan.getIdPemesanan(), null);
@@ -327,10 +327,13 @@ public class QRScannerActivity extends AppCompatActivity {
                     return;
                 }
                 Integer statusResponse = response.body();
-                if(statusResponse == 1){
-                    showDialogConfirm();
-                }else if(statusResponse == 0){
-                    showDialogFailed();
+                switch (statusResponse){
+                    case 0:
+                        showDialogFailed();
+                        break;
+                    case 1:
+                        showDialogConfirm();
+                        break;
                 }
             }
 
@@ -373,9 +376,32 @@ public class QRScannerActivity extends AppCompatActivity {
         });
     }
 
+    //Melihat apakah hari ini sesuai dengan jadwal
     private JadwalPemesananPerminggu verifyJadwalPemesananPerminggu(ArrayList<JadwalPemesananPerminggu> jpp){
-        Calendar myCalendar = Calendar.getInstance();
-        String currHari = customUtility.hariIntToString(myCalendar.get(Calendar.DAY_OF_WEEK));
+        //Waktu saat ini
+        Calendar now = Calendar.getInstance();
+
+        //Waktu pada first meet
+        Calendar firstMeet = Calendar.getInstance();
+
+        String yearStart = customUtility.reformatDateTime(calledPemesanan.getFirstMeet(), "yyyy-MM-dd HH:mm:ss", "yyyy");
+        String monthStart = customUtility.reformatDateTime(calledPemesanan.getFirstMeet(), "yyyy-MM-dd HH:mm:ss", "MM");
+        String dayStart = customUtility.reformatDateTime(calledPemesanan.getFirstMeet(), "yyyy-MM-dd HH:mm:ss", "dd");
+
+        firstMeet.set(Calendar.YEAR, Integer.parseInt(yearStart));
+        firstMeet.set(Calendar.MONTH, Integer.parseInt(monthStart) - 1);
+        firstMeet.set(Calendar.DAY_OF_MONTH, Integer.parseInt(dayStart));
+
+        Long nowLong = now.getTimeInMillis();
+        Long firstMeetLong = firstMeet.getTimeInMillis();
+
+        //Komparasi waktu saat ini dengan first meet
+        if(nowLong < firstMeetLong){
+            return null;
+        }
+
+        //Jika hari ini sesuai dengan jadwal, return jadwal yang sesuai tersebut
+        String currHari = customUtility.hariIntToString(now.get(Calendar.DAY_OF_WEEK));
         for(int i = 0; i < jpp.size(); i++){
             JadwalPemesananPerminggu jp = jpp.get(i);
             if(currHari.equals(jp.getJadwalAvailable().getHari().toLowerCase())){
