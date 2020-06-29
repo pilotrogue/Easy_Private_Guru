@@ -4,16 +4,19 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.example.easyprivateguru.adapters.PembayaranRVAdapter;
+import com.example.easyprivateguru.UserHelper;
+import com.example.easyprivateguru.adapters.AbsenPembayaranRVAdapter;
 import com.example.easyprivateguru.R;
 import com.example.easyprivateguru.api.ApiInterface;
 import com.example.easyprivateguru.api.RetrofitClientInstance;
+import com.example.easyprivateguru.models.AbsenPembayaran;
+import com.example.easyprivateguru.models.User;
 import com.midtrans.sdk.corekit.callback.TransactionFinishedCallback;
 import com.midtrans.sdk.corekit.core.MidtransSDK;
 import com.midtrans.sdk.corekit.core.TransactionRequest;
@@ -27,11 +30,16 @@ import com.midtrans.sdk.uikit.SdkUIFlowBuilder;
 
 import java.util.ArrayList;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class PembayaranActivity extends AppCompatActivity {
     private RecyclerView rvPembayaran;
     private Button btnBayar;
     private RetrofitClientInstance rci = new RetrofitClientInstance();
     private ApiInterface apiInterface = rci.getApiInterface();
+    private ArrayList<AbsenPembayaran> absenPembayaranArrayList= new ArrayList<>();
 
     private final static String BASE_URL = RetrofitClientInstance.BASE_URL + "api/midtrans/";
     private final static String CLIENT_KEY = "SB-Mid-client-JFggDG5pgc2T9Z7c";
@@ -44,14 +52,61 @@ public class PembayaranActivity extends AppCompatActivity {
         setContentView(R.layout.activity_pembayaran);
 
         init();
-        btnBayar.setOnClickListener(new View.OnClickListener() {
+        callAbsenPembayaran();
+
+//        btnBayar.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+////                clickPay();
+//            }
+//        });
+
+//        makePayment();
+    }
+
+    private void callAbsenPembayaran() {
+        UserHelper uh = new UserHelper(this);
+        User currUser = uh.retrieveUser();
+        Call<ArrayList<AbsenPembayaran>> call = apiInterface.getAbsenPembayaran(
+                null,
+                currUser.getId(),
+                null,
+                null,
+                null,
+                null,
+                null,
+                "id_guru"
+        );
+
+        ProgressDialog pd = rci.getProgressDialog(this);
+        pd.show();
+
+        call.enqueue(new Callback<ArrayList<AbsenPembayaran>>() {
             @Override
-            public void onClick(View v) {
-                clickPay();
+            public void onResponse(Call<ArrayList<AbsenPembayaran>> call, Response<ArrayList<AbsenPembayaran>> response) {
+                Log.d(TAG, "onResponse: "+response.message());
+                pd.dismiss();
+                if(!response.isSuccessful()){
+                    return;
+                }
+
+                absenPembayaranArrayList = response.body();
+                retrievePembayaranAbsen();
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<AbsenPembayaran>> call, Throwable t) {
+                Log.d(TAG, "onFailure: "+t.getMessage());
+                t.printStackTrace();
+                pd.dismiss();
             }
         });
+    }
 
-        makePayment();
+    private void retrievePembayaranAbsen(){
+        AbsenPembayaranRVAdapter adapter = new AbsenPembayaranRVAdapter(this, absenPembayaranArrayList);
+        rvPembayaran.setAdapter(adapter);
+        rvPembayaran.setLayoutManager(new LinearLayoutManager(this));
     }
 
     private void init(){

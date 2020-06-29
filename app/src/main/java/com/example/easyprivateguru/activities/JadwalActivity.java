@@ -57,6 +57,7 @@ public class JadwalActivity extends AppCompatActivity {
         if(hasBeenRefreshed == false){
             userHelper = new UserHelper(this);
             currUser = userHelper.retrieveUser();
+            jadwalAvailableArrayList.clear();
             rvJadwal.setAdapter(null);
 
             callJadwalAvailable(currUser.getId());
@@ -170,6 +171,7 @@ public class JadwalActivity extends AppCompatActivity {
             JadwalPemesananPerminggu jadwalPemesananPerminggu = jadwalPemesananPermingguArrayList.get(i);
             if(jadwalPemesananPerminggu.getIdEvent() == null){
                 Pemesanan pem = jadwalPemesananPermingguArrayList.get(i).getPemesanan();
+                JadwalAvailable ja = jadwalAvailableArrayList.get(i);
                 Log.d(TAG, "addJadwalToGoogleCalendar: pem.first_meet: "+pem.getFirstMeet());
 
                 //Set title
@@ -192,14 +194,14 @@ public class JadwalActivity extends AppCompatActivity {
 
                 EventQueryHandler eqh = new EventQueryHandler(this);
                 JadwalPemesananPerminggu jpp = jadwalPemesananPermingguArrayList.get(i);
-                String currHari = jpp.getJadwalAvailable().getHari();
+                String currHari = ja.getHari();
 
                 String yearStart = customUtility.reformatDateTime(pem.getFirstMeet(), "yyyy-MM-dd HH:mm:ss", "yyyy");
                 String monthStart = customUtility.reformatDateTime(pem.getFirstMeet(), "yyyy-MM-dd HH:mm:ss", "MM");
                 String dayStart = customUtility.reformatDateTime(pem.getFirstMeet(), "yyyy-MM-dd HH:mm:ss", "dd");
-                String hourStart = customUtility.reformatDateTime(jpp.getJadwalAvailable().getStart(), "HH:mm:ss", "HH");
-                String minuteStart = customUtility.reformatDateTime(jpp.getJadwalAvailable().getStart(), "HH:mm:ss", "mm");
-                String secondStart = customUtility.reformatDateTime(jpp.getJadwalAvailable().getStart(), "HH:mm:ss", "ss");
+                String hourStart = customUtility.reformatDateTime(ja.getStart(), "HH:mm:ss", "HH");
+                String minuteStart = customUtility.reformatDateTime(ja.getStart(), "HH:mm:ss", "mm");
+                String secondStart = customUtility.reformatDateTime(ja.getStart(), "HH:mm:ss", "ss");
 
                 Log.d(TAG, "addJadwalToGoogleCalendar: monthStart: "+monthStart);
 
@@ -231,5 +233,9 @@ public class JadwalActivity extends AppCompatActivity {
                 eqh.insertEvent(this, startDateLong, titleStr, EventQueryHandler.DEFAULT_DESCRIPTION, eventLocationStr);
             }
         }
+        llBtnSync.setVisibility(View.GONE);
+        llBtnSync.setOnClickListener(null);
+        hasBeenRefreshed = false;
+        onResume();
     }
 }

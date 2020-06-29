@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_marginBottom="@dimen/margin2">
+
+    <LinearLayout
+        android:id="@+id/llPeriode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tvPeriode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="April 2020"
+            android:textStyle="bold"
+            android:textSize="@dimen/header3"
+            android:layout_margin="@dimen/padding2"/>
+
+        <View
+            android:layout_gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/colorPrimary"/>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:background="@drawable/background_white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/civPic"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/account_default"
+            android:layout_margin="@dimen/margin2"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvNamaMurid"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Muhammad Rafi Nugroho"
+                android:textStyle="bold"
+                android:textSize="@dimen/paragraph"/>
+
+            <TextView
+                android:id="@+id/tvMapel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Bahasa Inggris SD"
+                android:textSize="@dimen/paragraph"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="@dimen/margin2"
+        android:background="@drawable/background_white">
+
+        <TextView
+            android:id="@+id/tvStatus"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="Menunggu pembayaran"
+            android:background="@drawable/background_blue"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            />
+
+        <LinearLayout
+
+            android:layout_width="0dp"
+            android:layout_weight="3"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/tvHargaDanPertemuan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Rp 150000 x 2 pertemuan"
+                android:textSize="@dimen/paragraph"
+                android:layout_gravity="end" />
+
+            <TextView
+                android:id="@+id/tvTotal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Rp 300000"
+                android:textSize="@dimen/header3"
+                android:textStyle="bold"
+                android:layout_gravity="end" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

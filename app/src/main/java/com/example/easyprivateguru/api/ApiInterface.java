@@ -3,6 +3,7 @@ package com.example.easyprivateguru.api;
 import android.provider.CalendarContract;
 
 import com.example.easyprivateguru.models.Absen;
+import com.example.easyprivateguru.models.AbsenPembayaran;
 import com.example.easyprivateguru.models.JadwalAvailable;
 import com.example.easyprivateguru.models.JadwalPemesananPerminggu;
 import com.example.easyprivateguru.models.Pemesanan;
@@ -112,6 +113,19 @@ public interface ApiInterface {
             @Field("id_pemesanan") Integer idPemesanan,
             @Field("id_jadwal_pemesanan_perminggu") Integer idJadwalPemesananPerminggu,
             @Field("waktu_pengganti") String waktu_pengganti
+    );
+
+    @FormUrlEncoded
+    @POST("absen_pembayaran")
+    Call<ArrayList<AbsenPembayaran>> getAbsenPembayaran(
+            @Field("id_pemesanan") Integer idPemesanan,
+            @Field("id_guru") Integer idGuru,
+            @Field("id_murid") Integer idMurid,
+            @Field("bulan") Integer bulan,
+            @Field("tahun") Integer tahun,
+            @Field("unpaid") String unpaid,
+            @Field("paid") String paid,
+            @Field("distinct") String distinct
     );
 
     //Get jadwal pemesanan perminggu

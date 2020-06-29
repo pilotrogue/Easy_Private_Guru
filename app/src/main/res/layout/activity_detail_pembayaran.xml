@@ -4,11 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.PembayaranActivity"
     android:orientation="vertical"
+    tools:context=".activities.DetailPembayaranActivity"
     android:padding="@dimen/padding1">
 
     <TextView
+        android:id="@+id/tvBulan"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Pembayaran"
@@ -20,12 +21,5 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/margin2"/>
-
-    <Button
-        android:visibility="gone"
-        android:id="@+id/btnBayar"
-        android:text="Bayar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
 
 </LinearLayout>

@@ -17,6 +17,7 @@ import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
 import com.example.easyprivateguru.activities.AddEventActivity;
+import com.example.easyprivateguru.activities.DetailPembayaranActivity;
 import com.example.easyprivateguru.activities.JadwalActivity;
 import com.example.easyprivateguru.activities.MuridSayaActivity;
 import com.example.easyprivateguru.activities.PembayaranActivity;
@@ -40,7 +41,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
 //                Toast.makeText(mContext, "Pembayaran", Toast.LENGTH_LONG).show();
-                Intent i = new Intent(mContext, PembayaranActivity.class);
+                Intent i = new Intent(mContext, DetailPembayaranActivity.class);
                 startActivity(i);
             }
         });
