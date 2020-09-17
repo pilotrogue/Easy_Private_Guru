@@ -21,6 +21,15 @@
         android:layout_height="wrap_content"
         style="@style/BtnTertiary"
         android:text="Tekan untuk coba lagi"
+        android:layout_above="@id/btnGantiAkun"
+        android:layout_centerHorizontal="true"/>
+
+    <Button
+        android:id="@+id/btnGantiAkun"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/BtnTertiary"
+        android:text="Ganti akun"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"/>
 

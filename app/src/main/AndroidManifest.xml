@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.easyprivateguru">
+    package="com.easyprivate.easyprivateguru">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
@@ -26,16 +26,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        tools:replace="android:allowBackup">
-        <activity android:name=".activities.DetailPembayaranActivity"></activity>
-        <activity android:name=".activities.ConflictedPemesananActivity" />
-        <activity android:name=".activities.KonfirmasiJadwalActivity" />
-        <activity android:name=".activities.AddEventActivity" />
-        <activity android:name=".activities.EditJadwalActivity" />
-        <activity android:name=".activities.SettingsActivity" />
-        <activity android:name=".activities.DetailJadwalActivity" />
-        <activity android:name=".activities.DetailMuridActivity" />
-        <activity android:name=".activities.EditProfileActivity" />
+        android:usesCleartextTraffic="true"
+        tools:replace="android:allowBackup, android:usesCleartextTraffic"
+        >
+    <activity android:name="com.easyprivate.easyprivateguru.activities.DetailPembayaranActivity"></activity>
+        <activity android:name="com.easyprivate.easyprivateguru.activities.ConflictedPemesananActivity" />
+        <activity android:name="com.easyprivate.easyprivateguru.activities.KonfirmasiJadwalActivity" />
+        <activity android:name="com.easyprivate.easyprivateguru.activities.AddEventActivity" />
+        <activity android:name="com.easyprivate.easyprivateguru.activities.EditJadwalActivity" />
+        <activity android:name="com.easyprivate.easyprivateguru.activities.SettingsActivity" />
+        <activity android:name="com.easyprivate.easyprivateguru.activities.DetailJadwalActivity" />
+        <activity android:name="com.easyprivate.easyprivateguru.activities.DetailMuridActivity" />
+        <activity android:name="com.easyprivate.easyprivateguru.activities.EditProfileActivity" />
 
         <meta-data
             android:name="com.google.android.gms.version"
@@ -48,22 +50,22 @@
             android:name="org.apache.http.legacy"
             android:required="false" />
 
-        <activity android:name=".activities.DetailPemesananActivity" />
-        <activity android:name=".activities.SplashScreenActivity">
+        <activity android:name="com.easyprivate.easyprivateguru.activities.DetailPemesananActivity" />
+        <activity android:name="com.easyprivate.easyprivateguru.activities.SplashScreenActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.DaftarActivity" />
-        <activity android:name=".activities.QRCodeActivity" />
-        <activity android:name=".activities.QRScannerActivity" />
-        <activity android:name=".activities.MuridSayaActivity" />
-        <activity android:name=".activities.PembayaranActivity" />
-        <activity android:name=".activities.JadwalActivity" />
-        <activity android:name=".activities.MainActivity" />
-        <activity android:name=".activities.LoginActivity" />
+        <activity android:name="com.easyprivate.easyprivateguru.activities.DaftarActivity" />
+        <activity android:name="com.easyprivate.easyprivateguru.activities.QRCodeActivity" />
+        <activity android:name="com.easyprivate.easyprivateguru.activities.QRScannerActivity" />
+        <activity android:name="com.easyprivate.easyprivateguru.activities.MuridSayaActivity" />
+        <activity android:name="com.easyprivate.easyprivateguru.activities.PembayaranActivity" />
+        <activity android:name="com.easyprivate.easyprivateguru.activities.JadwalActivity" />
+        <activity android:name="com.easyprivate.easyprivateguru.activities.MainActivity" />
+        <activity android:name="com.easyprivate.easyprivateguru.activities.LoginActivity" />
     </application>
 
 </manifest>

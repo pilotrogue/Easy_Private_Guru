@@ -118,7 +118,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="My rating right here"
+                    android:text="This is just preview"
                     android:textSize="@dimen/paragraph"
                     android:textColor="@color/white"/>
 
@@ -127,7 +127,8 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/padding1">
+                android:padding="@dimen/padding1"
+                android:visibility="gone">
 
                 <ImageView
                     android:id="@+id/ivLogoPemesananAktif"
@@ -165,7 +166,8 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/padding1">
+                android:padding="@dimen/padding1"
+                android:visibility="gone">
 
                 <ImageView
                     android:id="@+id/ivLogoPemesanan"
